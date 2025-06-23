@@ -1,0 +1,60 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="MEINESON,meineson@gmail.com"><title>对智能可穿戴设备的一些吐槽和产品概念分析（智能手表、智能手环） · MBSTUDIO</title><meta name="description" content="最近脑子抽风，想起来骑自行车锻炼身体，搞了辆山地车然后为了配码表到监测运动量，先后装了十几款运动监测软件（Nike+ runing，Runtastic，Runkeeper，咕咚等等），入了一个智能手环，一个智能手表，一条蓝牙心率带，以及期间还顺便了解了一下可穿戴设备的原型——GPS手表，运动手表等等"><meta name="keywords" content="mbstudio,ICT,RCS,Deep Learning,Digital Twin,AIGC"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 7.3.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">MBSTUDIO</a></h3><div class="description"><p>魔瓶工作室 since 2001 / mbstudio.cn</p></div></div></div><ul class="social-links"><li><a target="_blank" rel="noopener" href="http://weibo.com/meienson"><i class="fa fa-weibo"></i></a></li><li><a target="_blank" rel="noopener" href="http://github.com/meineson"><i class="fa fa-github"></i></a></li></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a target="_blank" rel="noopener" href="https://www.caicai.me"> CaiCai </a><span>&</span><a target="_blank" rel="noopener" href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/favicon.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>对智能可穿戴设备的一些吐槽和产品概念分析（智能手表、智能手环）</a></h3></div><div class="post-content"><p>最近脑子抽风，想起来骑自行车锻炼身体，搞了辆山地车然后为了配码表到监测运动量，先后装了十几款运动监测软件（Nike+ runing，Runtastic，Runkeeper，咕咚等等），入了一个智能手环，一个智能手表，一条蓝牙心率带，以及期间还顺便了解了一下可穿戴设备的原型——GPS手表，运动手表等等，特别是昨天刚到手的智器手表ZWatch，更是激发了偶的无限吐槽能量值…………对智能可穿戴设备的一些吐槽和产品概念分析（智能手表、智能手环）</p>
+<p>本篇是讲可穿戴设备，所以对于其它一些运动监测软件一笔带过，无非是基于GPS轨迹，使用MET算法粗略估算出运动的卡路里消耗量，但却不得不说，因为智能手表这类可穿戴设备还真没发掘出什么有价值的功能，所以运动监测在现阶段是一个重要的卖点，包括三星Galaxy Gear也不能免俗。</p>
+<p>关于心率带吧，这其实还是比较专业的，传统的如迪卡侬的199块的心率手表其实也够用了，套用这些产品的宣传语来说，国内许多跑步骑车健身的人从来不看心率，不知道适合自己的运动强度是多大，有了心率监测才比较科学，不至于要么运动过量了要么运动完全没效果；</p>
+<p>话说回来，其实早好多年前已经有例如十几块钱的计步器、百来块钱的心率监测手表以及上千的专业测气压测心率的GPS手表等等，但就象物联网的新概念一样，为了适应Online的节奏，这些东西需要进化，需要连网，所以才产生了全新的运动手环（Jawbone UP，fitbit，Nike fuelband, misfit shine以及copy大王——国内一众厂家的xx手环xx健康助手等等），无非是利用非常成熟和低价的智能手机上已经普及了的三轴重力感应器，加上软件算法来监测计步和睡眠监测（其实就是你手工切换手环到睡眠模式后，手环看你睡着了之后动一下就是浅睡了、动两下就是醒了哈）；<br>而智能手机上的运动监测软件现在也基本能代替GPS手表的功能了（运动路线轨迹、实时的心率的记录和在线的专业教练的分析等等，并且还能直接通过手机的网络上传同步，不再需要传统GPS手表需要USB连接电脑上传这一步；传统心率手表是通过ANT+协议传输到手表上直接显示，而蓝牙心率带就是通过蓝牙把心率数据传递到手机软件上分析显示再进一步同步到云端网络上——为了省电，均采用蓝牙4.0，目前只有iPhone 4S以上手机以及三星的少数几款高端手机支持——Android 4.3后将普及）；</p>
+<p>从手机上的运动软件代替GPS手表（唯一缺陷是手机不如GPS手表轻便）其实可以看出来技术的发展趋势，就是手机逐步代替电脑成为个人数据的处理中心以及与互联网沟通的渠道，同样的，智能手表作为可穿戴设备的典型产品之一，它的定位也应该是代替手机（如同手机不能完全代替电脑，这里的代替也只是部分场合下的代替）部分功能，而其它如手环（以及以后将发明的以其它形态出现的可穿戴设备），则是分工完成一些数据的采集并通过智能手机（或智能手表）汇总分析后接入互联网，但目前的产品形态却是：</p>
+<ol>
+<li><p>SONY的智能手表、Pebble手表等，是一个封闭软硬件的小系统，完全通过蓝牙与手机进行同步，完成一些手机上的信息的同步显示和完全与手机的一些交互（如短信和来电的处理）；</p>
+</li>
+<li><p>Galaxy Gear，Moteactv，智器的ZWatch（盛大的Geak Watch，盛大躺着中枪，这两款硬件基本一致只是软件成熟度更高些）等，有自己独立的Android系统，一般有自己独立的WIFI、GPS甚至相机，但主要功能还是通过蓝牙与手机协作（虽然有一些独立的软件，但由于屏幕分辨率与普通Android生态圈不同，均是产家定制的，数量极少）；</p>
+</li>
+</ol>
+<p>不管采用什么硬件方案（成本有明显差异），但由于产品定位不清，目前基本是手机的附属配件的形态，简单些的实现些短信在手机上显示，来电时可以在手表上看到并进行挂断操作等等，复杂些的能和手机上某些特定的软件进行同步数据的显示（例如上述手机上的动作监测软件，由于看手机屏幕不便，可以将一些核心运行数据发送到手机上显示），但是等等，我们真的需要这些功能吗？</p>
+<p>拿昨天刚到手一天的智器ZWatch来说，内置的软件有时钟、天气、计步、睡眠监测，联系人、通话记录，录音机、日历、短信、闹钟、音乐、语音识别、相机遥控拍照、微信，查找手机这些；</p>
+<p>我们来逐个分析吧，看看这些功能的价值：</p>
+<p>时钟——毕竟叫智器“手表”，手表嘛，看时间是必需的，但是啊但是，作为一块普通的液晶屏不能长时间点亮，做那么多漂亮（相对其它软件界面）的表盘有用么？且不说目前产品不成熟，点亮屏幕会延时1-2秒左右，到了户外就是瞎了，这些智能手表要想看时间，另加一个E-Ink电子墨水屏或者就是几十块的电子表的传统液晶屏都比这靠谱，好吧，你说智能手机上看时间不也要点亮屏幕嘛，好吧，暂时不纠结这个了，最低要求——戴在手上，即使要手工点亮屏幕，电源按钮能不能不要做到侧面，完全不方便按，表盘正面才是合适的位置（不要说动作感应亮屏，这一类传感器完全做不到完美识别！更不要说抖一下亮屏，抖你妹啊，看个时间要抖一下手，不知道的会以为你有病）；</p>
+<p>再补充说一下，智能手表不点亮黑屏的时候，完全没有设计感，太丑了哈，这种照搬人家怎么做我也怎么做的思维是创新瘫痪啊，不能弄些LED点阵或者导光甚至呼吸灯啊！！！</p>
+<p>天气——智能手机上照搬的使用习惯（时钟日历和天气结合在一起显示），但需要手表自己的网络来同步数据，体验还能更差些么？（这里就不说为什么手表的快捷开关屏里有低耗电的蓝牙的开关，却没有高耗电的WIFI开关了），手表的电池极小，WIFI的存在应该是只在必要的时候才使用（例如附近没有手机或手机断电的时候），有时刻通过蓝牙连接的手机在边上，为什么不直接利用手机帮你处理；</p>
+<p>计步、睡眠监测——智能手环目前的标配功能，原理一样，都是通过重力传感器来判断计步，但是，智能手环只计录数据，数据的展示有手机端软件或者在线网页上的统计分析，卖点是时尚的数据展示和分享，类似这样：<br>而在手环本体上，受限于没有显示屏，一般是通过LED点阵的方式显示简单的数字和进步，但也足够酷，手表和手环同时也是一件装饰品，太丑了是戴不出门的！</p>
+<p>对智能可穿戴设备的一些吐槽和产品概念分析（智能手表、智能手环）</p>
+<p>作为智能手表，由于有一块显示屏，完全可以做的更好，但是现实呢，24K纯屌丝程序员的成果，完全没有美工设计和产品定义的结果，而且，下面你会看到更多：<br>联系人、通话记录、短信——很多人期待的吧，但现实根本不美好，如下图这样使用Android原始控件布局，没加一点美术设计美化的界面，你根本没有高科技智能手表的使用体验，抛开界面好看不好看，功能呢？<br>除非你成天把手机藏在包里不肯拿出来，并且别人打你电话你也直接拒接（喔，还有一个拒接后发一条预先编辑好的短信的功能），不然作为普通人，手机一般就在你手边上离你不远处（离的太远蓝牙也断了，手表也不会响喔，嘿嘿），手机和手表一起振，好玩不？至于通话记录，你只能看看，要打出电话，还得拿乖乖手机去<del>短信？手表上反正不方便输入文字也没法回复短信，你就看看就好了，功能价值？你自己心里有数吧</del></p>
+<p>录音机、音乐——哈哈，界面先不说，就是Android官方标配的录音机和音乐播放器，相信用过Android手机的人绝对不会用官方带的这两个软件，因为界面太丑，Android手机上大把音乐播放器和录音机软件才有生存的可能，但——内置在智能手表里，原始的为手机设计的界面，简直是噩梦一样的使用体验；<br>喔，忘了说了，手表是没有扬声器的，你要戴着耳机才能听之前的录音和音乐，麦克风手表还是自带的，但想象一下吧，你左手或右手上戴着手表，插着一根耳机，你怎么走线吧，或者，你可以把它绑在你的手臂上，嗯，那就是运动MP3的形态了对智能可穿戴设备的一些吐槽和产品概念分析（智能手表、智能手环） 智能？没体现出来……</p>
+<p>语音识别——不得不说一下那个语音识别，大部分功能需要连网，原因是由于技术，因为现在的语音识别全依赖上传录音片段到云端语音分析核心解析出文本再反馈回来，所以，手表不想一天耗光电而关掉WIFI的话，这功能完全白瞎掉的，还是那句话，蓝牙呢？为什么不利用蓝牙借用手机的能力？还有补充一下，这还是要点亮手表并且运行手表里那个安装好的从手机上移植来的软件才行喔，不是直接随时能和手表对话喔——这不坑爹么！！！啥用户体验啊！！！</p>
+<p>查找手机、远程遥控手机拍照——可有可无的功能吧，不算亮点，手机离远了你蓝牙都断了找不到手机，找不到手机大家一般直接给手机打个电话，远程遥控手机拍照，嗯，首先，你得有一个女——喔，不对，你得有一个手机支架，然后在10米开外，拍下你埋头点在看手表摸手表的傻样，哈哈哈哈哈哈哈对智能可穿戴设备的一些吐槽和产品概念分析（智能手表、智能手环）</p>
+<p>日历——咳，在手机上操作这个小方格矩阵，偶会疯的，你呢？<br>闹钟——哈哈，从手环那学来的以，但我告诉你，手环做的都很轻便，可以戴着睡觉，戴着手表睡觉，没病吧你，除非你的手表做超薄又贴身，霸气防侧漏对智能可穿戴设备的一些吐槽和产品概念分析（智能手表、智能手环） 因为手表没扬声器，只带震动震动震动震动震动的喔………………</p>
+<p>微信——最大的奇葩，因为之前是打着腾讯手表的旗号宣传的吧，所以集成了一个完全独立版本的微信客户端，但是，产品经理，你不知道微信同时只能在一个手机上登录吗？而且，又是需要一直连网的软件，手表WIFI一开，电池还能用么，又不能输入文字，光语音留言，别人回一个语音过来，你还得找耳机哟，奇葩一样的产品定义，偶要喷出两斤老血了………………</p>
+<p>————————————————————————————————————</p>
+<p>说了这么多，智器可能要不开心了，只要699，你还有什么意见，好吧，我对智器没恶意，另外一个盛大连恶意都感受不到，因为它卖1999，智器已经很有创新，定价也有良心了，2w多的预定量就是市场最好的反馈，但是，不能开心过了头，只做一杆子买卖啊，上面这些将会是大多数人的直观使用体验，光靠网上的软文是盖不住负面的用户体验的，用户只会用脚投票，做好危机公关吧，就象我第一时间微博上说的——“智器可以搞个产品经理在线沟通活动，收集下用户的吐槽点和智器手表有价值功能的意见，再搞个手表上常用软件的界面创意赛啥的，目前品质的产品撒出去(好像卖了2万多只吧)，只怕是在网上登多少软文都盖不住负面评价的，准备危机公关吧，危机就是机会，难得一款预订上万的产品把握好了”</p>
+<p>————————————————————————————————————</p>
+<p>拿智器作为一个典型案例分析，得出来的其实和我之前分析的物联网智能家居这类东西是一样的发展现状，重控制轻数据，重价格轻体验：</p>
+<p>可穿戴设备其实可以并入物布网的一个子集，本质上是收集数据到云端，与其它同样在互联网上的数据进行统一处理，协作共享及自动反馈回去，最典型的是智能手环和手表收集的人体运动和健康数据——随着硬件成本的降低，现在是只有计步，未来血压、心跳、体温等等数据都会被收集的，但收集了不是只是让人看看的，虽然好看的展示出来是吸引用户的第一步，但要进一步吸引第二批客户，就需要数据的应用了，这些健康相关的数据，进行一项深度的挖掘，就可以养活一个行业——例如私人健康和运动教练指导。</p>
+<p>而智能手表与智能手环的定位区别，应该就是物联网网关与传感器节点设备的区别，手环这类会将来和其它人体数据收集器一样，要足够舒适足够低功耗，长时间稳定的收集数据，而手表是要帮手表分担一些数据整理汇总和上传到网络的工作，就象现在手机代替了许多原来电脑上干的工作一样的道理，手表都不怕一天一充电，你手表担心什么呢？</p>
+<p>要知道，就算是传统手表，大家每天睡觉时还是会摘下手表的，所以，花点心思在摘下的手表如何方便在晚间充电（例如无线充电，充电底坐等等）来保证第二天的使用就够了。</p>
+<p>毕竟对智能手表及相关设备只有一周多的接触，分析理解有些地方可能不到位请看客理性看待仅作参考，个人心目中智能手表的使用体验应该是：</p>
+<ol>
+<li><p>手表内置NFC或条码扫描等技术，把原来利用手机去碰一下扫一下的工作（例如交换名片、查询商品价格、记录一些数据等等稍后同步到手机以至同步到互联网上）交给手表去做，就象原来在电脑上搜东西的工作交给了去做一样，科技永远是要让人更方便（做上面这些碰一下扫一下的工作时其实并不方便，要掏出手机要解锁还要运行指定软件）；</p>
+</li>
+<li><p>录音应该是按住物理按键或者类似方便的方法，实时录音才能起到记录的作用，并及时同步到手机，远比拿手机录音方便，当然，也要有扬声器，最便宜的电子表也有“滴滴滴”的提醒功能啊；</p>
+</li>
+<li><p>表盘应始终有交互显示，要么EInk要么led点阵或者呼吸灯提示，手机黑屏时大家都觉得丑，更不要说手表戴在手上显示一个大黑方块了；</p>
+</li>
+<li><p>无线充电或充电底坐是标配的，手表这东西天天要戴的，手机大家记的住插线充电，再多个手表就嫌麻烦了；</p>
+</li>
+<li><p>可选的GPS，通过蓝牙4.0或Ant+收集传统的健身健康设备（包括手环也可以接入）收集的数据（这已经是个产业，相关设备和标准很多），将这些数据（GPS轨迹缓存、运动和健康监测数据）在连接到手机时，同步到手机软件上（以及在线云端网页里）供软件统计分析和给出建议——例如发现运动过少，身体某些不健康体征需注意等等，并及时再由于手机下载反馈到手表上，如在特定时间在手表上给出指导（即使手机不带在身边，手表可以缓存事件并离线在指定GPS地点或时间提醒），例如到超市时提醒需要购买哪些东西，在公园时可以提醒来个放松运动。</p>
+</li>
+</ol>
+<p>本质的核心需求定义就是，智能手表是与智能手机以及电脑是处于同一个平级的智能数据收集和处理中心，它的上一级可以是手机也可以是电脑，下一级可以是自己本身集成的传感器也可以是通过低功耗技术无线同步数据的其它更低功耗的传感终端设备，定位是最简数据的展示与处理中心，进一步简化智能手机的功能，智能手表应可以独立使用，与手机的关系接近手机与电脑的关系——做一些数据同步交换但又互相能独立工作；</p>
+<p>最后说一句，国产产品需自强，硬件设计生产能力已经国际领先了，但软件实在是发展不力，究其根源是，国内厂家习惯了快速推出新产品但又快速抛弃，学会了国外公司的一半的精髓——就是快，但忘掉了要更快地吸收市场的反馈并作出反应，目前唯一在改变这个模式的只有小米，所以一群眼红小米的成功的人，只看到营销手段和规模生产的效果，却选择性地一致无视后端的技术和产品设计团队，国产软硬件一体的产品，几乎通病就是，产品定义混乱，实现时完成度低，用户体验不佳，要知道，哪怕完成了95%的功能你认为你已经尽力了，最后5%的失败的设计或者实现方式，足够毁掉你前面全部的努力。</p>
+<p>By meineson，mbstudio.cn 2013.10.15 @无锡</p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2013-10-15</span><i class="fa fa-tag"></i></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" target="_blank" rel="noopener" href="http://twitter.com/home?status=,https://mbstudio.cn/2013/10/15/smartwatch/,MBSTUDIO,对智能可穿戴设备的一些吐槽和产品概念分析（智能手表、智能手环）,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2014/11/06/cmcc/" title="中国移动的融合通信真的能够撼动微信吗？不能。">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2013/03/27/4g/" title="4G（LTE）背后的技术和利益纠结——VoIP，VoLTE，SIP，IMS的前世今生">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//cdn.jsdelivr.net/gh/xcss/valine@latest/dist/Valine.min.js"></script><script>var valine = new Valine({
+  el:'#vcomments',
+  notify:false || false, 
+  verify:true|| false, 
+  app_id:'NJ38qTX1M6HwqDECSFibkJnD-gzGzoHsz',
+  app_key:'xsgCybaxfNqU9qWtVSa1CsPU',
+  placeholder:'谢绝广告。',
+  path: window.location.pathname,
+  avatar:'mm'
+})
+
+</script></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
