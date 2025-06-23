@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="MEINESON,meineson@gmail.com"><title>Linux根分区改只读系统，防止系统损坏或硬盘损坏无法开机 · MBSTUDIO</title><meta name="description" content="问题来源有些电脑在安装完操作系统和应用软件后，功能正常很稳定，很长时间是不需要作改动的，也不关心上面产生的日志之类的无用数据。
+
+
+但有时就是手贱一不小心删了、改了东西，重启一下，机器启动不了了
+电脑频繁被直接断电开关机，时间不长就再也启动不了，甚至硬盘损坏了
+
+
+如果直接把根分区”&amp;#x2F;“在"><meta name="keywords" content="mbstudio,ICT,RCS,Deep Learning,Digital Twin,AIGC"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 7.3.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">MBSTUDIO</a></h3><div class="description"><p>魔瓶工作室 since 2001 / mbstudio.cn</p></div></div></div><ul class="social-links"><li><a target="_blank" rel="noopener" href="http://weibo.com/meienson"><i class="fa fa-weibo"></i></a></li><li><a target="_blank" rel="noopener" href="http://github.com/meineson"><i class="fa fa-github"></i></a></li></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a target="_blank" rel="noopener" href="https://www.caicai.me"> CaiCai </a><span>&</span><a target="_blank" rel="noopener" href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/favicon.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>Linux根分区改只读系统，防止系统损坏或硬盘损坏无法开机</a></h3></div><div class="post-content"><h4 id="问题来源"><a href="#问题来源" class="headerlink" title="问题来源"></a>问题来源</h4><p>有些电脑在安装完操作系统和应用软件后，功能正常很稳定，很长时间是不需要作改动的，也不关心上面产生的日志之类的无用数据。</p>
+<blockquote>
+<ul>
+<li>但有时就是手贱一不小心删了、改了东西，重启一下，机器启动不了了</li>
+<li>电脑频繁被直接断电开关机，时间不长就再也启动不了，甚至硬盘损坏了</li>
+</ul>
+</blockquote>
+<p>如果直接把根分区”&#x2F;“在&#x2F;etc&#x2F;fstab里给干成ro了，那么大概率各种问题就出现了，甚至无法启动（有虚拟机的可以做个快照，来修改试验一下报告一下更新进来），所以才有了下面这些方法。</p>
+<h4 id="极简懒人版方法1："><a href="#极简懒人版方法1：" class="headerlink" title="极简懒人版方法1："></a>极简懒人版方法1：</h4><p>第一想法是虚拟机，给虚拟机打个快照，有问题随时恢复就可以了。<br>代价就是多了一层虚拟机，消耗内存和磁盘，速度也慢了，有些场景不适用。</p>
+<h4 id="极简懒人版方法2："><a href="#极简懒人版方法2：" class="headerlink" title="极简懒人版方法2："></a>极简懒人版方法2：</h4><p>虚拟机的替代思路，容器。docker提交一下镜像，随时可以恢复也是极好的。<br>**问题是自从docker被X了以后，拉镜像不是那么方便了。（有空写一下怎么快速恢复）。<br>同样的，此方法也有些场景不适用，我们还是要“原生方案”，不能对现有Linux系统有任何变动。</p>
+<h4 id="终极解决思路："><a href="#终极解决思路：" class="headerlink" title="终极解决思路："></a>终极解决思路：</h4><p>使用overlayroot，具体原理可以查看网上技术资源的详细介绍，简单一句话说就是：</p>
+<blockquote>
+<p>它可以实现把原来的“&#x2F;”根分区磁盘变成“ro”只读文件系统（原来所有数据不受影响地工作），但又还给你一个可正常读写的“&#x2F;”根分区（原来所有数据还是不受影响地工作）。<br>有点绕口但是就是原来系统啥也没变能正常工作，你进系统了依然可以正常安装软件删除文件改东西，但是，只要一重启，就恢复原样（你开始设置的时候）。有点像以前网吧电脑的一键还原系统。<br>唯一缺点：<br>它是使用内存来提供上述可“读写”的空间的，最大占用一半内存（按需使用）。<br><em>如果你的系统运行期间会产生大量大文件（超过内存一半大小），那么这个方法可能不适合你，你需要第二块硬盘或者加大内存，具体方法可留言讨论。</em></p>
+</blockquote>
+<p><strong>操作步骤：</strong> (以ubuntu24为例)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#sudo apt-get install overlayroot </span><br><span class="line">修改/etc/overlayroot.conf配置文件原始文件内容：</span><br><span class="line">overlayroot=&quot;&quot;</span><br><span class="line">为</span><br><span class="line">overlayroot=&quot;tmpfs:swap=1,recurse=0&quot;</span><br><span class="line">#reboot !重启电脑即可进入只读系统状态。</span><br></pre></td></tr></table></figure>
+<p>如果需要恢复可读写，因为那个配置文件现在也是只读的了（你的修改保存只是在内存里临时模拟的），需要：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#overlayroot-chroot</span><br><span class="line">#/ !进入chroot环境，然后修改/etc/overlayroot.conf为</span><br><span class="line">overlayroot=&quot;&quot;</span><br><span class="line">#exit !退出chroot环境，重启电脑即恢复原来可读写状态。</span><br></pre></td></tr></table></figure>
+
+<h4 id="重要提醒"><a href="#重要提醒" class="headerlink" title="重要提醒"></a>重要提醒</h4><p>overlayroot功能与docker会冲突，表现现象为修改为只读系统启动后，systemctl start docker会出错无法启用。<br>原因是，docker也使用了与overlayroot一样底层原理的overlay文件系统。<br>解决办法：</p>
+<blockquote>
+<p>修改docker的存储系统为vfs，即修改<br>&#x2F;etc&#x2F;docker&#x2F;daemon.json</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">&quot;storage-driver&quot;: &quot;vfs&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重启docker服务systemctl restart docker即可。<br>但会丢失原来以overylay方法已经下载的所有docker镜像和运行的实例（删除上述修改重启docker服务后，数据还在，只是不识别了）。<br>所以，如果想改为只读的Linux上有docker实例要运行，需要提前改成vfs存储，安装配置好所有容器后，再做上述修改只读系统的操作。</p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2025-06-23</span><i class="fa fa-tag"></i></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" target="_blank" rel="noopener" href="http://twitter.com/home?status=,https://mbstudio.cn/2025/06/23/ROLinux/,MBSTUDIO,Linux根分区改只读系统，防止系统损坏或硬盘损坏无法开机,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="next pagbuttons"><a class="btn" role="navigation" href="/2005/08/08/index/" title="版权声明">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//cdn.jsdelivr.net/gh/xcss/valine@latest/dist/Valine.min.js"></script><script>var valine = new Valine({
+  el:'#vcomments',
+  notify:false || false, 
+  verify:true|| false, 
+  app_id:'NJ38qTX1M6HwqDECSFibkJnD-gzGzoHsz',
+  app_key:'xsgCybaxfNqU9qWtVSa1CsPU',
+  placeholder:'谢绝广告。',
+  path: window.location.pathname,
+  avatar:'mm'
+})
+
+</script></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
