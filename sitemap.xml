@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://mbstudio.cn/2013/03/01/voip/</loc>
+    
+    <lastmod>2025-06-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://mbstudio.cn/2011/03/22/duilib/</loc>
     
     <lastmod>2025-06-23</lastmod>
@@ -48,15 +57,6 @@
   
   <url>
     <loc>https://mbstudio.cn/2013/02/04/4gThink/</loc>
-    
-    <lastmod>2025-06-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://mbstudio.cn/2013/03/01/voip/</loc>
     
     <lastmod>2025-06-23</lastmod>
     
