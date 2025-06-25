@@ -2,6 +2,33 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://meineson.github.io/about/index.html</loc>
+    
+    <lastmod>2025-06-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://meineson.github.io/sipphone/</loc>
+    
+    <lastmod>2025-06-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://meineson.github.io/osip/</loc>
+    
+    <lastmod>2025-06-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://meineson.github.io/smartwatch/</loc>
     
     <lastmod>2025-06-25</lastmod>
@@ -147,15 +174,6 @@
   
   <url>
     <loc>https://meineson.github.io/cf_proxy_github_pages/</loc>
-    
-    <lastmod>2025-06-25</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://meineson.github.io/about/index.html</loc>
     
     <lastmod>2025-06-25</lastmod>
     
