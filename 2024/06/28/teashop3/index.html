@@ -1,11 +1,22 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="MEINESON,meineson@gmail.com"><title>1天搭建免费微信小程序商店卖茶（3） · MBSTUDIO</title><meta name="description" content="-前期准备前两篇文章，分别架设好了小程序商站的后台服务端（提供小程序的数据接口，存储商品和交易信息等等），编译并且在手机上成功打开了测试版小程序，成功拉取到了服务器上的测试数据。
-本篇开始，为“真实”运营进行下一步动作。要运营，肯定不能光看那些测试数据，要发布真实的商品和真实的支付订单以及快递流转，"><meta name="keywords" content="mbstudio,ICT,RCS,Deep Learning,Digital Twin,AIGC"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 7.3.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">MBSTUDIO</a></h3><div class="description"><p>魔瓶工作室 since 2001 /RCS OS IOT AI DigitalTwin/</p></div></div></div><ul class="social-links"><li><a href="mailto:meineson@gmail.com"><i class="fa fa-envelope">         </i></a></li><li><a target="_blank" rel="noopener" href="https://weibo.com/meineson"><i class="fa fa-weibo"></i></a></li><li><a target="_blank" rel="noopener" href="http://github.com/meineson"><i class="fa fa-github"></i></a></li></ul><div class="footer"></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/me.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>1天搭建免费微信小程序商店卖茶（3）</a></h3></div><div class="post-content"><p>-前期准备<br>前两篇文章，分别架设好了小程序商站的后台服务端（提供小程序的数据接口，存储商品和交易信息等等），编译并且在手机上成功打开了测试版小程序，成功拉取到了服务器上的测试数据。</p>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="MEINESON,meineson@gmail.com"><title>1天搭建免费微信小程序商店卖茶（3） · MBSTUDIO</title><meta name="description" content="前期准备
+
+前两篇文章，分别架设好了小程序商站的后台服务端（提供小程序的数据接口，存储商品和交易信息等等），编译并且在手机上成功打开了测试版小程序，成功拉取到了服务器上的测试数据。
+本篇开始，为“真实”运营进行下一步动作。要运营，肯定不能光看那些测试数据，要发布真实的商品和真实的支付订单以及快递流转"><meta name="keywords" content="mbstudio,ICT,RCS,Deep Learning,Digital Twin,AIGC"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 7.3.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">MBSTUDIO</a></h3><div class="description"><p>魔瓶工作室 since 2001 /RCS OS IOT AI DigitalTwin/</p></div></div></div><ul class="social-links"><li><a href="mailto:meineson@gmail.com"><i class="fa fa-envelope">         </i></a></li><li><a target="_blank" rel="noopener" href="https://weibo.com/meineson"><i class="fa fa-weibo"></i></a></li><li><a target="_blank" rel="noopener" href="http://github.com/meineson"><i class="fa fa-github"></i></a></li></ul><div class="footer"><script src="/js/baidu.js"> </script></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/me.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>1天搭建免费微信小程序商店卖茶（3）</a></h3></div><div class="post-content"><ul>
+<li>前期准备</li>
+</ul>
+<p>前两篇文章，分别架设好了小程序商站的后台服务端（提供小程序的数据接口，存储商品和交易信息等等），编译并且在手机上成功打开了测试版小程序，成功拉取到了服务器上的测试数据。</p>
 <p>本篇开始，为“真实”运营进行下一步动作。要运营，肯定不能光看那些测试数据，要发布真实的商品和真实的支付订单以及快递流转，所以需要一个后台管理界面，我们选用的海风小店提供了两种数据管理方式（其实是3种，你是大神的话可以手写sql直接管理数据库），其中一种是部署在本地电脑上，直接在电脑浏览器里打开管理界面（相当于用mysql数据库管理软件的可视化版本），优点是方便和安全（真安全啊，没其它动数据库数据的手段），缺点是只能一台电脑上管理，所以综合大多数人的需求，我们在之前那台作小程序服务端的服务器上部署（也可以是一台全新的服务器，做到管理界面和数据分离，读者可以举一反三，我们现在只讲最简单、通用的）。</p>
-<p>-代码获取<br>上文提到，本地管理使用的是hioshop-admin源码，我们需要架设在服务器上通过web访问管理，需要用到hioshop-admin-web（<br><a target="_blank" rel="noopener" href="https://github.com/iamdarcy/hioshop-admin-web%EF%BC%89%E3%80%82">https://github.com/iamdarcy/hioshop-admin-web）。</a></p>
+<ul>
+<li>代码获取</li>
+</ul>
+<p>上文提到，本地管理使用的是hioshop-admin源码，我们需要架设在服务器上通过web访问管理，需要用到hioshop-admin-web（<br><a target="_blank" rel="noopener" href="https://github.com/iamdarcy/hioshop-admin-web%EF%BC%89%E3%80%82">https://github.com/iamdarcy/hioshop-admin-web）。</a></p>
 <p>因为这个admin-web其实就是纯静态的html页面，基于vue，所以只需要把它部署到任意的web服务器目录下，就可以得到管理界面。</p>
 <p>因为这台服务器上，我已经安装了nginx架设官网，所以直接把这个代码编译出来放到网站子目录下即可。</p>
 <p>**这里没有用docker容器，是为了快速，因为已经有现成的网站了，这样最快，后面有空会做一个docker镜像包含这个admin-web端的，直接运行就可以提供web服务。</p>
-<p>-代码生成<br>通过</p>
+<ul>
+<li>代码生成</li>
+</ul>
+<p>通过</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/iamdarcy/hioshop-admin-web</span><br></pre></td></tr></table></figure>
 <p>或直接zip下载的源码，可以通过npm工具直接运行dev版本（使用nodejs内置web服务能力启动一个监听9528的端口的http服务器，可以预览效果），测试正常后编译出web静态页面拷贝到生产环境的web服务器目录下。</p>
 <p>1.正常获取nodejs和npm环境<br>参考上文服务器端或网上手册，安装nodejs和npm，最简单的是apt get install nodejs npmcd hioshop-admin-web &#x2F;&#x2F;进入源码目录npm install &#x2F;&#x2F;安装依赖文件</p>
@@ -15,29 +26,34 @@
 <p><img src="/images/2025-06-25-11-33-50.png" alt="admin管理端七牛云配置"></p>
 <p>执行npm run build:prod，成功后，会在当前目录dist目录下生成小程序商站服务端管理代码（即，纯静态网页），拷贝到web服务器目录即可，例如mkdir &#x2F;var&#x2F;www&#x2F;html&#x2F;admin; cp -R dist&#x2F;* &#x2F;var&#x2F;www&#x2F;html&#x2F;admin&#x2F;。<br>生成的disk目录下的静态web页面，必须拷贝到web服务器根目录的admin目录下（如果该目录已经被占用，需要修改源码vue.config.js中的publicPath: “&#x2F;admin”，重新编译生成）。如果需要，还可以修改源码nano<br>src&#x2F;components&#x2F;WelcomePage.vue ，可以去掉管理首页两条源码开发者加上去的测试信息。<br><img src="/images/2025-06-25-11-34-05.png" alt="image"></p>
 <ul>
-<li>部署服务器管理端<br>上部获取到管理界面web后，就可以部署到web服务器上提供服务器后台数据管理界面了，这里假设本台服务器已经正常运行了web服务器了，以nginx为例。</li>
+<li>部署服务器管理端</li>
 </ul>
+<p>上部获取到管理界面web后，就可以部署到web服务器上提供服务器后台数据管理界面了，这里假设本台服务器已经正常运行了web服务器了，以nginx为例。</p>
 <p>修改nginx配置文件，增加admin路径：<br>location &#x2F;admin { proxy_set_header X-Forwarded-Proto $scheme; alias &#x2F;var&#x2F;www&#x2F;html&#x2F;admin;}systemctl restart nginx重启服务器，即可在你的网站的admin路径下（例如：<a target="_blank" rel="noopener" href="http://www.xxxx.com/admin">http://www.xxxx.com/admin</a> ）打开小程序服务端管理界面了，默认管理账号、密码都是qilelab.com，登录后可以修改管理员用户名和密码。</p>
 <p><img src="/images/2025-06-25-11-34-18.png" alt="image"></p>
 <ul>
-<li>初始化数据<br>因为这个源码有点历史了，所以有些数据需要更新和清空，但管理界面为了数据安全，大多不提供删除功能，比如测试的订单和购物车数据，以及大量的商品数据一条条删是比较累的，需要在MySQL WorkBench软件里远程直接修改数据库。</li>
+<li>初始化数据</li>
 </ul>
+<p>因为这个源码有点历史了，所以有些数据需要更新和清空，但管理界面为了数据安全，大多不提供删除功能，比如测试的订单和购物车数据，以及大量的商品数据一条条删是比较累的，需要在MySQL WorkBench软件里远程直接修改数据库。</p>
 <p>比如各地行政区域，保存在hiolabs_region表中。<br>可以清空的测试数据有：hiolabs_cart 购物车hiolabs_order 订单hiolabs_order_express 订单关联快递信息hiolabs_order_goods 订单关联商品信息</p>
 <p>界面上也可以删除但可以批量快速删除的有：<br>hiolabs_goods 商品表等等。</p>
 <p>这些操作完成后，你大概率不再需要直接从开发电脑上连接服务器数据库了，可以在阿里云上删掉3306端口，保护你的数据安全。</p>
 <ul>
-<li>小程序测试<br>再补充一下上一篇小程序忘了提的事，如果小程序开发环境电脑上预览和手机上调试模式下可以正常加载服务器的商品数据，而提交上传给其他人看不了，其实是忘了在小程序管理后台设置服务器域名了。</li>
+<li>小程序测试</li>
 </ul>
+<p>再补充一下上一篇小程序忘了提的事，如果小程序开发环境电脑上预览和手机上调试模式下可以正常加载服务器的商品数据，而提交上传给其他人看不了，其实是忘了在小程序管理后台设置服务器域名了。</p>
 <p>为了数据安全，正式的小程序，只允许与指定的域名通信，只有在开发阶段，才可以任意指定ip地址或域名进行数据测试，所以开发部署小程序商店，还是需要有一个ICP备案过的域名和网站服务器的，否则，需要使用微信的云开发服务器，每个月付服务费。<br><img src="/images/2025-06-25-11-34-40.png" alt="image"></p>
 <ul>
-<li>小程序微信支付注意事项<br>至此，如果一切顺利，你可以有一个能正常运行的微信小程序商店了，能够通过服务器管理界面管理商品，在小程序上下单、支付和发货了。</li>
+<li>小程序微信支付注意事项</li>
 </ul>
+<p>至此，如果一切顺利，你可以有一个能正常运行的微信小程序商店了，能够通过服务器管理界面管理商品，在小程序上下单、支付和发货了。</p>
 <p>但需要注意小程序新规，电商类微信支付会在小程序管理后台产生对应的订单，本次架设的小程序由于历史原因，没有对接微信官方的发货接口，所以需要在小程序管理后台人工发货，否则支付的钱会被平台冻结大概10天才能解冻，甚至导致支付接口被封。</p>
 <p>所以如果小程序每天发货订单数据少，除了在管理界面填快递单号发货，还要记得人工去微信小程序管理后台同样填快递单号发货（不过有excel表格可以批量发货）。<br><img src="/images/2025-06-25-11-34-59.png" alt="image"></p>
 <p>如果你每天的小程序订单多的忙不过来，这款小程序商店可能不适合，需要另外寻找收费的服务商提供服务了。</p>
 <ul>
-<li>安全提醒<br>本次部署教程突出的是快，所以有些安全方面的问题有所疏忽，比如服务端提供给小程序的数据接口采用http明文传输，服务端管理界面也是http接口（所以采用在服务端同一台服务器部署管理界面，只允许本机localhost地址访问，能规避掉一些风险）。</li>
+<li>安全提醒</li>
 </ul>
+<p>本次部署教程突出的是快，所以有些安全方面的问题有所疏忽，比如服务端提供给小程序的数据接口采用http明文传输，服务端管理界面也是http接口（所以采用在服务端同一台服务器部署管理界面，只允许本机localhost地址访问，能规避掉一些风险）。</p>
 <p>所以实际商用环境下，建议全站https保护起来，采用nginx的代理功能可以很容量做到这一点，但相应的上面代码中的配置的http地址路径也要有所调整。</p>
 <p>首先，还是正常架设一个能访问的nginx web服务器，有一个已经ICP备案的域名。通过 <a target="_blank" rel="noopener" href="https://certbot.eff.org/">https://certbot.eff.org</a> 可以通过脚本，全自动为你的网站生成ssl加密证书并启用https，确认你可以直接通过例如 <a target="_blank" rel="noopener" href="https://www.meiwutea.com/">https://www.meiwutea.com</a> 方式访问你的原网站，我们接下来要把前面文章提到的小程序商站的服务端接口地址从http升级到https。</p>
 <p>修改nginx配置文件：</p>
@@ -50,7 +66,8 @@
 <p>最后，需要修改后台admin-web的src&#x2F;config&#x2F;api.js中的qiniu: ‘<a target="_blank" rel="noopener" href="https://up-z0.qiniup.com/">https://up-z0.qiniup.com</a>‘ ,启动https接口，服务端配置文件中也需要同时填写正确的七牛云HTTP和HTTPS两个参数。</p>
 <p>这样，你就可以有全站HTTPS加密，保护你的小程序和配置管理界面的通信安全了，当然，最后，还是要做好阿里云的服务器快照，避免数据丢失，出现异常时，去小程序管理后台暂停支付接口保护资金安全等等，这是运营完全自己管理的系统要养成的习惯性动作了。</p>
 <ul>
-<li>文章预告<br>下一篇，将把上面文章中的程序猿专属内容和过于技术的语言和步骤去掉，介绍怎么通过下载两个docker镜像文件例如：meiwutea-server.tgz, meiwutea-admin.tgz，只要运行几条命令例如：<br>docker import meiwutea-server.tgz meiwutea-serverdocker import meiwutea-admin.tgz meiwutea-admin docker run –name server -p 8080:8360 -d meiwutea-serverdocker run –name admin -p 80:80 -d meiwutea-admin</li>
+<li>文章预告</li>
 </ul>
+<p>下一篇，将把上面文章中的程序猿专属内容和过于技术的语言和步骤去掉，介绍怎么通过下载两个docker镜像文件例如：meiwutea-server.tgz, meiwutea-admin.tgz，只要运行几条命令例如：<br>docker import meiwutea-server.tgz meiwutea-serverdocker import meiwutea-admin.tgz meiwutea-admin docker run –name server -p 8080:8360 -d meiwutea-serverdocker run –name admin -p 80:80 -d meiwutea-admin</p>
 <p>就可以获得一个能正常运行的微信小程序服务端和管理端。文章的编写速度，由大家的点赞、评论驱动哈，记得收藏、关注本号，上火的小伙伴记得来杯茶，欢迎淘宝：梅坞寻茶。</p>
 </div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2024-06-28</span><i class="fa fa-tag"></i></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" target="_blank" rel="noopener" href="http://twitter.com/home?status=,https://meineson.github.io/2024/06/28/teashop3/,MBSTUDIO,1天搭建免费微信小程序商店卖茶（3）,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2025/06/16/ROLinux/" title="Linux根分区改只读系统，防止系统损坏或硬盘损坏无法开机">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2024/05/31/teashop2/" title="1天搭建免费微信小程序商店卖茶（2）">下一篇</a></li></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

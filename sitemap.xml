@@ -2,16 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://meineson.github.io/2024/04/28/teashop1/</loc>
-    
-    <lastmod>2025-06-25</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://meineson.github.io/2024/05/31/teashop2/</loc>
+    <loc>https://meineson.github.io/2025/06/24/cf_proxy_github_pages/</loc>
     
     <lastmod>2025-06-25</lastmod>
     
@@ -29,9 +20,18 @@
   </url>
   
   <url>
-    <loc>https://meineson.github.io/2025/06/24/cf_proxy_github_pages/</loc>
+    <loc>https://meineson.github.io/2024/04/28/teashop1/</loc>
     
-    <lastmod>2025-06-24</lastmod>
+    <lastmod>2025-06-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://meineson.github.io/2024/05/31/teashop2/</loc>
+    
+    <lastmod>2025-06-25</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
