@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://meineson.github.io/2025/06/24/cf_proxy_github_pages/</loc>
+    <loc>https://meineson.github.io/smartwatch/</loc>
     
     <lastmod>2025-06-25</lastmod>
     
@@ -11,7 +11,7 @@
   </url>
   
   <url>
-    <loc>https://meineson.github.io/2024/06/28/teashop3/</loc>
+    <loc>https://meineson.github.io/iotThind/</loc>
     
     <lastmod>2025-06-25</lastmod>
     
@@ -20,7 +20,7 @@
   </url>
   
   <url>
-    <loc>https://meineson.github.io/2024/04/28/teashop1/</loc>
+    <loc>https://meineson.github.io/cmcc/</loc>
     
     <lastmod>2025-06-25</lastmod>
     
@@ -29,7 +29,7 @@
   </url>
   
   <url>
-    <loc>https://meineson.github.io/2024/05/31/teashop2/</loc>
+    <loc>https://meineson.github.io/4gThink/</loc>
     
     <lastmod>2025-06-25</lastmod>
     
@@ -38,117 +38,117 @@
   </url>
   
   <url>
-    <loc>https://meineson.github.io/2025/06/16/ROLinux/</loc>
+    <loc>https://meineson.github.io/4g/</loc>
     
-    <lastmod>2025-06-24</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://meineson.github.io/2013/03/01/voip/</loc>
-    
-    <lastmod>2025-06-23</lastmod>
+    <lastmod>2025-06-25</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://meineson.github.io/2011/03/22/duilib/</loc>
+    <loc>https://meineson.github.io/winMemLeak/</loc>
     
-    <lastmod>2025-06-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://meineson.github.io/2011/05/27/kernelCrack/</loc>
-    
-    <lastmod>2025-06-23</lastmod>
+    <lastmod>2025-06-25</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://meineson.github.io/2011/12/16/voipHard/</loc>
+    <loc>https://meineson.github.io/voipHard/</loc>
     
-    <lastmod>2025-06-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://meineson.github.io/2012/01/09/lua/</loc>
-    
-    <lastmod>2025-06-23</lastmod>
+    <lastmod>2025-06-25</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://meineson.github.io/2012/08/07/ddKernelPanic/</loc>
+    <loc>https://meineson.github.io/voip/</loc>
     
-    <lastmod>2025-06-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://meineson.github.io/2013/02/04/4gThink/</loc>
-    
-    <lastmod>2025-06-23</lastmod>
+    <lastmod>2025-06-25</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://meineson.github.io/2013/03/27/4g/</loc>
+    <loc>https://meineson.github.io/teashop3/</loc>
     
-    <lastmod>2025-06-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://meineson.github.io/2013/02/25/iotThind/</loc>
-    
-    <lastmod>2025-06-23</lastmod>
+    <lastmod>2025-06-25</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://meineson.github.io/2013/10/15/smartwatch/</loc>
+    <loc>https://meineson.github.io/teashop2/</loc>
     
-    <lastmod>2025-06-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://meineson.github.io/2014/11/06/cmcc/</loc>
-    
-    <lastmod>2025-06-23</lastmod>
+    <lastmod>2025-06-25</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://meineson.github.io/2015/09/11/winMemLeak/</loc>
+    <loc>https://meineson.github.io/lua/</loc>
     
-    <lastmod>2025-06-23</lastmod>
+    <lastmod>2025-06-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://meineson.github.io/teashop1/</loc>
+    
+    <lastmod>2025-06-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://meineson.github.io/ROLinux/</loc>
+    
+    <lastmod>2025-06-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://meineson.github.io/kernelCrack/</loc>
+    
+    <lastmod>2025-06-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://meineson.github.io/duilib/</loc>
+    
+    <lastmod>2025-06-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://meineson.github.io/ddKernelPanic/</loc>
+    
+    <lastmod>2025-06-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://meineson.github.io/cf_proxy_github_pages/</loc>
+    
+    <lastmod>2025-06-25</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -157,16 +157,7 @@
   <url>
     <loc>https://meineson.github.io/about/index.html</loc>
     
-    <lastmod>2025-06-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://meineson.github.io/2005/08/08/index/</loc>
-    
-    <lastmod>2025-06-23</lastmod>
+    <lastmod>2025-06-25</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -174,6 +165,15 @@
   
   <url>
     <loc>https://meineson.github.io/links/index.html</loc>
+    
+    <lastmod>2025-06-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://meineson.github.io/index/</loc>
     
     <lastmod>2025-06-23</lastmod>
     
@@ -189,6 +189,69 @@
     <priority>1.0</priority>
   </url>
 
+  
+  <url>
+    <loc>https://meineson.github.io/tags/%E8%9E%8D%E5%90%88%E9%80%9A%E4%BF%A1/</loc>
+    <lastmod>2025-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://meineson.github.io/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/</loc>
+    <lastmod>2025-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://meineson.github.io/tags/%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90/</loc>
+    <lastmod>2025-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://meineson.github.io/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</loc>
+    <lastmod>2025-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://meineson.github.io/tags/Windows%E5%BC%80%E5%8F%91/</loc>
+    <lastmod>2025-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://meineson.github.io/tags/%E7%89%A9%E8%81%94%E7%BD%91/</loc>
+    <lastmod>2025-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://meineson.github.io/tags/%E6%99%BA%E8%83%BD%E7%A9%BF%E6%88%B4/</loc>
+    <lastmod>2025-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://meineson.github.io/tags/%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91/</loc>
+    <lastmod>2025-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://meineson.github.io/tags/%E8%A1%8C%E4%B8%9A%E8%AF%84%E8%AE%BA/</loc>
+    <lastmod>2025-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
   
 
   
