@@ -16,8 +16,8 @@ button {
   background: black;
   position: relative;
   border: 1px solid lightgrey;
-  height: 400px;
-  width: 400px;
+  height: 200px;
+  width: 200px;
   margin: 10px 0;
 }
 
@@ -26,9 +26,9 @@ button {
   background: black;
   position: absolute;
   border: 1px solid lightgrey;
-  height: 100px;
-  width: 100px;
-  top: 280px;
+  height: 40px;
+  width: 40px;
+  top: 150px;
   left: 10px;
   transform: scaleX(-1);
 }
