@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://mbstudio.cn/webrtc_sip_phone/</loc>
+    <loc>https://mbstudio.cn/mbwebphone-demo/index.html</loc>
     
     <lastmod>2025-07-02</lastmod>
     
@@ -11,9 +11,9 @@
   </url>
   
   <url>
-    <loc>https://mbstudio.cn/mbwebphone-demo/index.html</loc>
+    <loc>https://mbstudio.cn/webrtc_sip_phone/</loc>
     
-    <lastmod>2025-07-01</lastmod>
+    <lastmod>2025-07-02</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
