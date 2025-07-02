@@ -51,6 +51,7 @@ function uaStart(){
     authorization_user: user.authName,
     password : user.authPwd,
     register_expires: user.regExpires,
+    connection_recovery_max_interval: 10,
     user_agent: 'MBWebPhone 1.0'
   };
   //https://jssip.net/documentation/api/ua_configuration_parameters/#parameter_authorization_user
@@ -104,6 +105,7 @@ function uaStart(){
     console.log('new session:', e.session);
     callSession = e.session;
 
+    //fix call,answer too slow problem
     callSession.on("icecandidate", function (e) {
       if ( typeof e.candidate === "object" &&         
           typeof e.candidate.type === "string" && 
@@ -147,6 +149,7 @@ function uaStart(){
 
   //start sip ua
   myPhone.start();  
+  infoLb.innerText = "注册中..";
 }
 
 //call process func and cb
