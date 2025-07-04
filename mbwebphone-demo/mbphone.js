@@ -1,8 +1,9 @@
 const server = {
   domain: '172.21.2.210',
-  wsServers: 'wss://172.21.2.210:7443',
-  // wsServers: 'ws://172.21.2.210:5066',  //only chrome://flags#unsafely-treat-insecure-origin-as-secure=true
-  stunServer: 'stun:172.21.2.210:3478'
+  sipPort: 8060,
+  wsServers: 'wss://172.21.2.210:7443', //wss for https://, http://
+  // wsServers: 'ws://172.21.2.210:5066',  //ws for http://, only localhost work, or set chrome://flags#unsafely-treat-insecure-origin-as-secure=http://ip:port
+  // stunServer: 'stun:172.21.2.210:3478'
 };
 
 //default user
@@ -19,17 +20,17 @@ const views = {
   'remoteView': document.getElementById('remote-video')
 };
 
-const vdiv = document.getElementById('vdiv');
+const vDiv = document.getElementById('vdiv');
 const vCallCheck = document.getElementById('vCall');
 const calleeInput = document.getElementById("callee");
 const unameInput = document.getElementById("uname");
 const upwdInput = document.getElementById("upwd");
+const srvInput = document.getElementById("srvaddr");
 const regBtn = document.getElementById('reg');
 const callBtn = document.getElementById('call');
 const hangBtn = document.getElementById('hangup');
 const infoLb = document.getElementById('status');
 
-var socket = new JsSIP.WebSocketInterface(server.wsServers);
 var myPhone = null;
 var callSession = null;
 var remoteStream  = null;
@@ -41,13 +42,29 @@ const videoConstraints = {
   // facingMode: { exact: "user" }
 };
 
+var clearCall = function(e){
+  views.selfView.srcObject?.getTracks().forEach(track => track.stop());
+  views.remoteView.srcObject?.getTracks().forEach(track => track.stop());
+
+  console.log("call clear:"+e.cause);
+  infoLb.innerText = "挂断"+e.cause;
+  callSession = null;
+  callBtn.disabled = false;
+  hangBtn.disabled = true;
+};
+
 function uaStart(){
+  var uri  = new JsSIP.URI('sip', user.name, server.domain, server.sipPort);
+  uri.setParam('transport', server.wsServers.split(":")[0]);  //get ws or wss
+  
+  var socket = new JsSIP.WebSocketInterface(server.wsServers);
+
   var configuration = {
     sockets  : [ socket ],
     display_name: user.disName,
-    uri      : 'sip:'+user.name+'@'+server.domain,
+    uri: uri.toAor(),
     realm: server.domain,
-    // contact_uri: 'sip:'+user.name+'@'+server.domain,
+    contact_uri: uri.toString(),  //fix freeswtich call bugs
     authorization_user: user.authName,
     password : user.authPwd,
     register_expires: user.regExpires,
@@ -72,9 +89,9 @@ function uaStart(){
 
   //register state cb
   myPhone.on('registered', function(e){ 
-    infoLb.innerText = "注册在线";
+    infoLb.innerText = server.domain+"注册在线";
     callBtn.disabled = false;
-    regBtn.disabled = true;
+    // regBtn.disabled = true;
     console.log('registered', e);
   });
   myPhone.on('unregistered', function(e){ 
@@ -93,13 +110,6 @@ function uaStart(){
   //call process cb
   myPhone.on('newRTCSession', function(e){ 
     var callReq = e.request;
-    var clearCall = function(e){
-      console.log("call clear:"+e.cause);
-      infoLb.innerText = "挂断"+e.cause;
-      callSession = null;
-      callBtn.disabled = false;
-      hangBtn.disabled = true;
-    };
 
     callSession?.termiate();  
     console.log('new session:', e.session);
@@ -119,7 +129,8 @@ function uaStart(){
     if(callSession.direction == 'outgoing'){
       var peerConnection = callSession.connection;
       console.log('dial out');
-    
+      hangBtn.disabled = false;
+
       showRemoteStreams(peerConnection);
     }else if(callSession.direction == 'incoming'){
       console.log('call in', e.request.from);
@@ -149,7 +160,7 @@ function uaStart(){
 
   //start sip ua
   myPhone.start();  
-  infoLb.innerText = "注册中..";
+  infoLb.innerText = server.domain+"注册中..";
 }
 
 //call process func and cb
@@ -193,8 +204,6 @@ var callOptions = {
       console.log("get usermedia failed", data);
     },
     'ended':      function(data){ 
-      views.selfView.srcObject?.getTracks().forEach(track => track.stop());
-      views.remoteView.srcObject?.getTracks().forEach(track => track.stop());
       infoLb.innerText = "呼叫结束";
       callBtn.disabled = false;
       hangBtn.disabled = true;
@@ -254,13 +263,20 @@ function getLocalStream(setStream){
 
 //ui click cb
 regBtn.addEventListener('click', function(){
+  myPhone?.stop();
+
+  server.domain = srvInput.value;
+  server.wsServers = "ws://"+server.domain+":5066";
+
   user.disName = unameInput.value;
   user.name = unameInput.value;
   user.authName = unameInput.value;
-  user.password = upwdInput.value;
+  user.authPwd = upwdInput.value;
+
+  console.log(server, user);
 
   uaStart();
-  regBtn.disabled = true;
+  // regBtn.disabled = true;
 });
 
 callBtn.addEventListener('click', function(){
@@ -276,7 +292,8 @@ callBtn.addEventListener('click', function(){
       callOptions.mediaStream = localStream;  //U can choose different device to callout
       console.log(callOptions);
 
-      callSession =  myPhone.call('sip:'+callee+'@'+server.domain, callOptions);
+      var uri  = new JsSIP.URI('sip', callee, server.domain, server.sipPort);
+      callSession =  myPhone.call(uri.toAor(), callOptions);
       console.log('dial out:', callee);
       infoLb.innerText = "呼叫中...";
       callBtn.disabled = true;
@@ -299,4 +316,12 @@ vCallCheck.addEventListener('change', function(e){
     callOptions.mediaConstraints.video = false;
     answerOptions.mediaConstraints.video = false;
   }
+});
+
+window.addEventListener("beforeunload", function (e) {
+  if(callSession){
+    callSession.terminate();
+  }  
+  myPhone?.unregister();
+  myPhone?.stop();
 });
