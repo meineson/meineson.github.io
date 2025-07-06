@@ -1,17 +1,17 @@
 const server = {
-  domain: '172.21.2.210',
+  domain: '',   //172.21.2.210
   sipPort: 8060,
-  wsServers: 'wss://172.21.2.210:7443', //wss for https://, http://
-  // wsServers: 'ws://172.21.2.210:5066',  //ws for http://, only localhost work, or set chrome://flags#unsafely-treat-insecure-origin-as-secure=http://ip:port
-  // stunServer: 'stun:172.21.2.210:3478'
+  // wsServers: 'wss://172.21.2.210:7443', //wss for https://, http://
+  wsServers: '',  //ws://172.21.2.210:5066 ws for http://, only localhost work, or set chrome://flags#unsafely-treat-insecure-origin-as-secure=http://ip:port
+  // stunServer: '' //stun:172.21.2.210:3478
 };
 
 //default user
 const user = {
-    disName: '1000',
-    name: '1000',
-    authName: '1000',
-    authPwd: 'mbstudio',
+    disName: '',
+    name: '',
+    authName: '',
+    authPwd: '',
     regExpires: 180
 }
 
@@ -26,12 +26,14 @@ const calleeInput = document.getElementById("callee");
 const unameInput = document.getElementById("uname");
 const upwdInput = document.getElementById("upwd");
 const srvInput = document.getElementById("srvaddr");
+const wsInput = document.getElementById("wsaddr");
 const regBtn = document.getElementById('reg');
 const callBtn = document.getElementById('call');
 const hangBtn = document.getElementById('hangup');
 const infoLb = document.getElementById('status');
 
 var myPhone = null;
+var doReReg = false;
 var callSession = null;
 var remoteStream  = null;
 
@@ -67,6 +69,7 @@ function uaStart(){
     contact_uri: uri.toString(),  //fix freeswtich call bugs
     authorization_user: user.authName,
     password : user.authPwd,
+    register: true,
     register_expires: user.regExpires,
     connection_recovery_max_interval: 10,
     user_agent: 'MBWebPhone 1.0'
@@ -85,13 +88,19 @@ function uaStart(){
     callBtn.disabled = true;
     regBtn.disabled = false;
     console.log('disconnected');
+
+    if(doReReg){
+      console.log("do re-reg start");
+      uaStart();
+      doReReg = false;
+    }
   });
 
   //register state cb
   myPhone.on('registered', function(e){ 
     infoLb.innerText = server.domain+"注册在线";
     callBtn.disabled = false;
-    // regBtn.disabled = true;
+    regBtn.disabled = false;
     console.log('registered', e);
   });
   myPhone.on('unregistered', function(e){ 
@@ -263,20 +272,34 @@ function getLocalStream(setStream){
 
 //ui click cb
 regBtn.addEventListener('click', function(){
-  myPhone?.stop();
-
-  server.domain = srvInput.value;
-  server.wsServers = "ws://"+server.domain+":5066";
-
-  user.disName = unameInput.value;
-  user.name = unameInput.value;
-  user.authName = unameInput.value;
-  user.authPwd = upwdInput.value;
+  server.domain = srvInput.value.trim();
+  if(wsInput.value.trim() == ""){
+    server.wsServers = "ws://"+server.domain+":5066";
+    wsInput.value = server.wsServers;
+  }else{
+    server.wsServers = wsInput.value;
+  }
+  
+  user.disName = unameInput.value.trim();
+  user.name = unameInput.value.trim();
+  user.authName = unameInput.value.trim();
+  user.authPwd = upwdInput.value.trim();
 
   console.log(server, user);
 
-  uaStart();
-  // regBtn.disabled = true;
+  //jssip ua stop need wait disconnected msg
+  if(myPhone){
+    //do re-reg in disconnected cb
+    console.log("need re-reg");
+    doReReg = true;
+    //stop after do-re-reg flag set
+    myPhone?.stop();
+  }else{    
+    console.log("do reg");
+    uaStart();
+  }
+  
+  regBtn.disabled = true; //prevent dbl click
 });
 
 callBtn.addEventListener('click', function(){
@@ -319,9 +342,5 @@ vCallCheck.addEventListener('change', function(e){
 });
 
 window.addEventListener("beforeunload", function (e) {
-  if(callSession){
-    callSession.terminate();
-  }  
-  myPhone?.unregister();
   myPhone?.stop();
 });
