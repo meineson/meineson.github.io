@@ -85,7 +85,7 @@
 <li><input disabled="" type="checkbox"> 以及，开发一个友好美观的web功能界面或网页悬浮按钮通话插件。</li>
 </ul>
 <p>在线demo：<a href="https://mbstudio.cn/mbwebphone-demo">https://mbstudio.cn/mbwebphone-demo</a><br><small>提示：上述demo演示只有web部署，依然会在你的本地局域网172.21.2.210地址上去找freeswitch连接wss。</small><br>源码：<a target="_blank" rel="noopener" href="https://github.com/meineson/mbwebphone">https://github.com/meineson/mbwebphone</a> </p>
-<p><img src="/images/2025-07-07-16-22-28.png" alt="image"><br><img src="/images/2025-07-07-16-22-36.png" alt="image"></p>
+<p><img src="/images/2025-07-07-16-22-28.png" alt="image"><br><img src="/images/2025-07-07-16-22-36.png" alt="image"><br><img src="/images/2025-07-07-16-43-09.png" alt="image"></p>
 <blockquote>
 <p>注意：如果是直接打开html文件方式进行开发调试，浏览器每次都会弹屏申请摄像头、麦克风权限。<br>如果以localhost或局域网IP方式，以http方式部署web服务开发调试，chrome系浏览器会提示不安全站点，并禁止打开摄像头、麦克风。<br>需要手动启用参数，例如：<code>chrome://flags#unsafely-treat-insecure-origin-as-secure=http://172.21.2.203:4444,http://localhost:4444</code> 才能使特定站点（你的局域网web服务地址，精确到端口）在http协议下能够取得多媒体设备权限。并且，此时你可以不使用wss而是ws了，例如修改mbphone.js中的<code>wsServers: &#39;ws://172.21.2.210:5066&#39;</code> 使用freeswitch的ws端口进行sip websocket通信，为下一篇文章开发客户端程序埋下伏笔。<br>如果局域网内以https方式部署web服务开发调试，由于ssl证书一般都是自签发的浏览器不认，需要在浏览器手动忽略警告继续访问（包括web服务端口和wss两个端口）。</p>
 </blockquote>
