@@ -1,0 +1,202 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="MEINESON,meineson@gmail.com"><title> · MBSTUDIO</title><meta name="description" content="MBWebPhone 媒体设备配置  
+  
+    .regdiv{
+      display: flex;
+      flex-direction:column;
+      align-items:center;
+      width: 100%;
+      justify-conte"><meta name="keywords" content="mbstudio,ICT,RCS,Deep Learning,Digital Twin,AIGC"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 7.3.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">MBSTUDIO</a></h3><div class="description"><p>魔瓶工作室 since 2001 /RCS OS IOT AI DigitalTwin/</p></div></div></div><ul class="social-links"><li><a href="mailto:meineson@gmail.com"><i class="fa fa-envelope">         </i></a></li><li><a target="_blank" rel="noopener" href="https://weibo.com/meineson"><i class="fa fa-weibo"></i></a></li><li><a target="_blank" rel="noopener" href="http://github.com/meineson"><i class="fa fa-github"></i></a></li></ul><div class="footer"></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)" style="display:none;"> </a></li></div><div class="avatar"><img src="/images/me.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a></a></h3></div><div class="post-content"><!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MBWebPhone 媒体设备配置</title>  
+  <style>
+    .regdiv{
+      display: flex;
+      flex-direction:column;
+      align-items:center;
+      width: 100%;
+      justify-content: center;  
+      gap: 5px;
+    }    
+    .radio-group {
+      display: block;
+    }
+    .main{
+      margin: 30px;
+      display: flex;
+      flex-direction:column;
+      align-items:center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="regdiv" id="regdiv">
+    <h3>SIP账号配置：</h3>
+    <input type="text" placeholder="IP / Domain" id="srvaddr"></input>
+    <input type="text" placeholder="[ws|wss]://ip:port空白自动" value="" id="wsaddr"></input>
+    <input type="text" placeholder="sip号码" value="" text="d" id="uname"></input>
+    <input type="password" placeholder="sip密码" value="" id="upwd"></input>
+  </div>    
+  <div class="main">
+    <h3>音频输入设备：</h3>
+    <div class="radio-group" id="aidev">      
+    </div>
+    <h3>音频输出设备：</h3>
+    <div class="radio-group" id="aodev">      
+    </div>
+    <h3>视频输入设备：</h3>
+    <div class="radio-group" id="videv">      
+    </div>
+    <div>
+      </br>
+      <label style="color: red;" id="alert"></label></br>
+      <button id="saveconfig" style="font-weight: bolder;font-size: larger;">💾 保存</button>
+      <button id="cancel" style="font-weight: bolder;font-size: larger;">✖️ 取消</button>
+    </div>
+  </div>
+
+  <script>
+    var deviceConfig = {audioin:'default', audioout:'default', videoin:'desktop'};
+    var server = {
+      domain: '',
+      sipPort: 8060,
+      wsServers: '',  
+    };
+    var user = {
+        disName: '',
+        name: '',
+        authName: '',
+        authPwd: '',
+        regExpires: 180,
+        lastCallee: ''
+    }    
+
+    //read config or use default
+    if(localStorage.getItem('user')){
+      user = JSON.parse(localStorage.getItem('user'))
+    }
+    if(localStorage.getItem('server')){
+      server = JSON.parse(localStorage.getItem('server'))
+    }    
+    if(localStorage.getItem('devices')){
+      deviceConfig = JSON.parse(localStorage.getItem('devices'))
+    }
+    console.log("config readed:", user, server, deviceConfig);  
+
+    const unameInput = document.getElementById("uname");
+    const upwdInput = document.getElementById("upwd");
+    const srvInput = document.getElementById("srvaddr");
+    const wsInput = document.getElementById("wsaddr");
+    srvInput.value = server.domain;
+    wsInput.value = server.wsServers;
+    unameInput.value = user.name;
+    upwdInput.value = user.authPwd;
+
+    function saveConfig(){
+      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('server', JSON.stringify(server)); 
+      localStorage.setItem('devices', JSON.stringify(deviceConfig));
+      console.log("config saved:", user, server, deviceConfig);  
+    }
+    
+    function buildDeviceOption(device){
+      var radioElm;
+      var rid = device.deviceId;
+      if(device.deviceId === ""){       
+        radioElm = `<input type='radio' id='${device.kind}-default' name='${device.kind}' value='default'>`;
+        radioElm += `<label for='${device.kind}-default'>默认设备（系统隐私保护）</label></input></br>`;
+      }else{
+        radioElm = `<input type='radio' id='${device.kind}-${rid}' name='${device.kind}' value='${device.deviceId}'>`;
+        radioElm += `<label for='${device.kind}-${rid}'>${device.label}</label></input></br>`;
+      }
+      return radioElm;
+    }
+
+    if(!navigator.mediaDevices){
+      alert("浏览器无法打开音视频设备，请以https://或file://方式访问。");
+      infoLb.innerText = '无法打开设备，无法呼叫';
+    }
+
+    navigator.mediaDevices.getUserMedia({audio:true, video:false})
+    .then(stream => {
+      navigator.mediaDevices?.enumerateDevices()
+      .then(devices => {
+        devices.forEach(device => {
+          console.log(`${device.kind}: ${device.label} (ID: ${device.deviceId})`);
+          if(device.kind === 'audioinput'){
+            document.getElementById("aidev").innerHTML += buildDeviceOption(device);
+          }else if(device.kind === 'audiooutput'){
+            document.getElementById("aodev").innerHTML += buildDeviceOption(device);
+          }else if(device.kind === 'videoinput'){
+            document.getElementById("videv").innerHTML += buildDeviceOption(device);
+          }
+        });
+        
+        //add desktop share video input
+        document.getElementById("videv").innerHTML += 
+          buildDeviceOption({kind:"videoinput", label:"桌面分享", deviceId:"desktop"})      
+      }).then(()=>{
+        //update ui select
+        try{
+          document.getElementById("audioinput-"+deviceConfig.audioin).checked = true;
+          document.getElementById("audiooutput-"+deviceConfig.audioout).checked = true;
+          document.getElementById("videoinput-"+deviceConfig.videoin).checked = true;
+        }catch{
+          document.getElementById("alert").innerHTML = "本机设备有变化，请重新选择，以免呼叫失败。";
+        }
+      }); 
+            
+      stream.getTracks().forEach(track => track.stop());
+    })
+    .catch(error => {
+      alert("没有可用的音视频设备，或未授权访问！");
+    });         
+
+    document.getElementById("saveconfig").addEventListener('click', function(){
+      server.domain = srvInput.value.trim();
+      if(wsInput.value.trim() == ""){
+        server.wsServers = "ws://"+server.domain+":5066";
+        wsInput.value = server.wsServers;
+      }else{
+        server.wsServers = wsInput.value;
+      }
+      
+      user.disName = unameInput.value.trim();
+      user.name = unameInput.value.trim();
+      user.authName = unameInput.value.trim();
+      user.authPwd = upwdInput.value.trim();
+      
+      document.getElementsByName("audioinput").forEach(item => {
+        if(item.checked) {
+          console.log(item.id);
+          deviceConfig.audioin = item.id.split("-")[1];
+        }
+      });
+      document.getElementsByName("audiooutput").forEach(item => {
+        if(item.checked) {
+          console.log(item.id);
+          deviceConfig.audioout = item.id.split("-")[1];
+        }
+      });
+      document.getElementsByName("videoinput").forEach(item => {
+        if(item.checked) {
+          console.log(item.id);
+          deviceConfig.videoin = item.id.split("-")[1];
+        }
+      });
+
+      saveConfig();
+      document.getElementById("alert").innerHTML = "设备选择已保存。";
+      history.back();
+    })
+
+    document.getElementById("cancel").addEventListener('click', function(){
+      history.back();
+    });
+  </script>
+</body>
+</html></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2025-07-12</span></div></div></div></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/baidu.js"> </script></body></html>

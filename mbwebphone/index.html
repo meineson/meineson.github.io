@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="MEINESON,meineson@gmail.com"><title> · MBSTUDIO</title><meta name="description" content="MBWebPhone
+
+
+
+  
+    
+      
+        Your browser doesn't support HTML5 video.
+      
+      
+        
+          Your browser doesn't support HTML5 vid"><meta name="keywords" content="mbstudio,ICT,RCS,Deep Learning,Digital Twin,AIGC"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 7.3.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">MBSTUDIO</a></h3><div class="description"><p>魔瓶工作室 since 2001 /RCS OS IOT AI DigitalTwin/</p></div></div></div><ul class="social-links"><li><a href="mailto:meineson@gmail.com"><i class="fa fa-envelope">         </i></a></li><li><a target="_blank" rel="noopener" href="https://weibo.com/meineson"><i class="fa fa-weibo"></i></a></li><li><a target="_blank" rel="noopener" href="http://github.com/meineson"><i class="fa fa-github"></i></a></li></ul><div class="footer"></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)" style="display:none;"> </a></li></div><div class="avatar"><img src="/images/me.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a></a></h3></div><div class="post-content"><!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="./mbweb.css" />
+  <script src="./jssip-3.10.0.min.js"></script>
+  <title>MBWebPhone</title>
+</head>
+
+<body>
+  <div class="content">
+    <div class="video" id="vdiv">
+      <video id="remote-video" width="100%" autoplay visible>
+        <p>Your browser doesn't support HTML5 video.</p>
+      </video>
+      <div class="video-local" id="lvdiv">
+        <video id="local-video" width="100%" autoplay>
+          <p>Your browser doesn't support HTML5 video.</p>
+        </video>
+      </div>
+    </div> 
+    
+    <div class="infobox" id="infobox">
+      <div id="callerdiv" class="caller">
+        <label id="alertmsg"></label>
+        <button id="vcallanswer" class="btn"><img src="vcall.svg" width="48px"></button>
+        <button id="callanswer" class="btn"><img src="acall.svg" width="48px"></button>        
+        <button id="reject" class="btn"><img src="hang.svg" width="48px"></button> 
+      </div>
+
+      <div id="calleediv" class="callee">        
+        <input type="text" style="font-size: xx-large;text-align:center;margin: 5px;"
+          placeholder="被叫号码" autofocus size="8" id="callee"></input>
+        <input type="checkbox" id="vcallcheck" checked hidden></input>
+        <button id="vcall" disabled class="btn"><img src="vcall.svg" width="48px"></button>        
+        <button id="call" disabled class="btn"><img src="acall.svg" width="48px"></button>        
+      </div>
+    </div>    
+    <div class="statusbox" id="regdiv">
+      <div style="display: flex;margin-left: 10px;gap:5px;align-items: center;">
+        <label id="regstat">⚠️ 等待注册</label>                
+      </div>
+      <div style="margin-right: 10px;color: bisque;">
+        <label id="status"></label>
+      </div>      
+    </div>    
+    <div id="callctrl" class="callctrl">
+      <button id="hangup"  class="btn"><img src="hang.svg" width="40px"></button> 
+      <button id="micctrl"  class="btn"><img src="mic.svg" width="25px"></button>
+      <button id="camctrl"  class="btn"><img src="cam.svg" width="25px"></button>      
+    </div>  
+    <div class="msgbtn">
+      <label for="eMsg"><img src="msg.svg" width="32px"></label>
+      <input type="checkbox" id="eMsg" hidden></input>        
+    </div>       
+    <div class="msg">  
+      <textarea id="msgbox" rows="10" cols="30" readonly hidden placeholder="暂无消息"
+        style="background: #000;color: white;opacity: 0.8;" ></textarea>      
+      <input type="text" placeholder="文本消息，Enter发送" hidden disabled
+        maxlength="70" value="" size="25" id="msg"></input>
+    </div>    
+    <div style="position: fixed;bottom: 5px;right: 5px;z-index:1;">
+      <a href="config.html" target="_self">⚙️ 配置</a>
+      <a href="#" onclick=showVersion()>❔关于</a>
+    </div> 
+  </div>
+  <script src="./mbphone.js"></script>
+</body>
+</html></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2025-07-12</span></div></div></div></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/baidu.js"> </script></body></html>

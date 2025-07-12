@@ -1,3 +1,5 @@
+https://mbstudio.cn/mbwebphone/index.html
+https://mbstudio.cn/mbwebphone/config.html
 https://mbstudio.cn/wertc_no_id/
 https://mbstudio.cn/webrtc_sip_phone/
 https://mbstudio.cn/sipphone/
