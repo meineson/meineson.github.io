@@ -1,3 +1,4 @@
+https://mbstudio.cn/think_about_ai/
 https://mbstudio.cn/webrtc_qa/
 https://mbstudio.cn/electron_vaapi_docker/
 https://mbstudio.cn/chromium_vaapi/
@@ -43,3 +44,4 @@ https://mbstudio.cn/tags/webrtc/
 https://mbstudio.cn/tags/%E6%B5%81%E5%AA%92%E4%BD%93%E6%8A%80%E6%9C%AF/
 https://mbstudio.cn/tags/Docker/
 https://mbstudio.cn/tags/Linux/
+https://mbstudio.cn/tags/AI/

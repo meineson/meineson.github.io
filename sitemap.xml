@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://mbstudio.cn/think_about_ai/</loc>
+    
+    <lastmod>2026-01-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://mbstudio.cn/webrtc_qa/</loc>
     
     <lastmod>2025-11-13</lastmod>
@@ -274,7 +283,7 @@
 
   <url>
     <loc>https://mbstudio.cn/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2026-01-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -282,98 +291,105 @@
   
   <url>
     <loc>https://mbstudio.cn/tags/%E8%9E%8D%E5%90%88%E9%80%9A%E4%BF%A1/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2026-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://mbstudio.cn/tags/%E8%A1%8C%E4%B8%9A%E8%AF%84%E8%AE%BA/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2026-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://mbstudio.cn/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2026-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://mbstudio.cn/tags/%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2026-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://mbstudio.cn/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2026-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://mbstudio.cn/tags/Windows%E5%BC%80%E5%8F%91/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2026-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://mbstudio.cn/tags/%E7%89%A9%E8%81%94%E7%BD%91/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2026-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://mbstudio.cn/tags/%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2026-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://mbstudio.cn/tags/sip/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2026-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://mbstudio.cn/tags/%E6%99%BA%E8%83%BD%E7%A9%BF%E6%88%B4/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2026-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://mbstudio.cn/tags/webrtc/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2026-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://mbstudio.cn/tags/%E6%B5%81%E5%AA%92%E4%BD%93%E6%8A%80%E6%9C%AF/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2026-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://mbstudio.cn/tags/Docker/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2026-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://mbstudio.cn/tags/Linux/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2026-01-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://mbstudio.cn/tags/AI/</loc>
+    <lastmod>2026-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
