@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>视频会议 - 连接会议</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #11141a;
+      color: #f2f2f2;
+      overflow: hidden;
+    }
+
+    /* 主容器 - 自适应全屏 */
+    .app-container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      min-width: 320px;
+      min-height: 480px;
+    }
+
+    /* 顶部导航栏 - 固定高度 */
+    .header {
+      width: 100%;
+      height: 56px;
+      min-height: 56px;
+      background: #101319;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(12px, 2vw, 24px);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: clamp(12px, 2vw, 24px);
+    }
+
+    .logo {
+      font-size: clamp(16px, 1.5vw, 20px);
+      font-weight: 700;
+      color: #f2f2f2;
+      white-space: nowrap;
+    }
+
+    .meeting-id {
+      font-size: clamp(12px, 1vw, 14px);
+      color: #999999;
+      white-space: nowrap;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .call-duration {
+      font-size: clamp(12px, 1vw, 14px);
+      font-weight: 500;
+      color: #44cc66;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .call-duration::before {
+      content: '●';
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* 主内容区 - 自适应剩余高度 */
+    .main-content {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 56px - 100px);
+      overflow: hidden;
+    }
+
+    /* 视频区域 - 自适应比例 75% */
+    .video-area {
+      flex: 1;
+      min-width: 0;
+      background: #0c0f14;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(8px, 2vw, 24px) clamp(12px, 2vw, 26px);
+    }
+
+    /* 主视频 - 自适应剩余空间 */
+    .main-video {
+      flex: 1;
+      min-height: 0;
+      background: linear-gradient(90deg, #664d33 0%, #33261a 100%);
+      border-radius: clamp(6px, 1vw, 12px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 本地视频预览 - 响应式尺寸 */
+    .local-preview {
+      position: absolute;
+      top: clamp(8px, 2vh, 20px);
+      right: clamp(8px, 2vw, 20px);
+      width: clamp(160px, 22vw, 320px);
+      height: clamp(90px, 12.4vw, 180px);
+      background: linear-gradient(90deg, #26404d 0%, #0d1a26 100%);
+      border: 2px solid #44cc66;
+      border-radius: clamp(6px, 1vw, 12px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .local-avatar {
+      width: clamp(30px, 4vw, 60px);
+      height: clamp(30px, 4vw, 60px);
+      border-radius: 50%;
+      background: rgba(64, 89, 102, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(12px, 1.5vw, 24px);
+    }
+
+    .local-status {
+      display: flex;
+      gap: clamp(4px, 0.5vw, 8px);
+      margin-top: clamp(4px, 0.5vw, 8px);
+    }
+
+    .status-badge {
+      width: clamp(18px, 1.8vw, 24px);
+      height: clamp(15px, 1.4vw, 20px);
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(242, 242, 242, 0.3);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(8px, 0.8vw, 12px);
+    }
+
+    .local-name {
+      position: absolute;
+      bottom: clamp(6px, 1vh, 15px);
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: clamp(10px, 1.1vw, 16px);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    /* 远程用户头像 */
+    .remote-avatar {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .remote-avatar-circle {
+      width: clamp(60px, 8vw, 120px);
+      height: clamp(60px, 8vw, 120px);
+      border-radius: 50%;
+      background: rgba(77, 102, 128, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(25px, 3.5vw, 50px);
+    }
+
+    /* 说话者名称 */
+    .speaker-badge {
+      position: absolute;
+      bottom: clamp(12px, 2vh, 24px);
+      left: clamp(20px, 3vw, 40px);
+      background: rgba(0, 0, 0, 0.7);
+      padding: clamp(4px, 0.5vw, 8px) clamp(10px, 1.4vw, 20px);
+      border-radius: clamp(4px, 0.5vw, 8px);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .speaker-name {
+      font-size: clamp(12px, 1.1vw, 16px);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    /* 状态徽章 */
+    .status-badges {
+      position: absolute;
+      bottom: clamp(12px, 1.5vh, 20px);
+      left: clamp(20px, 3vw, 40px);
+      display: flex;
+      gap: clamp(4px, 0.5vw, 8px);
+    }
+
+    .status-badge-lg {
+      width: clamp(24px, 2.5vw, 36px);
+      height: clamp(18px, 2vw, 28px);
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(242, 242, 242, 0.3);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(10px, 1.1vw, 16px);
+    }
+
+    /* 参与者缩略图 - 响应式高度 */
+    .participants-bar {
+      height: clamp(50px, 6vh, 72px);
+      min-height: 50px;
+      background: #101319;
+      display: flex;
+      align-items: center;
+      gap: clamp(8px, 1vw, 16px);
+      padding: 0 clamp(4px, 0.5vw, 8px);
+      margin-top: clamp(8px, 1vh, 16px);
+      overflow-x: auto;
+      flex-shrink: 0;
+    }
+
+    .participant-thumb {
+      width: clamp(60px, 7vw, 100px);
+      height: clamp(40px, 5vh, 56px);
+      min-width: 60px;
+      background: #191e26;
+      border-radius: clamp(4px, 0.5vw, 8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(12px, 1.2vw, 18px);
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .participant-thumb.active {
+      border: 2px solid #44cc66;
+    }
+
+    .participant-thumb:hover {
+      background: #232a36;
+    }
+
+    .more-participants {
+      font-size: clamp(10px, 0.8vw, 12px);
+      font-weight: 500;
+      color: #f2f2f2;
+      margin-left: 8px;
+      white-space: nowrap;
+    }
+
+    /* 侧边栏 - 固定比例 25% */
+    .sidebar {
+      width: clamp(280px, 25vw, 400px);
+      min-width: 280px;
+      background: #101319;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      padding: clamp(12px, 1.5vw, 20px) clamp(16px, 1.7vw, 24px);
+      font-size: clamp(14px, 1.2vw, 18px);
+      font-weight: 600;
+    }
+
+    /* 聊天消息 */
+    .chat-messages {
+      flex: 1;
+      background: #13171e;
+      padding: clamp(8px, 1.1vw, 16px);
+      overflow-y: auto;
+      min-height: 0;
+    }
+
+    .message {
+      background: #191e26;
+      border-radius: clamp(4px, 0.5vw, 8px);
+      padding: clamp(8px, 0.8vw, 12px) clamp(10px, 1.1vw, 16px);
+      margin-bottom: 8px;
+    }
+
+    .message-sender {
+      font-size: clamp(11px, 0.9vw, 13px);
+      font-weight: 600;
+      color: #f2f2f2;
+      margin-bottom: 4px;
+    }
+
+    .message-text {
+      font-size: clamp(10px, 0.8vw, 12px);
+      color: #b3b3b3;
+    }
+
+    /* 消息输入 */
+    .message-input-container {
+      background: #191e26;
+      border: 1px solid #404040;
+      border-radius: clamp(4px, 0.5vw, 8px);
+      margin: clamp(8px, 1.1vw, 16px);
+      padding: 0 clamp(10px, 1.1vw, 16px);
+      height: clamp(32px, 3.5vh, 40px);
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .message-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #f2f2f2;
+      font-size: clamp(12px, 1vw, 14px);
+    }
+
+    .message-input::placeholder {
+      color: #808080;
+    }
+
+    /* 控制栏 - 固定高度 */
+    .control-bar {
+      width: 100%;
+      height: 100px;
+      min-height: 80px;
+      background: #13171e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .control-buttons {
+      display: flex;
+      align-items: center;
+      gap: clamp(4px, 0.5vw, 8px);
+      background: #28303c;
+      padding: clamp(4px, 0.5vw, 8px);
+      border-radius: clamp(6px, 0.8vw, 12px);
+    }
+
+    .control-btn {
+      width: clamp(36px, 3.5vw, 48px);
+      height: clamp(36px, 3.5vw, 48px);
+      background: #404040;
+      border: none;
+      border-radius: clamp(4px, 0.5vw, 8px);
+      font-size: clamp(14px, 1.4vw, 20px);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .control-btn:hover {
+      background: #505050;
+      transform: scale(1.05);
+    }
+
+    .control-btn.active {
+      background: #44cc66;
+    }
+
+    .control-btn.muted {
+      background: #d91a66;
+    }
+
+    .end-call-btn {
+      width: clamp(56px, 5.5vw, 80px);
+      height: clamp(36px, 3.5vw, 48px);
+      background: #d91a66;
+      border: none;
+      border-radius: clamp(4px, 0.5vw, 8px);
+      color: #f2f2f2;
+      font-size: clamp(11px, 1vw, 14px);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-left: clamp(4px, 0.5vw, 8px);
+    }
+
+    .end-call-btn:hover {
+      background: #e91e72;
+      transform: scale(1.05);
+    }
+
+    /* 响应式断点 */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 240px;
+        min-width: 240px;
+      }
+
+      .meeting-id {
+        display: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        min-width: 100%;
+        max-height: 35vh;
+      }
+
+      .video-area {
+        max-height: 65vh;
+      }
+
+      .local-preview {
+        width: 120px;
+        height: 68px;
+        top: 8px;
+        right: 8px;
+      }
+
+      .control-bar {
+        height: 80px;
+        min-height: 70px;
+      }
+
+      .main-content {
+        height: calc(100vh - 56px - 80px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header {
+        padding: 0 12px;
+      }
+
+      .header-left {
+        gap: 8px;
+      }
+
+      .logo {
+        font-size: 14px;
+      }
+
+      .control-buttons {
+        gap: 2px;
+        padding: 4px;
+      }
+
+      .control-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+      }
+
+      .end-call-btn {
+        width: 50px;
+        height: 32px;
+        font-size: 10px;
+      }
+    }
+
+    /* Alpine.js 过渡动画 */
+    [x-cloak] { display: none !important; }
+  </style>
+  <script type="module" crossorigin src="/assets/index-CoaMUmDn.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-B6QZnBSm.css">
+</head>
+<body x-data="videoConferenceApp()" x-cloak>
+  <div class="app-container">
+    <!-- 顶部导航栏 -->
+    <header class="header">
+      <div class="header-left">
+        <div class="logo">🔗 连接会议</div>
+        <div class="meeting-id">会议号: <span x-text="meetingId"></span></div>
+      </div>
+      <div class="header-right">
+        <div class="call-duration" x-text="formatTime(callDuration)"></div>
+      </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <div class="main-content">
+      <!-- 视频区域 -->
+      <div class="video-area">
+        <!-- 主视频 -->
+        <div class="main-video">
+          <!-- 远程用户头像 -->
+          <div class="remote-avatar">
+            <div class="remote-avatar-circle">
+              👤
+            </div>
+          </div>
+
+          <!-- 本地视频预览 -->
+          <div class="local-preview">
+            <div class="local-avatar">👤</div>
+            <div class="local-status">
+              <div class="status-badge" :class="micMuted ? 'muted' : ''">
+                <span x-text="micMuted ? '🔇' : '🎤'"></span>
+              </div>
+              <div class="status-badge" :class="cameraOff ? 'muted' : ''">
+                <span x-text="cameraOff ? '📵' : '📷'"></span>
+              </div>
+            </div>
+            <div class="local-name">我</div>
+          </div>
+
+          <!-- 说话者名称 -->
+          <div class="speaker-badge">
+            <span class="speaker-name">👤 <span x-text="currentSpeaker"></span></span>
+          </div>
+
+          <!-- 状态徽章 -->
+          <div class="status-badges">
+            <div class="status-badge-lg">🎤</div>
+            <div class="status-badge-lg">📷</div>
+          </div>
+        </div>
+
+        <!-- 参与者缩略图 -->
+        <div class="participants-bar">
+          <template x-for="(participant, index) in participants" :key="participant.id">
+            <div class="participant-thumb" :class="{'active': participant.speaking}">
+              <span x-text="'👤'"></span>
+            </div>
+          </template>
+          <div class="more-participants" x-show="participants.length > 5">
+            +<span x-text="participants.length - 5"></span> 人
+          </div>
+        </div>
+      </div>
+
+      <!-- 侧边栏 -->
+      <aside class="sidebar">
+        <div class="sidebar-header">💬 聊天</div>
+
+        <!-- 聊天消息 -->
+        <div class="chat-messages">
+          <template x-for="message in messages" :key="message.id">
+            <div class="message">
+              <div class="message-sender" x-text="message.sender"></div>
+              <div class="message-text" x-text="message.text"></div>
+            </div>
+          </template>
+        </div>
+
+        <!-- 消息输入 -->
+        <div class="message-input-container">
+          <input type="text"
+                 class="message-input"
+                 placeholder="输入消息..."
+                 x-model="newMessage"
+                 @keyup.enter="sendMessage">
+        </div>
+      </aside>
+    </div>
+
+    <!-- 控制栏 -->
+    <div class="control-bar">
+      <div class="control-buttons">
+        <button class="control-btn" :class="micMuted ? 'muted' : ''" @click="toggleMic" title="麦克风">
+          <span x-text="micMuted ? '🔇' : '🎤'"></span>
+        </button>
+        <button class="control-btn" :class="cameraOff ? 'muted' : ''" @click="toggleCamera" title="摄像头">
+          <span x-text="cameraOff ? '📵' : '📷'"></span>
+        </button>
+        <button class="control-btn" :class="screenSharing ? 'active' : ''" @click="toggleScreenShare" title="屏幕共享">
+          <span x-text="screenSharing ? '🖥️' : '🖥️'"></span>
+        </button>
+        <button class="control-btn" title="聊天">
+          💬
+        </button>
+        <button class="control-btn" title="参与者">
+          👥
+        </button>
+        <button class="end-call-btn" @click="endCall">结束</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
