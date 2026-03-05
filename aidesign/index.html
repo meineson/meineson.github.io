@@ -5,580 +5,108 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>视频会议 - 连接会议</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      height: 100%;
-      width: 100%;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #11141a;
-      color: #f2f2f2;
-      overflow: hidden;
-    }
-
-    /* 主容器 - 自适应全屏 */
-    .app-container {
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      min-width: 320px;
-      min-height: 480px;
-    }
-
-    /* 顶部导航栏 - 固定高度 */
-    .header {
-      width: 100%;
-      height: 56px;
-      min-height: 56px;
-      background: #101319;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 clamp(12px, 2vw, 24px);
-    }
-
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: clamp(12px, 2vw, 24px);
-    }
-
-    .logo {
-      font-size: clamp(16px, 1.5vw, 20px);
-      font-weight: 700;
-      color: #f2f2f2;
-      white-space: nowrap;
-    }
-
-    .meeting-id {
-      font-size: clamp(12px, 1vw, 14px);
-      color: #999999;
-      white-space: nowrap;
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .call-duration {
-      font-size: clamp(12px, 1vw, 14px);
-      font-weight: 500;
-      color: #44cc66;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      white-space: nowrap;
-    }
-
-    .call-duration::before {
-      content: '●';
-      animation: pulse 1.5s ease-in-out infinite;
-    }
-
     @keyframes pulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.5; }
     }
-
-    /* 主内容区 - 自适应剩余高度 */
-    .main-content {
-      display: flex;
-      flex: 1;
-      height: calc(100vh - 56px - 100px);
-      overflow: hidden;
-    }
-
-    /* 视频区域 - 自适应比例 75% */
-    .video-area {
-      flex: 1;
-      min-width: 0;
-      background: #0c0f14;
-      display: flex;
-      flex-direction: column;
-      padding: clamp(8px, 2vw, 24px) clamp(12px, 2vw, 26px);
-    }
-
-    /* 主视频 - 自适应剩余空间 */
-    .main-video {
-      flex: 1;
-      min-height: 0;
-      background: linear-gradient(90deg, #664d33 0%, #33261a 100%);
-      border-radius: clamp(6px, 1vw, 12px);
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* 本地视频预览 - 响应式尺寸 */
-    .local-preview {
-      position: absolute;
-      top: clamp(8px, 2vh, 20px);
-      right: clamp(8px, 2vw, 20px);
-      width: clamp(160px, 22vw, 320px);
-      height: clamp(90px, 12.4vw, 180px);
-      background: linear-gradient(90deg, #26404d 0%, #0d1a26 100%);
-      border: 2px solid #44cc66;
-      border-radius: clamp(6px, 1vw, 12px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .local-avatar {
-      width: clamp(30px, 4vw, 60px);
-      height: clamp(30px, 4vw, 60px);
-      border-radius: 50%;
-      background: rgba(64, 89, 102, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: clamp(12px, 1.5vw, 24px);
-    }
-
-    .local-status {
-      display: flex;
-      gap: clamp(4px, 0.5vw, 8px);
-      margin-top: clamp(4px, 0.5vw, 8px);
-    }
-
-    .status-badge {
-      width: clamp(18px, 1.8vw, 24px);
-      height: clamp(15px, 1.4vw, 20px);
-      background: rgba(0, 0, 0, 0.6);
-      border: 1px solid rgba(242, 242, 242, 0.3);
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: clamp(8px, 0.8vw, 12px);
-    }
-
-    .local-name {
-      position: absolute;
-      bottom: clamp(6px, 1vh, 15px);
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: clamp(10px, 1.1vw, 16px);
-      font-weight: 500;
-      white-space: nowrap;
-    }
-
-    /* 远程用户头像 */
-    .remote-avatar {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .remote-avatar-circle {
-      width: clamp(60px, 8vw, 120px);
-      height: clamp(60px, 8vw, 120px);
-      border-radius: 50%;
-      background: rgba(77, 102, 128, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: clamp(25px, 3.5vw, 50px);
-    }
-
-    /* 说话者名称 */
-    .speaker-badge {
-      position: absolute;
-      bottom: clamp(12px, 2vh, 24px);
-      left: clamp(20px, 3vw, 40px);
-      background: rgba(0, 0, 0, 0.7);
-      padding: clamp(4px, 0.5vw, 8px) clamp(10px, 1.4vw, 20px);
-      border-radius: clamp(4px, 0.5vw, 8px);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .speaker-name {
-      font-size: clamp(12px, 1.1vw, 16px);
-      font-weight: 500;
-      white-space: nowrap;
-    }
-
-    /* 状态徽章 */
-    .status-badges {
-      position: absolute;
-      bottom: clamp(12px, 1.5vh, 20px);
-      left: clamp(20px, 3vw, 40px);
-      display: flex;
-      gap: clamp(4px, 0.5vw, 8px);
-    }
-
-    .status-badge-lg {
-      width: clamp(24px, 2.5vw, 36px);
-      height: clamp(18px, 2vw, 28px);
-      background: rgba(0, 0, 0, 0.6);
-      border: 1px solid rgba(242, 242, 242, 0.3);
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: clamp(10px, 1.1vw, 16px);
-    }
-
-    /* 参与者缩略图 - 响应式高度 */
-    .participants-bar {
-      height: clamp(50px, 6vh, 72px);
-      min-height: 50px;
-      background: #101319;
-      display: flex;
-      align-items: center;
-      gap: clamp(8px, 1vw, 16px);
-      padding: 0 clamp(4px, 0.5vw, 8px);
-      margin-top: clamp(8px, 1vh, 16px);
-      overflow-x: auto;
-      flex-shrink: 0;
-    }
-
-    .participant-thumb {
-      width: clamp(60px, 7vw, 100px);
-      height: clamp(40px, 5vh, 56px);
-      min-width: 60px;
-      background: #191e26;
-      border-radius: clamp(4px, 0.5vw, 8px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: clamp(12px, 1.2vw, 18px);
-      cursor: pointer;
-      transition: all 0.2s;
-      flex-shrink: 0;
-    }
-
-    .participant-thumb.active {
-      border: 2px solid #44cc66;
-    }
-
-    .participant-thumb:hover {
-      background: #232a36;
-    }
-
-    .more-participants {
-      font-size: clamp(10px, 0.8vw, 12px);
-      font-weight: 500;
-      color: #f2f2f2;
-      margin-left: 8px;
-      white-space: nowrap;
-    }
-
-    /* 侧边栏 - 固定比例 25% */
-    .sidebar {
-      width: clamp(280px, 25vw, 400px);
-      min-width: 280px;
-      background: #101319;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .sidebar-header {
-      padding: clamp(12px, 1.5vw, 20px) clamp(16px, 1.7vw, 24px);
-      font-size: clamp(14px, 1.2vw, 18px);
-      font-weight: 600;
-    }
-
-    /* 聊天消息 */
-    .chat-messages {
-      flex: 1;
-      background: #13171e;
-      padding: clamp(8px, 1.1vw, 16px);
-      overflow-y: auto;
-      min-height: 0;
-    }
-
-    .message {
-      background: #191e26;
-      border-radius: clamp(4px, 0.5vw, 8px);
-      padding: clamp(8px, 0.8vw, 12px) clamp(10px, 1.1vw, 16px);
-      margin-bottom: 8px;
-    }
-
-    .message-sender {
-      font-size: clamp(11px, 0.9vw, 13px);
-      font-weight: 600;
-      color: #f2f2f2;
-      margin-bottom: 4px;
-    }
-
-    .message-text {
-      font-size: clamp(10px, 0.8vw, 12px);
-      color: #b3b3b3;
-    }
-
-    /* 消息输入 */
-    .message-input-container {
-      background: #191e26;
-      border: 1px solid #404040;
-      border-radius: clamp(4px, 0.5vw, 8px);
-      margin: clamp(8px, 1.1vw, 16px);
-      padding: 0 clamp(10px, 1.1vw, 16px);
-      height: clamp(32px, 3.5vh, 40px);
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
-    }
-
-    .message-input {
-      flex: 1;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: #f2f2f2;
-      font-size: clamp(12px, 1vw, 14px);
-    }
-
-    .message-input::placeholder {
-      color: #808080;
-    }
-
-    /* 控制栏 - 固定高度 */
-    .control-bar {
-      width: 100%;
-      height: 100px;
-      min-height: 80px;
-      background: #13171e;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .control-buttons {
-      display: flex;
-      align-items: center;
-      gap: clamp(4px, 0.5vw, 8px);
-      background: #28303c;
-      padding: clamp(4px, 0.5vw, 8px);
-      border-radius: clamp(6px, 0.8vw, 12px);
-    }
-
-    .control-btn {
-      width: clamp(36px, 3.5vw, 48px);
-      height: clamp(36px, 3.5vw, 48px);
-      background: #404040;
-      border: none;
-      border-radius: clamp(4px, 0.5vw, 8px);
-      font-size: clamp(14px, 1.4vw, 20px);
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .control-btn:hover {
-      background: #505050;
-      transform: scale(1.05);
-    }
-
-    .control-btn.active {
-      background: #44cc66;
-    }
-
-    .control-btn.muted {
-      background: #d91a66;
-    }
-
-    .end-call-btn {
-      width: clamp(56px, 5.5vw, 80px);
-      height: clamp(36px, 3.5vw, 48px);
-      background: #d91a66;
-      border: none;
-      border-radius: clamp(4px, 0.5vw, 8px);
-      color: #f2f2f2;
-      font-size: clamp(11px, 1vw, 14px);
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-left: clamp(4px, 0.5vw, 8px);
-    }
-
-    .end-call-btn:hover {
-      background: #e91e72;
-      transform: scale(1.05);
-    }
-
-    /* 响应式断点 */
-    @media (max-width: 1024px) {
-      .sidebar {
-        width: 240px;
-        min-width: 240px;
-      }
-
-      .meeting-id {
-        display: none;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .main-content {
-        flex-direction: column;
-      }
-
-      .sidebar {
-        width: 100%;
-        min-width: 100%;
-        max-height: 35vh;
-      }
-
-      .video-area {
-        max-height: 65vh;
-      }
-
-      .local-preview {
-        width: 120px;
-        height: 68px;
-        top: 8px;
-        right: 8px;
-      }
-
-      .control-bar {
-        height: 80px;
-        min-height: 70px;
-      }
-
-      .main-content {
-        height: calc(100vh - 56px - 80px);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .header {
-        padding: 0 12px;
-      }
-
-      .header-left {
-        gap: 8px;
-      }
-
-      .logo {
-        font-size: 14px;
-      }
-
-      .control-buttons {
-        gap: 2px;
-        padding: 4px;
-      }
-
-      .control-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 12px;
-      }
-
-      .end-call-btn {
-        width: 50px;
-        height: 32px;
-        font-size: 10px;
-      }
-    }
-
-    /* Alpine.js 过渡动画 */
+    .animate-pulse-custom { animation: pulse 1.5s ease-in-out infinite; }
     [x-cloak] { display: none !important; }
   </style>
-  <script src="./assets/index-CoaMUmDn.js"></script>
-  <link rel="stylesheet" href="./assets/index-B6QZnBSm.css">
-</head>
-<body x-data="videoConferenceApp()" x-cloak>
-  <div class="app-container">
+  
+<style>@layer properties{@supports (((-webkit-hyphens:none)) and (not (margin-trim:inline))) or ((-moz-orient:inline) and (not (color:rgb(from red r g b)))){*,:before,:after,::backdrop{--tw-translate-x:0;--tw-translate-y:0;--tw-translate-z:0;--tw-rotate-x:initial;--tw-rotate-y:initial;--tw-rotate-z:initial;--tw-skew-x:initial;--tw-skew-y:initial;--tw-border-style:solid;--tw-gradient-position:initial;--tw-gradient-from:#0000;--tw-gradient-via:#0000;--tw-gradient-to:#0000;--tw-gradient-stops:initial;--tw-gradient-via-stops:initial;--tw-gradient-from-position:0%;--tw-gradient-via-position:50%;--tw-gradient-to-position:100%;--tw-font-weight:initial;--tw-outline-style:solid;--tw-blur:initial;--tw-brightness:initial;--tw-contrast:initial;--tw-grayscale:initial;--tw-hue-rotate:initial;--tw-invert:initial;--tw-opacity:initial;--tw-saturate:initial;--tw-sepia:initial;--tw-drop-shadow:initial;--tw-drop-shadow-color:initial;--tw-drop-shadow-alpha:100%;--tw-drop-shadow-size:initial;--tw-ease:initial;--tw-scale-x:1;--tw-scale-y:1;--tw-scale-z:1}}}@layer theme{:root,:host{--font-sans:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";--font-mono:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;--color-red-500:oklch(63.7% .237 25.331);--color-green-400:oklch(79.2% .209 151.711);--color-green-500:oklch(72.3% .219 149.579);--color-pink-500:oklch(65.6% .241 354.308);--color-pink-600:oklch(59.2% .249 .584);--color-gray-100:oklch(96.7% .003 264.542);--color-gray-400:oklch(70.7% .022 261.325);--color-gray-500:oklch(55.1% .027 264.364);--color-gray-600:oklch(44.6% .03 256.802);--color-black:#000;--color-white:#fff;--spacing:.25rem;--text-xs:.75rem;--text-xs--line-height:calc(1 / .75);--text-sm:.875rem;--text-sm--line-height:calc(1.25 / .875);--text-base:1rem;--text-base--line-height: 1.5 ;--text-lg:1.125rem;--text-lg--line-height:calc(1.75 / 1.125);--text-xl:1.25rem;--text-xl--line-height:calc(1.75 / 1.25);--text-2xl:1.5rem;--text-2xl--line-height:calc(2 / 1.5);--text-3xl:1.875rem;--text-3xl--line-height: 1.2 ;--text-4xl:2.25rem;--text-4xl--line-height:calc(2.5 / 2.25);--text-5xl:3rem;--text-5xl--line-height:1;--font-weight-medium:500;--font-weight-semibold:600;--font-weight-bold:700;--radius-md:.375rem;--radius-lg:.5rem;--radius-xl:.75rem;--ease-in-out:cubic-bezier(.4, 0, .2, 1);--default-transition-duration:.15s;--default-transition-timing-function:cubic-bezier(.4, 0, .2, 1);--default-font-family:var(--font-sans);--default-mono-font-family:var(--font-mono)}}@layer base{*,:after,:before,::backdrop{box-sizing:border-box;border:0 solid;margin:0;padding:0}::file-selector-button{box-sizing:border-box;border:0 solid;margin:0;padding:0}html,:host{-webkit-text-size-adjust:100%;tab-size:4;line-height:1.5;font-family:var(--default-font-family,ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji");font-feature-settings:var(--default-font-feature-settings,normal);font-variation-settings:var(--default-font-variation-settings,normal);-webkit-tap-highlight-color:transparent}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;-webkit-text-decoration:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,samp,pre{font-family:var(--default-mono-font-family,ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);font-feature-settings:var(--default-mono-font-feature-settings,normal);font-variation-settings:var(--default-mono-font-variation-settings,normal);font-size:1em}small{font-size:80%}sub,sup{vertical-align:baseline;font-size:75%;line-height:0;position:relative}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}:-moz-focusring{outline:auto}progress{vertical-align:baseline}summary{display:list-item}ol,ul,menu{list-style:none}img,svg,video,canvas,audio,iframe,embed,object{vertical-align:middle;display:block}img,video{max-width:100%;height:auto}button,input,select,optgroup,textarea{font:inherit;font-feature-settings:inherit;font-variation-settings:inherit;letter-spacing:inherit;color:inherit;opacity:1;background-color:#0000;border-radius:0}::file-selector-button{font:inherit;font-feature-settings:inherit;font-variation-settings:inherit;letter-spacing:inherit;color:inherit;opacity:1;background-color:#0000;border-radius:0}:where(select:is([multiple],[size])) optgroup{font-weight:bolder}:where(select:is([multiple],[size])) optgroup option{padding-inline-start:20px}::file-selector-button{margin-inline-end:4px}::placeholder{opacity:1}@supports (not ((-webkit-appearance:-apple-pay-button))) or (contain-intrinsic-size:1px){::placeholder{color:currentColor}@supports (color:color-mix(in lab,red,red)){::placeholder{color:color-mix(in oklab,currentcolor 50%,transparent)}}}textarea{resize:vertical}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-date-and-time-value{min-height:1lh;text-align:inherit}::-webkit-datetime-edit{display:inline-flex}::-webkit-datetime-edit-fields-wrapper{padding:0}::-webkit-datetime-edit{padding-block:0}::-webkit-datetime-edit-year-field{padding-block:0}::-webkit-datetime-edit-month-field{padding-block:0}::-webkit-datetime-edit-day-field{padding-block:0}::-webkit-datetime-edit-hour-field{padding-block:0}::-webkit-datetime-edit-minute-field{padding-block:0}::-webkit-datetime-edit-second-field{padding-block:0}::-webkit-datetime-edit-millisecond-field{padding-block:0}::-webkit-datetime-edit-meridiem-field{padding-block:0}::-webkit-calendar-picker-indicator{line-height:1}:-moz-ui-invalid{box-shadow:none}button,input:where([type=button],[type=reset],[type=submit]){appearance:button}::file-selector-button{appearance:button}::-webkit-inner-spin-button{height:auto}::-webkit-outer-spin-button{height:auto}[hidden]:where(:not([hidden=until-found])){display:none!important}}@layer components;@layer utilities{.collapse{visibility:collapse}.visible{visibility:visible}.absolute{position:absolute}.relative{position:relative}.start{inset-inline-start:var(--spacing)}.end{inset-inline-end:var(--spacing)}.top-1{top:calc(var(--spacing) * 1)}.top-1\/2{top:50%}.top-2{top:calc(var(--spacing) * 2)}.right-2{right:calc(var(--spacing) * 2)}.bottom-2{bottom:calc(var(--spacing) * 2)}.bottom-4{bottom:calc(var(--spacing) * 4)}.bottom-12{bottom:calc(var(--spacing) * 12)}.left-1{left:calc(var(--spacing) * 1)}.left-1\/2{left:50%}.left-5{left:calc(var(--spacing) * 5)}.m-3{margin:calc(var(--spacing) * 3)}.mt-1{margin-top:calc(var(--spacing) * 1)}.mt-2{margin-top:calc(var(--spacing) * 2)}.mb-1{margin-bottom:calc(var(--spacing) * 1)}.mb-2{margin-bottom:calc(var(--spacing) * 2)}.ml-1{margin-left:calc(var(--spacing) * 1)}.flex{display:flex}.hidden{display:none}.inline{display:inline}.table{display:table}.h-4{height:calc(var(--spacing) * 4)}.h-6{height:calc(var(--spacing) * 6)}.h-8{height:calc(var(--spacing) * 8)}.h-10{height:calc(var(--spacing) * 10)}.h-14{height:calc(var(--spacing) * 14)}.h-16{height:calc(var(--spacing) * 16)}.h-20{height:calc(var(--spacing) * 20)}.h-24{height:calc(var(--spacing) * 24)}.h-screen{height:100vh}.min-h-0{min-height:calc(var(--spacing) * 0)}.min-h-14{min-height:calc(var(--spacing) * 14)}.min-h-20{min-height:calc(var(--spacing) * 20)}.min-h-120{min-height:calc(var(--spacing) * 120)}.w-5{width:calc(var(--spacing) * 5)}.w-7{width:calc(var(--spacing) * 7)}.w-8{width:calc(var(--spacing) * 8)}.w-10{width:calc(var(--spacing) * 10)}.w-16{width:calc(var(--spacing) * 16)}.w-40{width:calc(var(--spacing) * 40)}.w-72{width:calc(var(--spacing) * 72)}.w-full{width:100%}.w-screen{width:100vw}.min-w-0{min-width:calc(var(--spacing) * 0)}.min-w-16{min-width:calc(var(--spacing) * 16)}.min-w-72{min-width:calc(var(--spacing) * 72)}.min-w-80{min-width:calc(var(--spacing) * 80)}.flex-1{flex:1}.flex-shrink{flex-shrink:1}.shrink-0{flex-shrink:0}.-translate-x-1{--tw-translate-x:calc(var(--spacing) * -1);translate:var(--tw-translate-x) var(--tw-translate-y)}.-translate-x-1\/2{--tw-translate-x: -50% ;translate:var(--tw-translate-x) var(--tw-translate-y)}.-translate-y-1{--tw-translate-y:calc(var(--spacing) * -1);translate:var(--tw-translate-x) var(--tw-translate-y)}.-translate-y-1\/2{--tw-translate-y: -50% ;translate:var(--tw-translate-x) var(--tw-translate-y)}.transform{transform:var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,)}.cursor-pointer{cursor:pointer}.flex-col{flex-direction:column}.items-center{align-items:center}.justify-between{justify-content:space-between}.justify-center{justify-content:center}.gap-1{gap:calc(var(--spacing) * 1)}.gap-1\.5{gap:calc(var(--spacing) * 1.5)}.gap-2{gap:calc(var(--spacing) * 2)}.gap-4{gap:calc(var(--spacing) * 4)}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.rounded{border-radius:.25rem}.rounded-full{border-radius:3.40282e38px}.rounded-lg{border-radius:var(--radius-lg)}.rounded-md{border-radius:var(--radius-md)}.border{border-style:var(--tw-border-style);border-width:1px}.border-2{border-style:var(--tw-border-style);border-width:2px}.border-none{--tw-border-style:none;border-style:none}.border-gray-600{border-color:var(--color-gray-600)}.border-green-500{border-color:var(--color-green-500)}.border-white{border-color:var(--color-white)}.border-white\/30{border-color:#ffffff4d}@supports (color:color-mix(in lab,red,red)){.border-white\/30{border-color:color-mix(in oklab,var(--color-white) 30%,transparent)}}.bg-\[\#0c0f14\]{background-color:#0c0f14}.bg-\[\#4d6680\]\/30{background-color:#4d66804d}.bg-\[\#191e26\]{background-color:#191e26}.bg-\[\#11141a\]{background-color:#11141a}.bg-\[\#13171e\]{background-color:#13171e}.bg-\[\#28303c\]{background-color:#28303c}.bg-\[\#101319\]{background-color:#101319}.bg-\[\#405966\]\/30{background-color:#4059664d}.bg-black{background-color:var(--color-black)}.bg-black\/60{background-color:#0009}@supports (color:color-mix(in lab,red,red)){.bg-black\/60{background-color:color-mix(in oklab,var(--color-black) 60%,transparent)}}.bg-black\/70{background-color:#000000b3}@supports (color:color-mix(in lab,red,red)){.bg-black\/70{background-color:color-mix(in oklab,var(--color-black) 70%,transparent)}}.bg-gray-600{background-color:var(--color-gray-600)}.bg-green-500{background-color:var(--color-green-500)}.bg-pink-600{background-color:var(--color-pink-600)}.bg-red-500{background-color:var(--color-red-500)}.bg-red-500\/60{background-color:#fb2c3699}@supports (color:color-mix(in lab,red,red)){.bg-red-500\/60{background-color:color-mix(in oklab,var(--color-red-500) 60%,transparent)}}.bg-transparent{background-color:#0000}.bg-gradient-to-r{--tw-gradient-position:to right in oklab;background-image:linear-gradient(var(--tw-gradient-stops))}.from-\[\#664d33\]{--tw-gradient-from:#664d33;--tw-gradient-stops:var(--tw-gradient-via-stops,var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position))}.from-\[\#26404d\]{--tw-gradient-from:#26404d;--tw-gradient-stops:var(--tw-gradient-via-stops,var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position))}.to-\[\#0d1a26\]{--tw-gradient-to:#0d1a26;--tw-gradient-stops:var(--tw-gradient-via-stops,var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position))}.to-\[\#33261a\]{--tw-gradient-to:#33261a;--tw-gradient-stops:var(--tw-gradient-via-stops,var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position))}.p-1{padding:calc(var(--spacing) * 1)}.p-1\.5{padding:calc(var(--spacing) * 1.5)}.p-2{padding:calc(var(--spacing) * 2)}.p-2\.5{padding:calc(var(--spacing) * 2.5)}.p-3{padding:calc(var(--spacing) * 3)}.px-1{padding-inline:calc(var(--spacing) * 1)}.px-2{padding-inline:calc(var(--spacing) * 2)}.px-2\.5{padding-inline:calc(var(--spacing) * 2.5)}.px-3{padding-inline:calc(var(--spacing) * 3)}.px-4{padding-inline:calc(var(--spacing) * 4)}.py-1{padding-block:calc(var(--spacing) * 1)}.py-1\.5{padding-block:calc(var(--spacing) * 1.5)}.py-3{padding-block:calc(var(--spacing) * 3)}.font-sans{font-family:var(--font-sans)}.text-3xl{font-size:var(--text-3xl);line-height:var(--tw-leading,var(--text-3xl--line-height))}.text-base{font-size:var(--text-base);line-height:var(--tw-leading,var(--text-base--line-height))}.text-sm{font-size:var(--text-sm);line-height:var(--tw-leading,var(--text-sm--line-height))}.text-xs{font-size:var(--text-xs);line-height:var(--tw-leading,var(--text-xs--line-height))}.font-bold{--tw-font-weight:var(--font-weight-bold);font-weight:var(--font-weight-bold)}.font-medium{--tw-font-weight:var(--font-weight-medium);font-weight:var(--font-weight-medium)}.font-semibold{--tw-font-weight:var(--font-weight-semibold);font-weight:var(--font-weight-semibold)}.whitespace-nowrap{white-space:nowrap}.text-gray-100{color:var(--color-gray-100)}.text-gray-400{color:var(--color-gray-400)}.text-green-400{color:var(--color-green-400)}.outline{outline-style:var(--tw-outline-style);outline-width:1px}.blur{--tw-blur:blur(8px);filter:var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,)}.transition{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,--tw-gradient-from,--tw-gradient-via,--tw-gradient-to,opacity,box-shadow,transform,translate,scale,rotate,filter,-webkit-backdrop-filter,backdrop-filter,display,content-visibility,overlay,pointer-events;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}.transition-all{transition-property:all;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}.ease-in-out{--tw-ease:var(--ease-in-out);transition-timing-function:var(--ease-in-out)}.outline-none{--tw-outline-style:none;outline-style:none}.placeholder\:text-gray-500::placeholder{color:var(--color-gray-500)}@media(hover:hover){.hover\:scale-105:hover{--tw-scale-x:105%;--tw-scale-y:105%;--tw-scale-z:105%;scale:var(--tw-scale-x) var(--tw-scale-y)}.hover\:bg-\[\#232a36\]:hover{background-color:#232a36}.hover\:bg-gray-500:hover{background-color:var(--color-gray-500)}.hover\:bg-pink-500:hover{background-color:var(--color-pink-500)}}@media(min-width:40rem){.sm\:block{display:block}.sm\:h-12{height:calc(var(--spacing) * 12)}.sm\:h-20{height:calc(var(--spacing) * 20)}.sm\:h-32{height:calc(var(--spacing) * 32)}.sm\:w-12{width:calc(var(--spacing) * 12)}.sm\:w-20{width:calc(var(--spacing) * 20)}.sm\:w-56{width:calc(var(--spacing) * 56)}.sm\:text-4xl{font-size:var(--text-4xl);line-height:var(--tw-leading,var(--text-4xl--line-height))}.sm\:text-lg{font-size:var(--text-lg);line-height:var(--tw-leading,var(--text-lg--line-height))}}@media(min-width:64rem){.lg\:top-5{top:calc(var(--spacing) * 5)}.lg\:right-5{right:calc(var(--spacing) * 5)}.lg\:bottom-4{bottom:calc(var(--spacing) * 4)}.lg\:bottom-6{bottom:calc(var(--spacing) * 6)}.lg\:bottom-16{bottom:calc(var(--spacing) * 16)}.lg\:left-10{left:calc(var(--spacing) * 10)}.lg\:m-4{margin:calc(var(--spacing) * 4)}.lg\:mt-2{margin-top:calc(var(--spacing) * 2)}.lg\:mt-4{margin-top:calc(var(--spacing) * 4)}.lg\:ml-2{margin-left:calc(var(--spacing) * 2)}.lg\:h-5{height:calc(var(--spacing) * 5)}.lg\:h-7{height:calc(var(--spacing) * 7)}.lg\:h-10{height:calc(var(--spacing) * 10)}.lg\:h-12{height:calc(var(--spacing) * 12)}.lg\:h-14{height:calc(var(--spacing) * 14)}.lg\:h-16{height:calc(var(--spacing) * 16)}.lg\:h-24{height:calc(var(--spacing) * 24)}.lg\:h-28{height:calc(var(--spacing) * 28)}.lg\:h-44{height:calc(var(--spacing) * 44)}.lg\:h-\[72px\]{height:72px}.lg\:w-6{width:calc(var(--spacing) * 6)}.lg\:w-9{width:calc(var(--spacing) * 9)}.lg\:w-12{width:calc(var(--spacing) * 12)}.lg\:w-16{width:calc(var(--spacing) * 16)}.lg\:w-20{width:calc(var(--spacing) * 20)}.lg\:w-24{width:calc(var(--spacing) * 24)}.lg\:w-28{width:calc(var(--spacing) * 28)}.lg\:w-80{width:calc(var(--spacing) * 80)}.lg\:w-96{width:calc(var(--spacing) * 96)}.lg\:min-w-24{min-width:calc(var(--spacing) * 24)}.lg\:min-w-96{min-width:calc(var(--spacing) * 96)}.lg\:gap-2{gap:calc(var(--spacing) * 2)}.lg\:gap-4{gap:calc(var(--spacing) * 4)}.lg\:gap-6{gap:calc(var(--spacing) * 6)}.lg\:rounded-xl{border-radius:var(--radius-xl)}.lg\:p-2{padding:calc(var(--spacing) * 2)}.lg\:p-4{padding:calc(var(--spacing) * 4)}.lg\:p-6{padding:calc(var(--spacing) * 6)}.lg\:px-2{padding-inline:calc(var(--spacing) * 2)}.lg\:px-4{padding-inline:calc(var(--spacing) * 4)}.lg\:px-5{padding-inline:calc(var(--spacing) * 5)}.lg\:px-6{padding-inline:calc(var(--spacing) * 6)}.lg\:py-2{padding-block:calc(var(--spacing) * 2)}.lg\:py-5{padding-block:calc(var(--spacing) * 5)}.lg\:text-2xl{font-size:var(--text-2xl);line-height:var(--tw-leading,var(--text-2xl--line-height))}.lg\:text-5xl{font-size:var(--text-5xl);line-height:var(--tw-leading,var(--text-5xl--line-height))}.lg\:text-base{font-size:var(--text-base);line-height:var(--tw-leading,var(--text-base--line-height))}.lg\:text-lg{font-size:var(--text-lg);line-height:var(--tw-leading,var(--text-lg--line-height))}.lg\:text-sm{font-size:var(--text-sm);line-height:var(--tw-leading,var(--text-sm--line-height))}.lg\:text-xl{font-size:var(--text-xl);line-height:var(--tw-leading,var(--text-xl--line-height))}}}::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#13171e}::-webkit-scrollbar-thumb{background:#28303c;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#38404c}*{transition-property:background-color,border-color,color,fill,stroke,opacity,box-shadow,transform;transition-duration:.15s;transition-timing-function:cubic-bezier(.4,0,.2,1)}@property --tw-translate-x{syntax:"*";inherits:false;initial-value:0}@property --tw-translate-y{syntax:"*";inherits:false;initial-value:0}@property --tw-translate-z{syntax:"*";inherits:false;initial-value:0}@property --tw-rotate-x{syntax:"*";inherits:false}@property --tw-rotate-y{syntax:"*";inherits:false}@property --tw-rotate-z{syntax:"*";inherits:false}@property --tw-skew-x{syntax:"*";inherits:false}@property --tw-skew-y{syntax:"*";inherits:false}@property --tw-border-style{syntax:"*";inherits:false;initial-value:solid}@property --tw-gradient-position{syntax:"*";inherits:false}@property --tw-gradient-from{syntax:"<color>";inherits:false;initial-value:#0000}@property --tw-gradient-via{syntax:"<color>";inherits:false;initial-value:#0000}@property --tw-gradient-to{syntax:"<color>";inherits:false;initial-value:#0000}@property --tw-gradient-stops{syntax:"*";inherits:false}@property --tw-gradient-via-stops{syntax:"*";inherits:false}@property --tw-gradient-from-position{syntax:"<length-percentage>";inherits:false;initial-value:0%}@property --tw-gradient-via-position{syntax:"<length-percentage>";inherits:false;initial-value:50%}@property --tw-gradient-to-position{syntax:"<length-percentage>";inherits:false;initial-value:100%}@property --tw-font-weight{syntax:"*";inherits:false}@property --tw-outline-style{syntax:"*";inherits:false;initial-value:solid}@property --tw-blur{syntax:"*";inherits:false}@property --tw-brightness{syntax:"*";inherits:false}@property --tw-contrast{syntax:"*";inherits:false}@property --tw-grayscale{syntax:"*";inherits:false}@property --tw-hue-rotate{syntax:"*";inherits:false}@property --tw-invert{syntax:"*";inherits:false}@property --tw-opacity{syntax:"*";inherits:false}@property --tw-saturate{syntax:"*";inherits:false}@property --tw-sepia{syntax:"*";inherits:false}@property --tw-drop-shadow{syntax:"*";inherits:false}@property --tw-drop-shadow-color{syntax:"*";inherits:false}@property --tw-drop-shadow-alpha{syntax:"<percentage>";inherits:false;initial-value:100%}@property --tw-drop-shadow-size{syntax:"*";inherits:false}@property --tw-ease{syntax:"*";inherits:false}@property --tw-scale-x{syntax:"*";inherits:false;initial-value:1}@property --tw-scale-y{syntax:"*";inherits:false;initial-value:1}@property --tw-scale-z{syntax:"*";inherits:false;initial-value:1}
+</style></head>
+<body x-data="videoConferenceApp()" x-cloak class="h-screen w-screen bg-[#11141a] text-gray-100 overflow-hidden font-sans">
+
+  <!-- 主容器 -->
+  <div class="flex flex-col h-screen min-w-80 min-h-120">
+
     <!-- 顶部导航栏 -->
-    <header class="header">
-      <div class="header-left">
-        <div class="logo">🔗 连接会议</div>
-        <div class="meeting-id">会议号: <span x-text="meetingId"></span></div>
+    <header class="w-full h-14 min-h-14 bg-[#101319] flex items-center justify-between px-4 lg:px-6 shrink-0">
+      <div class="flex items-center gap-4 lg:gap-6">
+        <div class="text-base lg:text-xl font-bold whitespace-nowrap">🔗 连接会议</div>
+        <div class="text-xs lg:text-sm text-gray-400 whitespace-nowrap hidden sm:block">会议号: <span x-text="meetingId"></span></div>
       </div>
-      <div class="header-right">
-        <div class="call-duration" x-text="formatTime(callDuration)"></div>
+      <div class="flex items-center gap-4">
+        <div class="text-xs lg:text-sm font-medium text-green-400 flex items-center gap-1.5 whitespace-nowrap">
+          <span class="animate-pulse-custom">●</span>
+          <span x-text="formatTime(callDuration)"></span>
+        </div>
       </div>
     </header>
 
     <!-- 主内容区 -->
-    <div class="main-content">
+    <div class="flex flex-1 overflow-hidden">
+
       <!-- 视频区域 -->
-      <div class="video-area">
+      <div class="flex-1 min-w-0 bg-[#0c0f14] flex flex-col p-3 lg:p-6">
+
         <!-- 主视频 -->
-        <div class="main-video">
+        <div class="flex-1 min-h-0 bg-gradient-to-r from-[#664d33] to-[#33261a] rounded-lg lg:rounded-xl relative overflow-hidden">
+
           <!-- 远程用户头像 -->
-          <div class="remote-avatar">
-            <div class="remote-avatar-circle">
+          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+            <div class="w-16 h-16 sm:w-20 sm:h-20 lg:w-28 lg:h-28 rounded-full bg-[#4d6680]/30 flex items-center justify-center text-3xl sm:text-4xl lg:text-5xl">
               👤
             </div>
           </div>
 
           <!-- 本地视频预览 -->
-          <div class="local-preview">
-            <div class="local-avatar">👤</div>
-            <div class="local-status">
-              <div class="status-badge" :class="micMuted ? 'muted' : ''">
+          <div class="absolute top-2 right-2 lg:top-5 lg:right-5 w-40 h-24 sm:w-56 sm:h-32 lg:w-80 lg:h-44 bg-gradient-to-r from-[#26404d] to-[#0d1a26] border-2 border-green-500 rounded-lg lg:rounded-xl flex flex-col items-center justify-center">
+            <div class="w-8 h-8 sm:w-12 sm:h-12 lg:w-16 lg:h-16 rounded-full bg-[#405966]/30 flex items-center justify-center text-sm sm:text-lg lg:text-2xl">👤</div>
+            <div class="flex gap-1.5 lg:gap-2 mt-1 lg:mt-2">
+              <div class="w-5 h-4 lg:w-6 lg:h-5 bg-black/60 border border-white/30 rounded flex items-center justify-center text-xs lg:text-sm" :class="micMuted ? 'bg-red-500/60' : ''">
                 <span x-text="micMuted ? '🔇' : '🎤'"></span>
               </div>
-              <div class="status-badge" :class="cameraOff ? 'muted' : ''">
+              <div class="w-5 h-4 lg:w-6 lg:h-5 bg-black/60 border border-white/30 rounded flex items-center justify-center text-xs lg:text-sm" :class="cameraOff ? 'bg-red-500/60' : ''">
                 <span x-text="cameraOff ? '📵' : '📷'"></span>
               </div>
             </div>
-            <div class="local-name">我</div>
+            <div class="absolute bottom-2 lg:bottom-4 left-1/2 -translate-x-1/2 text-xs lg:text-base font-medium">我</div>
           </div>
 
           <!-- 说话者名称 -->
-          <div class="speaker-badge">
-            <span class="speaker-name">👤 <span x-text="currentSpeaker"></span></span>
+          <div class="absolute bottom-4 lg:bottom-6 left-5 lg:left-10 bg-black/70 px-2.5 lg:px-5 py-1.5 lg:py-2 rounded-lg flex items-center gap-2">
+            <span class="text-xs lg:text-base font-medium whitespace-nowrap">👤 <span x-text="currentSpeaker"></span></span>
           </div>
 
           <!-- 状态徽章 -->
-          <div class="status-badges">
-            <div class="status-badge-lg">🎤</div>
-            <div class="status-badge-lg">📷</div>
+          <div class="absolute bottom-12 lg:bottom-16 left-5 lg:left-10 flex gap-1.5 lg:gap-2">
+            <div class="w-7 h-6 lg:w-9 lg:h-7 bg-black/60 border border-white/30 rounded-md flex items-center justify-center text-sm lg:text-base">🎤</div>
+            <div class="w-7 h-6 lg:w-9 lg:h-7 bg-black/60 border border-white/30 rounded-md flex items-center justify-center text-sm lg:text-base">📷</div>
           </div>
         </div>
 
         <!-- 参与者缩略图 -->
-        <div class="participants-bar">
+        <div class="h-14 lg:h-[72px] min-h-14 bg-[#101319] flex items-center gap-2 lg:gap-4 px-1 lg:px-2 mt-2 lg:mt-4 overflow-x-auto shrink-0">
           <template x-for="(participant, index) in participants" :key="participant.id">
-            <div class="participant-thumb" :class="{'active': participant.speaking}">
-              <span x-text="'👤'"></span>
+            <div class="w-16 h-10 lg:w-24 lg:h-14 min-w-16 lg:min-w-24 bg-[#191e26] rounded-lg flex items-center justify-center text-sm lg:text-lg cursor-pointer hover:bg-[#232a36] transition-all shrink-0" :class="{'border-2 border-green-500': participant.speaking}">
+              <span>👤</span>
             </div>
           </template>
-          <div class="more-participants" x-show="participants.length > 5">
+          <div class="text-xs lg:text-sm font-medium shrink-0" x-show="participants.length > 5">
             +<span x-text="participants.length - 5"></span> 人
           </div>
         </div>
       </div>
 
       <!-- 侧边栏 -->
-      <aside class="sidebar">
-        <div class="sidebar-header">💬 聊天</div>
+      <aside class="w-72 lg:w-96 min-w-72 lg:min-w-96 bg-[#101319] flex flex-col">
+        <div class="px-4 lg:px-6 py-3 lg:py-5 text-base lg:text-lg font-semibold">💬 聊天</div>
 
         <!-- 聊天消息 -->
-        <div class="chat-messages">
+        <div class="flex-1 bg-[#13171e] p-3 lg:p-4 overflow-y-auto min-h-0">
           <template x-for="message in messages" :key="message.id">
-            <div class="message">
-              <div class="message-sender" x-text="message.sender"></div>
-              <div class="message-text" x-text="message.text"></div>
+            <div class="bg-[#191e26] rounded-lg p-2.5 lg:p-4 mb-2">
+              <div class="text-xs lg:text-sm font-semibold mb-1" x-text="message.sender"></div>
+              <div class="text-xs text-gray-400" x-text="message.text"></div>
             </div>
           </template>
         </div>
 
         <!-- 消息输入 -->
-        <div class="message-input-container">
+        <div class="bg-[#191e26] border border-gray-600 rounded-lg m-3 lg:m-4 px-3 lg:px-4 h-10 lg:h-10 flex items-center shrink-0">
           <input type="text"
-                 class="message-input"
+                 class="flex-1 bg-transparent border-none outline-none text-gray-100 text-xs lg:text-sm placeholder:text-gray-500"
                  placeholder="输入消息..."
                  x-model="newMessage"
                  @keyup.enter="sendMessage">
@@ -587,27 +115,91 @@
     </div>
 
     <!-- 控制栏 -->
-    <div class="control-bar">
-      <div class="control-buttons">
-        <button class="control-btn" :class="micMuted ? 'muted' : ''" @click="toggleMic" title="麦克风">
+    <div class="w-full h-20 lg:h-24 min-h-20 bg-[#13171e] flex items-center justify-center shrink-0">
+      <div class="flex items-center gap-1 lg:gap-2 bg-[#28303c] p-1.5 lg:p-2 rounded-lg lg:rounded-xl">
+        <button class="w-10 h-10 lg:w-12 lg:h-12 bg-gray-600 border-none rounded-lg text-base lg:text-xl cursor-pointer hover:bg-gray-500 hover:scale-105 transition-all flex items-center justify-center" :class="micMuted ? 'bg-pink-600' : ''" @click="toggleMic" title="麦克风">
           <span x-text="micMuted ? '🔇' : '🎤'"></span>
         </button>
-        <button class="control-btn" :class="cameraOff ? 'muted' : ''" @click="toggleCamera" title="摄像头">
+        <button class="w-10 h-10 lg:w-12 lg:h-12 bg-gray-600 border-none rounded-lg text-base lg:text-xl cursor-pointer hover:bg-gray-500 hover:scale-105 transition-all flex items-center justify-center" :class="cameraOff ? 'bg-pink-600' : ''" @click="toggleCamera" title="摄像头">
           <span x-text="cameraOff ? '📵' : '📷'"></span>
         </button>
-        <button class="control-btn" :class="screenSharing ? 'active' : ''" @click="toggleScreenShare" title="屏幕共享">
-          <span x-text="screenSharing ? '🖥️' : '🖥️'"></span>
+        <button class="w-10 h-10 lg:w-12 lg:h-12 bg-gray-600 border-none rounded-lg text-base lg:text-xl cursor-pointer hover:bg-gray-500 hover:scale-105 transition-all flex items-center justify-center" :class="screenSharing ? 'bg-green-500' : ''" @click="toggleScreenShare" title="屏幕共享">
+          🖥️
         </button>
-        <button class="control-btn" title="聊天">
+        <button class="w-10 h-10 lg:w-12 lg:h-12 bg-gray-600 border-none rounded-lg text-base lg:text-xl cursor-pointer hover:bg-gray-500 hover:scale-105 transition-all flex items-center justify-center" title="聊天">
           💬
         </button>
-        <button class="control-btn" title="参与者">
+        <button class="w-10 h-10 lg:w-12 lg:h-12 bg-gray-600 border-none rounded-lg text-base lg:text-xl cursor-pointer hover:bg-gray-500 hover:scale-105 transition-all flex items-center justify-center" title="参与者">
           👥
         </button>
-        <button class="end-call-btn" @click="endCall">结束</button>
+        <button class="w-16 h-10 lg:w-20 lg:h-12 bg-pink-600 border-none rounded-lg text-gray-100 text-xs lg:text-sm font-semibold cursor-pointer hover:bg-pink-500 hover:scale-105 transition-all ml-1 lg:ml-2" @click="endCall">结束</button>
       </div>
     </div>
   </div>
 
-</body>
+  <!-- Alpine.js 应用逻辑 -->
+  <script>
+    function videoConferenceApp() {
+      return {
+        meetingId: '847-293-156',
+        callDuration: 1965,
+        micMuted: false,
+        cameraOff: false,
+        screenSharing: false,
+        currentSpeaker: '陈婷婷',
+        newMessage: '',
+        participants: [
+          { id: 1, name: '陈婷婷', speaking: true },
+          { id: 2, name: '张三', speaking: false },
+          { id: 3, name: '李四', speaking: false },
+          { id: 4, name: '王五', speaking: false },
+          { id: 5, name: '赵六', speaking: false },
+          { id: 6, name: '孙七', speaking: false },
+          { id: 7, name: '周八', speaking: false },
+          { id: 8, name: '吴九', speaking: false },
+        ],
+        messages: [
+          { id: 1, sender: '陈婷婷', text: '大家能看到我的屏幕吗？' },
+          { id: 2, sender: '张三', text: '可以，很清晰！👍' },
+          { id: 3, sender: '我', text: '我想问一下第5页的问题' },
+        ],
+        formatTime(seconds) {
+          const h = Math.floor(seconds / 3600)
+          const m = Math.floor((seconds % 3600) / 60)
+          const s = seconds % 60
+          if (h > 0) {
+            return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
+          }
+          return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
+        },
+        toggleMic() { this.micMuted = !this.micMuted },
+        toggleCamera() { this.cameraOff = !this.cameraOff },
+        toggleScreenShare() { this.screenSharing = !this.screenSharing },
+        sendMessage() {
+          if (this.newMessage.trim()) {
+            this.messages.push({ id: this.messages.length + 1, sender: '我', text: this.newMessage })
+            this.newMessage = ''
+          }
+        },
+        endCall() {
+          if (confirm('确定要结束通话吗？')) alert('通话已结束')
+        },
+        init() {
+          setInterval(() => this.callDuration++, 1000)
+          setInterval(() => {
+            this.participants.forEach(p => p.speaking = false)
+            const idx = Math.floor(Math.random() * this.participants.length)
+            this.participants[idx].speaking = true
+            this.currentSpeaker = this.participants[idx].name
+          }, 5000)
+        }
+      }
+    }
+  </script>
+<script>(()=>{var ie=!1,oe=!1,Y=[],se=-1,ae=!1;function We(t){Bn(t)}function Ge(){ae=!0}function Je(){ae=!1,Xe()}function Bn(t){Y.includes(t)||Y.push(t),Xe()}function Ye(t){let e=Y.indexOf(t);e!==-1&&e>se&&Y.splice(e,1)}function Xe(){if(!oe&&!ie){if(ae)return;ie=!0,queueMicrotask(zn)}}function zn(){ie=!1,oe=!0;for(let t=0;t<Y.length;t++)Y[t](),se=t;Y.length=0,se=-1,oe=!1}var M,D,z,le,ce=!0;function Ze(t){ce=!1,t(),ce=!0}function Qe(t){M=t.reactive,z=t.release,D=e=>t.effect(e,{scheduler:r=>{ce?We(r):r()}}),le=t.raw}function ue(t){D=t}function tr(t){let e=()=>{};return[n=>{let i=D(n);return t._x_effects||(t._x_effects=new Set,t._x_runEffects=()=>{t._x_effects.forEach(o=>o())}),t._x_effects.add(i),e=()=>{i!==void 0&&(t._x_effects.delete(i),z(i))},i},()=>{e()}]}function Ot(t,e){let r=!0,n,i=D(()=>{let o=t();if(JSON.stringify(o),!r&&(typeof o=="object"||o!==n)){let s=n;queueMicrotask(()=>{e(o,s)})}n=o,r=!1});return()=>z(i)}async function er(t){Ge();try{await t(),await Promise.resolve()}finally{Je()}}var rr=[],nr=[],ir=[];function or(t){ir.push(t)}function it(t,e){typeof e=="function"?(t._x_cleanups||(t._x_cleanups=[]),t._x_cleanups.push(e)):(e=t,nr.push(e))}function Tt(t){rr.push(t)}function Rt(t,e,r){t._x_attributeCleanups||(t._x_attributeCleanups={}),t._x_attributeCleanups[e]||(t._x_attributeCleanups[e]=[]),t._x_attributeCleanups[e].push(r)}function fe(t,e){t._x_attributeCleanups&&Object.entries(t._x_attributeCleanups).forEach(([r,n])=>{(e===void 0||e.includes(r))&&(n.forEach(i=>i()),delete t._x_attributeCleanups[r])})}function sr(t){for(t._x_effects?.forEach(Ye);t._x_cleanups?.length;)t._x_cleanups.pop()()}var de=new MutationObserver(_e),pe=!1;function mt(){de.observe(document,{subtree:!0,childList:!0,attributes:!0,attributeOldValue:!0}),pe=!0}function me(){Hn(),de.disconnect(),pe=!1}var pt=[];function Hn(){let t=de.takeRecords();pt.push(()=>t.length>0&&_e(t));let e=pt.length;queueMicrotask(()=>{if(pt.length===e)for(;pt.length>0;)pt.shift()()})}function h(t){if(!pe)return t();me();let e=t();return mt(),e}var he=!1,Ct=[];function ar(){he=!0}function cr(){he=!1,_e(Ct),Ct=[]}function _e(t){if(he){Ct=Ct.concat(t);return}let e=[],r=new Set,n=new Map,i=new Map;for(let o=0;o<t.length;o++)if(!t[o].target._x_ignoreMutationObserver&&(t[o].type==="childList"&&(t[o].removedNodes.forEach(s=>{s.nodeType===1&&s._x_marker&&r.add(s)}),t[o].addedNodes.forEach(s=>{if(s.nodeType===1){if(r.has(s)){r.delete(s);return}s._x_marker||e.push(s)}})),t[o].type==="attributes")){let s=t[o].target,a=t[o].attributeName,c=t[o].oldValue,l=()=>{n.has(s)||n.set(s,[]),n.get(s).push({name:a,value:s.getAttribute(a)})},u=()=>{i.has(s)||i.set(s,[]),i.get(s).push(a)};s.hasAttribute(a)&&c===null?l():s.hasAttribute(a)?(u(),l()):u()}i.forEach((o,s)=>{fe(s,o)}),n.forEach((o,s)=>{rr.forEach(a=>a(s,o))});for(let o of r)e.some(s=>s.contains(o))||nr.forEach(s=>s(o));for(let o of e)o.isConnected&&ir.forEach(s=>s(o));e=null,r=null,n=null,i=null}function Mt(t){return I(H(t))}function P(t,e,r){return t._x_dataStack=[e,...H(r||t)],()=>{t._x_dataStack=t._x_dataStack.filter(n=>n!==e)}}function H(t){return t._x_dataStack?t._x_dataStack:typeof ShadowRoot=="function"&&t instanceof ShadowRoot?H(t.host):t.parentNode?H(t.parentNode):[]}function I(t){return new Proxy({objects:t},Kn)}var Kn={ownKeys({objects:t}){return Array.from(new Set(t.flatMap(e=>Object.keys(e))))},has({objects:t},e){return e==Symbol.unscopables?!1:t.some(r=>Object.prototype.hasOwnProperty.call(r,e)||Reflect.has(r,e))},get({objects:t},e,r){return e=="toJSON"?Vn:Reflect.get(t.find(n=>Reflect.has(n,e))||{},e,r)},set({objects:t},e,r,n){let i=t.find(s=>Object.prototype.hasOwnProperty.call(s,e))||t[t.length-1],o=Object.getOwnPropertyDescriptor(i,e);return o?.set&&o?.get?o.set.call(n,r)||!0:Reflect.set(i,e,r)}};function Vn(){return Reflect.ownKeys(this).reduce((e,r)=>(e[r]=Reflect.get(this,r),e),{})}function ot(t){let e=n=>typeof n=="object"&&!Array.isArray(n)&&n!==null,r=(n,i="")=>{Object.entries(Object.getOwnPropertyDescriptors(n)).forEach(([o,{value:s,enumerable:a}])=>{if(a===!1||s===void 0||typeof s=="object"&&s!==null&&s.__v_skip)return;let c=i===""?o:`${i}.${o}`;typeof s=="object"&&s!==null&&s._x_interceptor?n[o]=s.initialize(t,c,o):e(s)&&s!==n&&!(s instanceof Element)&&r(s,c)})};return r(t)}function Nt(t,e=()=>{}){let r={initialValue:void 0,_x_interceptor:!0,initialize(n,i,o){return t(this.initialValue,()=>Un(n,i),s=>ge(n,i,s),i,o)}};return e(r),n=>{if(typeof n=="object"&&n!==null&&n._x_interceptor){let i=r.initialize.bind(r);r.initialize=(o,s,a)=>{let c=n.initialize(o,s,a);return r.initialValue=c,i(o,s,a)}}else r.initialValue=n;return r}}function Un(t,e){return e.split(".").reduce((r,n)=>r[n],t)}function ge(t,e,r){if(typeof e=="string"&&(e=e.split(".")),e.length===1)t[e[0]]=r;else{if(e.length===0)throw error;return t[e[0]]||(t[e[0]]={}),ge(t[e[0]],e.slice(1),r)}}var lr={};function y(t,e){lr[t]=e}function U(t,e){let r=qn(e);return Object.entries(lr).forEach(([n,i])=>{Object.defineProperty(t,`${n}`,{get(){return i(e,r)},enumerable:!1})}),t}function qn(t){let[e,r]=xe(t),n={interceptor:Nt,...e};return it(t,r),n}function ur(t,e,r,...n){try{return r(...n)}catch(i){st(i,t,e)}}function st(...t){return fr(...t)}var fr=Wn;function dr(t){fr=t}function Wn(t,e,r=void 0){t=Object.assign(t??{message:"No error message given."},{el:e,expression:r}),console.warn(`Alpine Expression Error: ${t.message}
+
+${r?'Expression: "'+r+`"
+
+`:""}`,e),setTimeout(()=>{throw t},0)}var at=!0;function kt(t){let e=at;at=!1;let r=t();return at=e,r}function N(t,e,r={}){let n;return x(t,e)(i=>n=i,r),n}function x(...t){return pr(...t)}var pr=be;function mr(t){pr=t}var hr;function _r(t){hr=t}function be(t,e){let r={};U(r,t);let n=[r,...H(t)],i=typeof e=="function"?Gn(n,e):Yn(n,e,t);return ur.bind(null,t,e,i)}function Gn(t,e){return(r=()=>{},{scope:n={},params:i=[],context:o}={})=>{if(!at){ht(r,e,I([n,...t]),i);return}let s=e.apply(I([n,...t]),i);ht(r,s)}}var ye={};function Jn(t,e){if(ye[t])return ye[t];let r=Object.getPrototypeOf(async function(){}).constructor,n=/^[\n\s]*if.*\(.*\)/.test(t.trim())||/^(let|const)\s/.test(t.trim())?`(async()=>{ ${t} })()`:t,o=(()=>{try{let s=new r(["__self","scope"],`with (scope) { __self.result = ${n} }; __self.finished = true; return __self.result;`);return Object.defineProperty(s,"name",{value:`[Alpine] ${t}`}),s}catch(s){return st(s,e,t),Promise.resolve()}})();return ye[t]=o,o}function Yn(t,e,r){let n=Jn(e,r);return(i=()=>{},{scope:o={},params:s=[],context:a}={})=>{n.result=void 0,n.finished=!1;let c=I([o,...t]);if(typeof n=="function"){let l=n.call(a,n,c).catch(u=>st(u,r,e));n.finished?(ht(i,n.result,c,s,r),n.result=void 0):l.then(u=>{ht(i,u,c,s,r)}).catch(u=>st(u,r,e)).finally(()=>n.result=void 0)}}}function ht(t,e,r,n,i){if(at&&typeof e=="function"){let o=e.apply(r,n);o instanceof Promise?o.then(s=>ht(t,s,r,n)).catch(s=>st(s,i,e)):t(o)}else typeof e=="object"&&e instanceof Promise?e.then(o=>t(o)):t(e)}function gr(...t){return hr(...t)}function xr(t,e,r={}){let n={};U(n,t);let i=[n,...H(t)],o=I([r.scope??{},...i]),s=r.params??[];if(e.includes("await")){let a=Object.getPrototypeOf(async function(){}).constructor,c=/^[\n\s]*if.*\(.*\)/.test(e.trim())||/^(let|const)\s/.test(e.trim())?`(async()=>{ ${e} })()`:e;return new a(["scope"],`with (scope) { let __result = ${c}; return __result }`).call(r.context,o)}else{let a=/^[\n\s]*if.*\(.*\)/.test(e.trim())||/^(let|const)\s/.test(e.trim())?`(()=>{ ${e} })()`:e,l=new Function(["scope"],`with (scope) { let __result = ${a}; return __result }`).call(r.context,o);return typeof l=="function"&&at?l.apply(o,s):l}}var ve="x-";function T(t=""){return ve+t}function yr(t){ve=t}var Dt={};function d(t,e){return Dt[t]=e,{before(r){if(!Dt[r]){console.warn(String.raw`Cannot find directive \`${r}\`. \`${t}\` will use the default order of execution`);return}let n=X.indexOf(r);X.splice(n>=0?n:X.indexOf("DEFAULT"),0,t)}}}function br(t){return Object.keys(Dt).includes(t)}function gt(t,e,r){if(e=Array.from(e),t._x_virtualDirectives){let o=Object.entries(t._x_virtualDirectives).map(([a,c])=>({name:a,value:c})),s=Se(o);o=o.map(a=>s.find(c=>c.name===a.name)?{name:`x-bind:${a.name}`,value:`"${a.value}"`}:a),e=e.concat(o)}let n={};return e.map(vr((o,s)=>n[o]=s)).filter(Ar).map(Zn(n,r)).sort(Qn).map(o=>Xn(t,o))}function Se(t){return Array.from(t).map(vr()).filter(e=>!Ar(e))}var we=!1,_t=new Map,wr=Symbol();function Er(t){we=!0;let e=Symbol();wr=e,_t.set(e,[]);let r=()=>{for(;_t.get(e).length;)_t.get(e).shift()();_t.delete(e)},n=()=>{we=!1,r()};t(r),n()}function xe(t){let e=[],r=a=>e.push(a),[n,i]=tr(t);return e.push(i),[{Alpine:K,effect:n,cleanup:r,evaluateLater:x.bind(x,t),evaluate:N.bind(N,t)},()=>e.forEach(a=>a())]}function Xn(t,e){let r=()=>{},n=Dt[e.type]||r,[i,o]=xe(t);Rt(t,e.original,o);let s=()=>{t._x_ignore||t._x_ignoreSelf||(n.inline&&n.inline(t,e,i),n=n.bind(n,t,e,i),we?_t.get(wr).push(n):n())};return s.runCleanups=o,s}var Pt=(t,e)=>({name:r,value:n})=>(r.startsWith(t)&&(r=r.replace(t,e)),{name:r,value:n}),It=t=>t;function vr(t=()=>{}){return({name:e,value:r})=>{let{name:n,value:i}=Sr.reduce((o,s)=>s(o),{name:e,value:r});return n!==e&&t(n,e),{name:n,value:i}}}var Sr=[];function ct(t){Sr.push(t)}function Ar({name:t}){return Or().test(t)}var Or=()=>new RegExp(`^${ve}([^:^.]+)\\b`);function Zn(t,e){return({name:r,value:n})=>{r===n&&(n="");let i=r.match(Or()),o=r.match(/:([a-zA-Z0-9\-_:]+)/),s=r.match(/\.[^.\]]+(?=[^\]]*$)/g)||[],a=e||t[r]||r;return{type:i?i[1]:null,value:o?o[1]:null,modifiers:s.map(c=>c.replace(".","")),expression:n,original:a}}}var Ee="DEFAULT",X=["ignore","ref","data","id","anchor","bind","init","for","model","modelable","transition","show","if",Ee,"teleport"];function Qn(t,e){let r=X.indexOf(t.type)===-1?Ee:t.type,n=X.indexOf(e.type)===-1?Ee:e.type;return X.indexOf(r)-X.indexOf(n)}function Z(t,e,r={}){t.dispatchEvent(new CustomEvent(e,{detail:r,bubbles:!0,composed:!0,cancelable:!0}))}function $(t,e){if(typeof ShadowRoot=="function"&&t instanceof ShadowRoot){Array.from(t.children).forEach(i=>$(i,e));return}let r=!1;if(e(t,()=>r=!0),r)return;let n=t.firstElementChild;for(;n;)$(n,e,!1),n=n.nextElementSibling}function w(t,...e){console.warn(`Alpine Warning: ${t}`,...e)}var Cr=!1;function Tr(){Cr&&w("Alpine has already been initialized on this page. Calling Alpine.start() more than once can cause problems."),Cr=!0,document.body||w("Unable to initialize. Trying to load Alpine before `<body>` is available. Did you forget to add `defer` in Alpine's `<script>` tag?"),Z(document,"alpine:init"),Z(document,"alpine:initializing"),mt(),or(e=>S(e,$)),it(e=>j(e)),Tt((e,r)=>{gt(e,r).forEach(n=>n())});let t=e=>!Q(e.parentElement,!0);Array.from(document.querySelectorAll(Nr().join(","))).filter(t).forEach(e=>{S(e)}),Z(document,"alpine:initialized"),setTimeout(()=>{ei()})}var Ae=[],Rr=[];function Mr(){return Ae.map(t=>t())}function Nr(){return Ae.concat(Rr).map(t=>t())}function $t(t){Ae.push(t)}function Lt(t){Rr.push(t)}function Q(t,e=!1){return L(t,r=>{if((e?Nr():Mr()).some(i=>r.matches(i)))return!0})}function L(t,e){if(t){if(e(t))return t;if(t._x_teleportBack&&(t=t._x_teleportBack),t.parentNode instanceof ShadowRoot)return L(t.parentNode.host,e);if(t.parentElement)return L(t.parentElement,e)}}function kr(t){return Mr().some(e=>t.matches(e))}var Dr=[];function Pr(t){Dr.push(t)}var ti=1;function S(t,e=$,r=()=>{}){L(t,n=>n._x_ignore)||Er(()=>{e(t,(n,i)=>{n._x_marker||(r(n,i),Dr.forEach(o=>o(n,i)),gt(n,n.attributes).forEach(o=>o()),n._x_ignore||(n._x_marker=ti++),n._x_ignore&&i())})})}function j(t,e=$){e(t,r=>{sr(r),fe(r),delete r._x_marker})}function ei(){[["ui","dialog",["[x-dialog], [x-popover]"]],["anchor","anchor",["[x-anchor]"]],["sort","sort",["[x-sort]"]]].forEach(([e,r,n])=>{br(r)||n.some(i=>{if(document.querySelector(i))return w(`found "${i}", but missing ${e} plugin`),!0})})}var Oe=[],Ce=!1;function lt(t=()=>{}){return queueMicrotask(()=>{Ce||setTimeout(()=>{jt()})}),new Promise(e=>{Oe.push(()=>{t(),e()})})}function jt(){for(Ce=!1;Oe.length;)Oe.shift()()}function Ir(){Ce=!0}function xt(t,e){return Array.isArray(e)?$r(t,e.join(" ")):typeof e=="object"&&e!==null?ri(t,e):typeof e=="function"?xt(t,e()):$r(t,e)}function $r(t,e){let r=o=>o.split(" ").filter(Boolean),n=o=>o.split(" ").filter(s=>!t.classList.contains(s)).filter(Boolean),i=o=>(t.classList.add(...o),()=>{t.classList.remove(...o)});return e=e===!0?e="":e||"",i(n(e))}function ri(t,e){let r=a=>a.split(" ").filter(Boolean),n=Object.entries(e).flatMap(([a,c])=>c?r(a):!1).filter(Boolean),i=Object.entries(e).flatMap(([a,c])=>c?!1:r(a)).filter(Boolean),o=[],s=[];return i.forEach(a=>{t.classList.contains(a)&&(t.classList.remove(a),s.push(a))}),n.forEach(a=>{t.classList.contains(a)||(t.classList.add(a),o.push(a))}),()=>{s.forEach(a=>t.classList.add(a)),o.forEach(a=>t.classList.remove(a))}}function tt(t,e){return typeof e=="object"&&e!==null?ni(t,e):ii(t,e)}function ni(t,e){let r={};return Object.entries(e).forEach(([n,i])=>{r[n]=t.style[n],n.startsWith("--")||(n=oi(n)),t.style.setProperty(n,i)}),setTimeout(()=>{t.style.length===0&&t.removeAttribute("style")}),()=>{tt(t,r)}}function ii(t,e){let r=t.getAttribute("style",e);return t.setAttribute("style",e),()=>{t.setAttribute("style",r||"")}}function oi(t){return t.replace(/([a-z])([A-Z])/g,"$1-$2").toLowerCase()}function yt(t,e=()=>{}){let r=!1;return function(){r?e.apply(this,arguments):(r=!0,t.apply(this,arguments))}}d("transition",(t,{value:e,modifiers:r,expression:n},{evaluate:i})=>{typeof n=="function"&&(n=i(n)),n!==!1&&(!n||typeof n=="boolean"?ai(t,r,e):si(t,n,e))});function si(t,e,r){Lr(t,xt,""),{enter:i=>{t._x_transition.enter.during=i},"enter-start":i=>{t._x_transition.enter.start=i},"enter-end":i=>{t._x_transition.enter.end=i},leave:i=>{t._x_transition.leave.during=i},"leave-start":i=>{t._x_transition.leave.start=i},"leave-end":i=>{t._x_transition.leave.end=i}}[r](e)}function ai(t,e,r){Lr(t,tt);let n=!e.includes("in")&&!e.includes("out")&&!r,i=n||e.includes("in")||["enter"].includes(r),o=n||e.includes("out")||["leave"].includes(r);e.includes("in")&&!n&&(e=e.filter((m,b)=>b<e.indexOf("out"))),e.includes("out")&&!n&&(e=e.filter((m,b)=>b>e.indexOf("out")));let s=!e.includes("opacity")&&!e.includes("scale"),a=s||e.includes("opacity"),c=s||e.includes("scale"),l=a?0:1,u=c?bt(e,"scale",95)/100:1,p=bt(e,"delay",0)/1e3,v=bt(e,"origin","center"),O="opacity, transform",R=bt(e,"duration",150)/1e3,_=bt(e,"duration",75)/1e3,f="cubic-bezier(0.4, 0.0, 0.2, 1)";i&&(t._x_transition.enter.during={transformOrigin:v,transitionDelay:`${p}s`,transitionProperty:O,transitionDuration:`${R}s`,transitionTimingFunction:f},t._x_transition.enter.start={opacity:l,transform:`scale(${u})`},t._x_transition.enter.end={opacity:1,transform:"scale(1)"}),o&&(t._x_transition.leave.during={transformOrigin:v,transitionDelay:`${p}s`,transitionProperty:O,transitionDuration:`${_}s`,transitionTimingFunction:f},t._x_transition.leave.start={opacity:1,transform:"scale(1)"},t._x_transition.leave.end={opacity:l,transform:`scale(${u})`})}function Lr(t,e,r={}){t._x_transition||(t._x_transition={enter:{during:r,start:r,end:r},leave:{during:r,start:r,end:r},in(n=()=>{},i=()=>{}){Ft(t,e,{during:this.enter.during,start:this.enter.start,end:this.enter.end},n,i)},out(n=()=>{},i=()=>{}){Ft(t,e,{during:this.leave.during,start:this.leave.start,end:this.leave.end},n,i)}})}window.Element.prototype._x_toggleAndCascadeWithTransitions=function(t,e,r,n){let i=document.visibilityState==="visible"?requestAnimationFrame:setTimeout,o=()=>i(r);if(e){t._x_transition&&(t._x_transition.enter||t._x_transition.leave)?t._x_transition.enter&&(Object.entries(t._x_transition.enter.during).length||Object.entries(t._x_transition.enter.start).length||Object.entries(t._x_transition.enter.end).length)?t._x_transition.in(r):o():t._x_transition?t._x_transition.in(r):o();return}t._x_hidePromise=t._x_transition?new Promise((s,a)=>{t._x_transition.out(()=>{},()=>s(n)),t._x_transitioning&&t._x_transitioning.beforeCancel(()=>a({isFromCancelledTransition:!0}))}):Promise.resolve(n),queueMicrotask(()=>{let s=jr(t);s?(s._x_hideChildren||(s._x_hideChildren=[]),s._x_hideChildren.push(t)):i(()=>{let a=c=>{let l=Promise.all([c._x_hidePromise,...(c._x_hideChildren||[]).map(a)]).then(([u])=>u?.());return delete c._x_hidePromise,delete c._x_hideChildren,l};a(t).catch(c=>{if(!c.isFromCancelledTransition)throw c})})})};function jr(t){let e=t.parentNode;if(e)return e._x_hidePromise?e:jr(e)}function Ft(t,e,{during:r,start:n,end:i}={},o=()=>{},s=()=>{}){if(t._x_transitioning&&t._x_transitioning.cancel(),Object.keys(r).length===0&&Object.keys(n).length===0&&Object.keys(i).length===0){o(),s();return}let a,c,l;ci(t,{start(){a=e(t,n)},during(){c=e(t,r)},before:o,end(){a(),l=e(t,i)},after:s,cleanup(){c(),l()}})}function ci(t,e){let r,n,i,o=yt(()=>{h(()=>{r=!0,n||e.before(),i||(e.end(),jt()),e.after(),t.isConnected&&e.cleanup(),delete t._x_transitioning})});t._x_transitioning={beforeCancels:[],beforeCancel(s){this.beforeCancels.push(s)},cancel:yt(function(){for(;this.beforeCancels.length;)this.beforeCancels.shift()();o()}),finish:o},h(()=>{e.start(),e.during()}),Ir(),requestAnimationFrame(()=>{if(r)return;let s=Number(getComputedStyle(t).transitionDuration.replace(/,.*/,"").replace("s",""))*1e3,a=Number(getComputedStyle(t).transitionDelay.replace(/,.*/,"").replace("s",""))*1e3;s===0&&(s=Number(getComputedStyle(t).animationDuration.replace("s",""))*1e3),h(()=>{e.before()}),n=!0,requestAnimationFrame(()=>{r||(h(()=>{e.end()}),jt(),setTimeout(t._x_transitioning.finish,s+a),i=!0)})})}function bt(t,e,r){if(t.indexOf(e)===-1)return r;let n=t[t.indexOf(e)+1];if(!n||e==="scale"&&isNaN(n))return r;if(e==="duration"||e==="delay"){let i=n.match(/([0-9]+)ms/);if(i)return i[1]}return e==="origin"&&["top","right","left","center","bottom"].includes(t[t.indexOf(e)+2])?[n,t[t.indexOf(e)+2]].join(" "):n}var F=!1;function A(t,e=()=>{}){return(...r)=>F?e(...r):t(...r)}function Fr(t){return(...e)=>F&&t(...e)}var Br=[];function q(t){Br.push(t)}function zr(t,e){Br.forEach(r=>r(t,e)),F=!0,Kr(()=>{S(e,(r,n)=>{n(r,()=>{})})}),F=!1}var Bt=!1;function Hr(t,e){e._x_dataStack||(e._x_dataStack=t._x_dataStack),F=!0,Bt=!0,Kr(()=>{li(e)}),F=!1,Bt=!1}function li(t){let e=!1;S(t,(n,i)=>{$(n,(o,s)=>{if(e&&kr(o))return s();e=!0,i(o,s)})})}function Kr(t){let e=D;ue((r,n)=>{let i=e(r);return z(i),()=>{}}),t(),ue(e)}function wt(t,e,r,n=[]){switch(t._x_bindings||(t._x_bindings=M({})),t._x_bindings[e]=r,e=n.includes("camel")?gi(e):e,e){case"value":ui(t,r);break;case"style":di(t,r);break;case"class":fi(t,r);break;case"selected":case"checked":pi(t,e,r);break;default:Ur(t,e,r);break}}function ui(t,e){if(Te(t))t.attributes.value===void 0&&(t.value=e),window.fromModel&&(typeof e=="boolean"?t.checked=Et(t.value)===e:t.checked=Vr(t.value,e));else if(zt(t))Number.isInteger(e)?t.value=e:!Array.isArray(e)&&typeof e!="boolean"&&![null,void 0].includes(e)?t.value=String(e):Array.isArray(e)?t.checked=e.some(r=>Vr(r,t.value)):t.checked=!!e;else if(t.tagName==="SELECT")_i(t,e);else{if(t.value===e)return;t.value=e===void 0?"":e}}function fi(t,e){t._x_undoAddedClasses&&t._x_undoAddedClasses(),t._x_undoAddedClasses=xt(t,e)}function di(t,e){t._x_undoAddedStyles&&t._x_undoAddedStyles(),t._x_undoAddedStyles=tt(t,e)}function pi(t,e,r){Ur(t,e,r),hi(t,e,r)}function Ur(t,e,r){[null,void 0,!1].includes(r)&&yi(e)?t.removeAttribute(e):(qr(e)&&(r=e),mi(t,e,r))}function mi(t,e,r){t.getAttribute(e)!=r&&t.setAttribute(e,r)}function hi(t,e,r){t[e]!==r&&(t[e]=r)}function _i(t,e){let r=[].concat(e).map(n=>n+"");Array.from(t.options).forEach(n=>{n.selected=r.includes(n.value)})}function gi(t){return t.toLowerCase().replace(/-(\w)/g,(e,r)=>r.toUpperCase())}function Vr(t,e){return t==e}function Et(t){return[1,"1","true","on","yes",!0].includes(t)?!0:[0,"0","false","off","no",!1].includes(t)?!1:t?Boolean(t):null}var xi=new Set(["allowfullscreen","async","autofocus","autoplay","checked","controls","default","defer","disabled","formnovalidate","inert","ismap","itemscope","loop","multiple","muted","nomodule","novalidate","open","playsinline","readonly","required","reversed","selected","shadowrootclonable","shadowrootdelegatesfocus","shadowrootserializable"]);function qr(t){return xi.has(t)}function yi(t){return!["aria-pressed","aria-checked","aria-expanded","aria-selected"].includes(t)}function Wr(t,e,r){return t._x_bindings&&t._x_bindings[e]!==void 0?t._x_bindings[e]:Jr(t,e,r)}function Gr(t,e,r,n=!0){if(t._x_bindings&&t._x_bindings[e]!==void 0)return t._x_bindings[e];if(t._x_inlineBindings&&t._x_inlineBindings[e]!==void 0){let i=t._x_inlineBindings[e];return i.extract=n,kt(()=>N(t,i.expression))}return Jr(t,e,r)}function Jr(t,e,r){let n=t.getAttribute(e);return n===null?typeof r=="function"?r():r:n===""?!0:qr(e)?!![e,"true"].includes(n):n}function zt(t){return t.type==="checkbox"||t.localName==="ui-checkbox"||t.localName==="ui-switch"}function Te(t){return t.type==="radio"||t.localName==="ui-radio"}function Ht(t,e){let r;return function(){let n=this,i=arguments,o=function(){r=null,t.apply(n,i)};clearTimeout(r),r=setTimeout(o,e)}}function Kt(t,e){let r;return function(){let n=this,i=arguments;r||(t.apply(n,i),r=!0,setTimeout(()=>r=!1,e))}}function Vt({get:t,set:e},{get:r,set:n}){let i=!0,o,s,a=D(()=>{let c=t(),l=r();if(i)n(Re(c)),i=!1;else{let u=JSON.stringify(c),p=JSON.stringify(l);u!==o?n(Re(c)):u!==p&&e(Re(l))}o=JSON.stringify(t()),s=JSON.stringify(r())});return()=>{z(a)}}function Re(t){return typeof t=="object"?JSON.parse(JSON.stringify(t)):t}function Yr(t){(Array.isArray(t)?t:[t]).forEach(r=>r(K))}var et={},Xr=!1;function Zr(t,e){if(Xr||(et=M(et),Xr=!0),e===void 0)return et[t];et[t]=e,ot(et[t]),typeof e=="object"&&e!==null&&e.hasOwnProperty("init")&&typeof e.init=="function"&&et[t].init()}function Qr(){return et}var tn={};function en(t,e){let r=typeof e!="function"?()=>e:e;return t instanceof Element?Me(t,r()):(tn[t]=r,()=>{})}function rn(t){return Object.entries(tn).forEach(([e,r])=>{Object.defineProperty(t,e,{get(){return(...n)=>r(...n)}})}),t}function Me(t,e,r){let n=[];for(;n.length;)n.pop()();let i=Object.entries(e).map(([s,a])=>({name:s,value:a})),o=Se(i);return i=i.map(s=>o.find(a=>a.name===s.name)?{name:`x-bind:${s.name}`,value:`"${s.value}"`}:s),gt(t,i,r).map(s=>{n.push(s.runCleanups),s()}),()=>{for(;n.length;)n.pop()()}}var nn={};function on(t,e){nn[t]=e}function sn(t,e){return Object.entries(nn).forEach(([r,n])=>{Object.defineProperty(t,r,{get(){return(...i)=>n.bind(e)(...i)},enumerable:!1})}),t}var bi={get reactive(){return M},get release(){return z},get effect(){return D},get raw(){return le},get transaction(){return er},version:"3.15.8",flushAndStopDeferringMutations:cr,dontAutoEvaluateFunctions:kt,disableEffectScheduling:Ze,startObservingMutations:mt,stopObservingMutations:me,setReactivityEngine:Qe,onAttributeRemoved:Rt,onAttributesAdded:Tt,closestDataStack:H,skipDuringClone:A,onlyDuringClone:Fr,addRootSelector:$t,addInitSelector:Lt,setErrorHandler:dr,interceptClone:q,addScopeToNode:P,deferMutations:ar,mapAttributes:ct,evaluateLater:x,interceptInit:Pr,initInterceptors:ot,injectMagics:U,setEvaluator:mr,setRawEvaluator:_r,mergeProxies:I,extractProp:Gr,findClosest:L,onElRemoved:it,closestRoot:Q,destroyTree:j,interceptor:Nt,transition:Ft,setStyles:tt,mutateDom:h,directive:d,entangle:Vt,throttle:Kt,debounce:Ht,evaluate:N,evaluateRaw:gr,initTree:S,nextTick:lt,prefixed:T,prefix:yr,plugin:Yr,magic:y,store:Zr,start:Tr,clone:Hr,cloneNode:zr,bound:Wr,$data:Mt,watch:Ot,walk:$,data:on,bind:en},K=bi;function Ne(t,e){let r=Object.create(null),n=t.split(",");for(let i=0;i<n.length;i++)r[n[i]]=!0;return e?i=>!!r[i.toLowerCase()]:i=>!!r[i]}var wi="itemscope,allowfullscreen,formnovalidate,ismap,nomodule,novalidate,readonly";var Gs=Ne(wi+",async,autofocus,autoplay,controls,default,defer,disabled,hidden,loop,open,required,reversed,scoped,seamless,checked,muted,multiple,selected");var an=Object.freeze({}),Js=Object.freeze([]);var Ei=Object.prototype.hasOwnProperty,vt=(t,e)=>Ei.call(t,e),W=Array.isArray,ut=t=>cn(t)==="[object Map]";var vi=t=>typeof t=="string",Ut=t=>typeof t=="symbol",St=t=>t!==null&&typeof t=="object";var Si=Object.prototype.toString,cn=t=>Si.call(t),ke=t=>cn(t).slice(8,-1);var qt=t=>vi(t)&&t!=="NaN"&&t[0]!=="-"&&""+parseInt(t,10)===t;var Wt=t=>{let e=Object.create(null);return r=>e[r]||(e[r]=t(r))},Ai=/-(\w)/g,Ys=Wt(t=>t.replace(Ai,(e,r)=>r?r.toUpperCase():"")),Oi=/\B([A-Z])/g,Xs=Wt(t=>t.replace(Oi,"-$1").toLowerCase()),De=Wt(t=>t.charAt(0).toUpperCase()+t.slice(1)),Zs=Wt(t=>t?`on${De(t)}`:""),Pe=(t,e)=>t!==e&&(t===t||e===e);var Ie=new WeakMap,At=[],B,rt=Symbol("iterate"),$e=Symbol("Map key iterate");function Ci(t){return t&&t._isEffect===!0}function mn(t,e=an){Ci(t)&&(t=t.raw);let r=Ri(t,e);return e.lazy||r(),r}function hn(t){t.active&&(_n(t),t.options.onStop&&t.options.onStop(),t.active=!1)}var Ti=0;function Ri(t,e){let r=function(){if(!r.active)return t();if(!At.includes(r)){_n(r);try{return Ni(),At.push(r),B=r,t()}finally{At.pop(),gn(),B=At[At.length-1]}}};return r.id=Ti++,r.allowRecurse=!!e.allowRecurse,r._isEffect=!0,r.active=!0,r.raw=t,r.deps=[],r.options=e,r}function _n(t){let{deps:e}=t;if(e.length){for(let r=0;r<e.length;r++)e[r].delete(t);e.length=0}}var ft=!0,je=[];function Mi(){je.push(ft),ft=!1}function Ni(){je.push(ft),ft=!0}function gn(){let t=je.pop();ft=t===void 0?!0:t}function k(t,e,r){if(!ft||B===void 0)return;let n=Ie.get(t);n||Ie.set(t,n=new Map);let i=n.get(r);i||n.set(r,i=new Set),i.has(B)||(i.add(B),B.deps.push(i),B.options.onTrack&&B.options.onTrack({effect:B,target:t,type:e,key:r}))}function J(t,e,r,n,i,o){let s=Ie.get(t);if(!s)return;let a=new Set,c=u=>{u&&u.forEach(p=>{(p!==B||p.allowRecurse)&&a.add(p)})};if(e==="clear")s.forEach(c);else if(r==="length"&&W(t))s.forEach((u,p)=>{(p==="length"||p>=n)&&c(u)});else switch(r!==void 0&&c(s.get(r)),e){case"add":W(t)?qt(r)&&c(s.get("length")):(c(s.get(rt)),ut(t)&&c(s.get($e)));break;case"delete":W(t)||(c(s.get(rt)),ut(t)&&c(s.get($e)));break;case"set":ut(t)&&c(s.get(rt));break}let l=u=>{u.options.onTrigger&&u.options.onTrigger({effect:u,target:t,key:r,type:e,newValue:n,oldValue:i,oldTarget:o}),u.options.scheduler?u.options.scheduler(u):u()};a.forEach(l)}var ki=Ne("__proto__,__v_isRef,__isVue"),xn=new Set(Object.getOwnPropertyNames(Symbol).map(t=>Symbol[t]).filter(Ut)),Di=yn();var Pi=yn(!0);var ln=Ii();function Ii(){let t={};return["includes","indexOf","lastIndexOf"].forEach(e=>{t[e]=function(...r){let n=g(this);for(let o=0,s=this.length;o<s;o++)k(n,"get",o+"");let i=n[e](...r);return i===-1||i===!1?n[e](...r.map(g)):i}}),["push","pop","shift","unshift","splice"].forEach(e=>{t[e]=function(...r){Mi();let n=g(this)[e].apply(this,r);return gn(),n}}),t}function yn(t=!1,e=!1){return function(n,i,o){if(i==="__v_isReactive")return!t;if(i==="__v_isReadonly")return t;if(i==="__v_raw"&&o===(t?e?Xi:vn:e?Yi:En).get(n))return n;let s=W(n);if(!t&&s&&vt(ln,i))return Reflect.get(ln,i,o);let a=Reflect.get(n,i,o);return(Ut(i)?xn.has(i):ki(i))||(t||k(n,"get",i),e)?a:Le(a)?!s||!qt(i)?a.value:a:St(a)?t?Sn(a):te(a):a}}var $i=Li();function Li(t=!1){return function(r,n,i,o){let s=r[n];if(!t&&(i=g(i),s=g(s),!W(r)&&Le(s)&&!Le(i)))return s.value=i,!0;let a=W(r)&&qt(n)?Number(n)<r.length:vt(r,n),c=Reflect.set(r,n,i,o);return r===g(o)&&(a?Pe(i,s)&&J(r,"set",n,i,s):J(r,"add",n,i)),c}}function ji(t,e){let r=vt(t,e),n=t[e],i=Reflect.deleteProperty(t,e);return i&&r&&J(t,"delete",e,void 0,n),i}function Fi(t,e){let r=Reflect.has(t,e);return(!Ut(e)||!xn.has(e))&&k(t,"has",e),r}function Bi(t){return k(t,"iterate",W(t)?"length":rt),Reflect.ownKeys(t)}var zi={get:Di,set:$i,deleteProperty:ji,has:Fi,ownKeys:Bi},Hi={get:Pi,set(t,e){return console.warn(`Set operation on key "${String(e)}" failed: target is readonly.`,t),!0},deleteProperty(t,e){return console.warn(`Delete operation on key "${String(e)}" failed: target is readonly.`,t),!0}};var Fe=t=>St(t)?te(t):t,Be=t=>St(t)?Sn(t):t,ze=t=>t,Qt=t=>Reflect.getPrototypeOf(t);function Gt(t,e,r=!1,n=!1){t=t.__v_raw;let i=g(t),o=g(e);e!==o&&!r&&k(i,"get",e),!r&&k(i,"get",o);let{has:s}=Qt(i),a=n?ze:r?Be:Fe;if(s.call(i,e))return a(t.get(e));if(s.call(i,o))return a(t.get(o));t!==i&&t.get(e)}function Jt(t,e=!1){let r=this.__v_raw,n=g(r),i=g(t);return t!==i&&!e&&k(n,"has",t),!e&&k(n,"has",i),t===i?r.has(t):r.has(t)||r.has(i)}function Yt(t,e=!1){return t=t.__v_raw,!e&&k(g(t),"iterate",rt),Reflect.get(t,"size",t)}function un(t){t=g(t);let e=g(this);return Qt(e).has.call(e,t)||(e.add(t),J(e,"add",t,t)),this}function fn(t,e){e=g(e);let r=g(this),{has:n,get:i}=Qt(r),o=n.call(r,t);o?wn(r,n,t):(t=g(t),o=n.call(r,t));let s=i.call(r,t);return r.set(t,e),o?Pe(e,s)&&J(r,"set",t,e,s):J(r,"add",t,e),this}function dn(t){let e=g(this),{has:r,get:n}=Qt(e),i=r.call(e,t);i?wn(e,r,t):(t=g(t),i=r.call(e,t));let o=n?n.call(e,t):void 0,s=e.delete(t);return i&&J(e,"delete",t,void 0,o),s}function pn(){let t=g(this),e=t.size!==0,r=ut(t)?new Map(t):new Set(t),n=t.clear();return e&&J(t,"clear",void 0,void 0,r),n}function Xt(t,e){return function(n,i){let o=this,s=o.__v_raw,a=g(s),c=e?ze:t?Be:Fe;return!t&&k(a,"iterate",rt),s.forEach((l,u)=>n.call(i,c(l),c(u),o))}}function Zt(t,e,r){return function(...n){let i=this.__v_raw,o=g(i),s=ut(o),a=t==="entries"||t===Symbol.iterator&&s,c=t==="keys"&&s,l=i[t](...n),u=r?ze:e?Be:Fe;return!e&&k(o,"iterate",c?$e:rt),{next(){let{value:p,done:v}=l.next();return v?{value:p,done:v}:{value:a?[u(p[0]),u(p[1])]:u(p),done:v}},[Symbol.iterator](){return this}}}}function G(t){return function(...e){{let r=e[0]?`on key "${e[0]}" `:"";console.warn(`${De(t)} operation ${r}failed: target is readonly.`,g(this))}return t==="delete"?!1:this}}function Ki(){let t={get(o){return Gt(this,o)},get size(){return Yt(this)},has:Jt,add:un,set:fn,delete:dn,clear:pn,forEach:Xt(!1,!1)},e={get(o){return Gt(this,o,!1,!0)},get size(){return Yt(this)},has:Jt,add:un,set:fn,delete:dn,clear:pn,forEach:Xt(!1,!0)},r={get(o){return Gt(this,o,!0)},get size(){return Yt(this,!0)},has(o){return Jt.call(this,o,!0)},add:G("add"),set:G("set"),delete:G("delete"),clear:G("clear"),forEach:Xt(!0,!1)},n={get(o){return Gt(this,o,!0,!0)},get size(){return Yt(this,!0)},has(o){return Jt.call(this,o,!0)},add:G("add"),set:G("set"),delete:G("delete"),clear:G("clear"),forEach:Xt(!0,!0)};return["keys","values","entries",Symbol.iterator].forEach(o=>{t[o]=Zt(o,!1,!1),r[o]=Zt(o,!0,!1),e[o]=Zt(o,!1,!0),n[o]=Zt(o,!0,!0)}),[t,r,e,n]}var[Vi,Ui,qi,Wi]=Ki();function bn(t,e){let r=e?t?Wi:qi:t?Ui:Vi;return(n,i,o)=>i==="__v_isReactive"?!t:i==="__v_isReadonly"?t:i==="__v_raw"?n:Reflect.get(vt(r,i)&&i in n?r:n,i,o)}var Gi={get:bn(!1,!1)};var Ji={get:bn(!0,!1)};function wn(t,e,r){let n=g(r);if(n!==r&&e.call(t,n)){let i=ke(t);console.warn(`Reactive ${i} contains both the raw and reactive versions of the same object${i==="Map"?" as keys":""}, which can lead to inconsistencies. Avoid differentiating between the raw and reactive versions of an object and only use the reactive version if possible.`)}}var En=new WeakMap,Yi=new WeakMap,vn=new WeakMap,Xi=new WeakMap;function Zi(t){switch(t){case"Object":case"Array":return 1;case"Map":case"Set":case"WeakMap":case"WeakSet":return 2;default:return 0}}function Qi(t){return t.__v_skip||!Object.isExtensible(t)?0:Zi(ke(t))}function te(t){return t&&t.__v_isReadonly?t:An(t,!1,zi,Gi,En)}function Sn(t){return An(t,!0,Hi,Ji,vn)}function An(t,e,r,n,i){if(!St(t))return console.warn(`value cannot be made reactive: ${String(t)}`),t;if(t.__v_raw&&!(e&&t.__v_isReactive))return t;let o=i.get(t);if(o)return o;let s=Qi(t);if(s===0)return t;let a=new Proxy(t,s===2?n:r);return i.set(t,a),a}function g(t){return t&&g(t.__v_raw)||t}function Le(t){return Boolean(t&&t.__v_isRef===!0)}y("nextTick",()=>lt);y("dispatch",t=>Z.bind(Z,t));y("watch",(t,{evaluateLater:e,cleanup:r})=>(n,i)=>{let o=e(n),a=Ot(()=>{let c;return o(l=>c=l),c},i);r(a)});y("store",Qr);y("data",t=>Mt(t));y("root",t=>Q(t));y("refs",t=>(t._x_refs_proxy||(t._x_refs_proxy=I(to(t))),t._x_refs_proxy));function to(t){let e=[];return L(t,r=>{r._x_refs&&e.push(r._x_refs)}),e}var He={};function Ke(t){return He[t]||(He[t]=0),++He[t]}function On(t,e){return L(t,r=>{if(r._x_ids&&r._x_ids[e])return!0})}function Cn(t,e){t._x_ids||(t._x_ids={}),t._x_ids[e]||(t._x_ids[e]=Ke(e))}y("id",(t,{cleanup:e})=>(r,n=null)=>{let i=`${r}${n?`-${n}`:""}`;return eo(t,i,e,()=>{let o=On(t,r),s=o?o._x_ids[r]:Ke(r);return n?`${r}-${s}-${n}`:`${r}-${s}`})});q((t,e)=>{t._x_id&&(e._x_id=t._x_id)});function eo(t,e,r,n){if(t._x_id||(t._x_id={}),t._x_id[e])return t._x_id[e];let i=n();return t._x_id[e]=i,r(()=>{delete t._x_id[e]}),i}y("el",t=>t);Tn("Focus","focus","focus");Tn("Persist","persist","persist");function Tn(t,e,r){y(e,n=>w(`You can't use [${e}] without first installing the "${t}" plugin here: https://alpinejs.dev/plugins/${r}`,n))}d("modelable",(t,{expression:e},{effect:r,evaluateLater:n,cleanup:i})=>{let o=n(e),s=()=>{let u;return o(p=>u=p),u},a=n(`${e} = __placeholder`),c=u=>a(()=>{},{scope:{__placeholder:u}}),l=s();c(l),queueMicrotask(()=>{if(!t._x_model)return;t._x_removeModelListeners.default();let u=t._x_model.get,p=t._x_model.set,v=Vt({get(){return u()},set(O){p(O)}},{get(){return s()},set(O){c(O)}});i(v)})});d("teleport",(t,{modifiers:e,expression:r},{cleanup:n})=>{t.tagName.toLowerCase()!=="template"&&w("x-teleport can only be used on a <template> tag",t);let i=Rn(r),o=t.content.cloneNode(!0).firstElementChild;t._x_teleport=o,o._x_teleportBack=t,t.setAttribute("data-teleport-template",!0),o.setAttribute("data-teleport-target",!0),t._x_forwardEvents&&t._x_forwardEvents.forEach(a=>{o.addEventListener(a,c=>{c.stopPropagation(),t.dispatchEvent(new c.constructor(c.type,c))})}),P(o,{},t);let s=(a,c,l)=>{l.includes("prepend")?c.parentNode.insertBefore(a,c):l.includes("append")?c.parentNode.insertBefore(a,c.nextSibling):c.appendChild(a)};h(()=>{s(o,i,e),A(()=>{S(o)})()}),t._x_teleportPutBack=()=>{let a=Rn(r);h(()=>{s(t._x_teleport,a,e)})},n(()=>h(()=>{o.remove(),j(o)}))});var ro=document.createElement("div");function Rn(t){let e=A(()=>document.querySelector(t),()=>ro)();return e||w(`Cannot find x-teleport element for selector: "${t}"`),e}var Mn=()=>{};Mn.inline=(t,{modifiers:e},{cleanup:r})=>{e.includes("self")?t._x_ignoreSelf=!0:t._x_ignore=!0,r(()=>{e.includes("self")?delete t._x_ignoreSelf:delete t._x_ignore})};d("ignore",Mn);d("effect",A((t,{expression:e},{effect:r})=>{r(x(t,e))}));function V(t,e,r,n){let i=t,o=c=>n(c),s={},a=(c,l)=>u=>l(c,u);if(r.includes("dot")&&(e=no(e)),r.includes("camel")&&(e=io(e)),r.includes("passive")&&(s.passive=!0),r.includes("capture")&&(s.capture=!0),r.includes("window")&&(i=window),r.includes("document")&&(i=document),r.includes("debounce")){let c=r[r.indexOf("debounce")+1]||"invalid-wait",l=ee(c.split("ms")[0])?Number(c.split("ms")[0]):250;o=Ht(o,l)}if(r.includes("throttle")){let c=r[r.indexOf("throttle")+1]||"invalid-wait",l=ee(c.split("ms")[0])?Number(c.split("ms")[0]):250;o=Kt(o,l)}return r.includes("prevent")&&(o=a(o,(c,l)=>{l.preventDefault(),c(l)})),r.includes("stop")&&(o=a(o,(c,l)=>{l.stopPropagation(),c(l)})),r.includes("once")&&(o=a(o,(c,l)=>{c(l),i.removeEventListener(e,o,s)})),(r.includes("away")||r.includes("outside"))&&(i=document,o=a(o,(c,l)=>{t.contains(l.target)||l.target.isConnected!==!1&&(t.offsetWidth<1&&t.offsetHeight<1||t._x_isShown!==!1&&c(l))})),r.includes("self")&&(o=a(o,(c,l)=>{l.target===t&&c(l)})),e==="submit"&&(o=a(o,(c,l)=>{l.target._x_pendingModelUpdates&&l.target._x_pendingModelUpdates.forEach(u=>u()),c(l)})),(so(e)||kn(e))&&(o=a(o,(c,l)=>{ao(l,r)||c(l)})),i.addEventListener(e,o,s),()=>{i.removeEventListener(e,o,s)}}function no(t){return t.replace(/-/g,".")}function io(t){return t.toLowerCase().replace(/-(\w)/g,(e,r)=>r.toUpperCase())}function ee(t){return!Array.isArray(t)&&!isNaN(t)}function oo(t){return[" ","_"].includes(t)?t:t.replace(/([a-z])([A-Z])/g,"$1-$2").replace(/[_\s]/,"-").toLowerCase()}function so(t){return["keydown","keyup"].includes(t)}function kn(t){return["contextmenu","click","mouse"].some(e=>t.includes(e))}function ao(t,e){let r=e.filter(o=>!["window","document","prevent","stop","once","capture","self","away","outside","passive","preserve-scroll","blur","change","lazy"].includes(o));if(r.includes("debounce")){let o=r.indexOf("debounce");r.splice(o,ee((r[o+1]||"invalid-wait").split("ms")[0])?2:1)}if(r.includes("throttle")){let o=r.indexOf("throttle");r.splice(o,ee((r[o+1]||"invalid-wait").split("ms")[0])?2:1)}if(r.length===0||r.length===1&&Nn(t.key).includes(r[0]))return!1;let i=["ctrl","shift","alt","meta","cmd","super"].filter(o=>r.includes(o));return r=r.filter(o=>!i.includes(o)),!(i.length>0&&i.filter(s=>((s==="cmd"||s==="super")&&(s="meta"),t[`${s}Key`])).length===i.length&&(kn(t.type)||Nn(t.key).includes(r[0])))}function Nn(t){if(!t)return[];t=oo(t);let e={ctrl:"control",slash:"/",space:" ",spacebar:" ",cmd:"meta",esc:"escape",up:"arrow-up",down:"arrow-down",left:"arrow-left",right:"arrow-right",period:".",comma:",",equal:"=",minus:"-",underscore:"_"};return e[t]=t,Object.keys(e).map(r=>{if(e[r]===t)return r}).filter(r=>r)}d("model",(t,{modifiers:e,expression:r},{effect:n,cleanup:i})=>{let o=t;e.includes("parent")&&(o=t.parentNode);let s=x(o,r),a;typeof r=="string"?a=x(o,`${r} = __placeholder`):typeof r=="function"&&typeof r()=="string"?a=x(o,`${r()} = __placeholder`):a=()=>{};let c=()=>{let _;return s(f=>_=f),Dn(_)?_.get():_},l=_=>{let f;s(m=>f=m),Dn(f)?f.set(_):a(()=>{},{scope:{__placeholder:_}})};typeof r=="string"&&t.type==="radio"&&h(()=>{t.hasAttribute("name")||t.setAttribute("name",r)});let u=e.includes("change")||e.includes("lazy"),p=e.includes("blur"),v=e.includes("enter"),O=u||p||v,R;if(F)R=()=>{};else if(O){let _=[],f=m=>l(re(t,e,m,c()));if(u&&_.push(V(t,"change",e,f)),p&&(_.push(V(t,"blur",e,f)),t.form)){let m=()=>f({target:t});t.form._x_pendingModelUpdates||(t.form._x_pendingModelUpdates=[]),t.form._x_pendingModelUpdates.push(m),i(()=>t.form._x_pendingModelUpdates.splice(t.form._x_pendingModelUpdates.indexOf(m),1))}v&&_.push(V(t,"keydown",e,m=>{m.key==="Enter"&&f(m)})),R=()=>_.forEach(m=>m())}else{let _=t.tagName.toLowerCase()==="select"||["checkbox","radio"].includes(t.type)?"change":"input";R=V(t,_,e,f=>{l(re(t,e,f,c()))})}if(e.includes("fill")&&([void 0,null,""].includes(c())||zt(t)&&Array.isArray(c())||t.tagName.toLowerCase()==="select"&&t.multiple)&&l(re(t,e,{target:t},c())),t._x_removeModelListeners||(t._x_removeModelListeners={}),t._x_removeModelListeners.default=R,i(()=>t._x_removeModelListeners.default()),t.form){let _=V(t.form,"reset",[],f=>{lt(()=>t._x_model&&t._x_model.set(re(t,e,{target:t},c())))});i(()=>_())}t._x_model={get(){return c()},set(_){l(_)}},t._x_forceModelUpdate=_=>{_===void 0&&typeof r=="string"&&r.match(/\./)&&(_=""),window.fromModel=!0,h(()=>wt(t,"value",_)),delete window.fromModel},n(()=>{let _=c();e.includes("unintrusive")&&document.activeElement.isSameNode(t)||t._x_forceModelUpdate(_)})});function re(t,e,r,n){return h(()=>{if(r instanceof CustomEvent&&r.detail!==void 0)return r.detail!==null&&r.detail!==void 0?r.detail:r.target.value;if(zt(t))if(Array.isArray(n)){let i=null;return e.includes("number")?i=Ve(r.target.value):e.includes("boolean")?i=Et(r.target.value):i=r.target.value,r.target.checked?n.includes(i)?n:n.concat([i]):n.filter(o=>!co(o,i))}else return r.target.checked;else{if(t.tagName.toLowerCase()==="select"&&t.multiple)return e.includes("number")?Array.from(r.target.selectedOptions).map(i=>{let o=i.value||i.text;return Ve(o)}):e.includes("boolean")?Array.from(r.target.selectedOptions).map(i=>{let o=i.value||i.text;return Et(o)}):Array.from(r.target.selectedOptions).map(i=>i.value||i.text);{let i;return Te(t)?r.target.checked?i=r.target.value:i=n:i=r.target.value,e.includes("number")?Ve(i):e.includes("boolean")?Et(i):e.includes("trim")?i.trim():i}}})}function Ve(t){let e=t?parseFloat(t):null;return lo(e)?e:t}function co(t,e){return t==e}function lo(t){return!Array.isArray(t)&&!isNaN(t)}function Dn(t){return t!==null&&typeof t=="object"&&typeof t.get=="function"&&typeof t.set=="function"}d("cloak",t=>queueMicrotask(()=>h(()=>t.removeAttribute(T("cloak")))));Lt(()=>`[${T("init")}]`);d("init",A((t,{expression:e},{evaluate:r})=>typeof e=="string"?!!e.trim()&&r(e,{},!1):r(e,{},!1)));d("text",(t,{expression:e},{effect:r,evaluateLater:n})=>{let i=n(e);r(()=>{i(o=>{h(()=>{t.textContent=o})})})});d("html",(t,{expression:e},{effect:r,evaluateLater:n})=>{let i=n(e);r(()=>{i(o=>{h(()=>{t.innerHTML=o,t._x_ignoreSelf=!0,S(t),delete t._x_ignoreSelf})})})});ct(Pt(":",It(T("bind:"))));var Pn=(t,{value:e,modifiers:r,expression:n,original:i},{effect:o,cleanup:s})=>{if(!e){let c={};rn(c),x(t,n)(u=>{Me(t,u,i)},{scope:c});return}if(e==="key")return uo(t,n);if(t._x_inlineBindings&&t._x_inlineBindings[e]&&t._x_inlineBindings[e].extract)return;let a=x(t,n);o(()=>a(c=>{c===void 0&&typeof n=="string"&&n.match(/\./)&&(c=""),h(()=>wt(t,e,c,r))})),s(()=>{t._x_undoAddedClasses&&t._x_undoAddedClasses(),t._x_undoAddedStyles&&t._x_undoAddedStyles()})};Pn.inline=(t,{value:e,modifiers:r,expression:n})=>{e&&(t._x_inlineBindings||(t._x_inlineBindings={}),t._x_inlineBindings[e]={expression:n,extract:!1})};d("bind",Pn);function uo(t,e){t._x_keyExpression=e}$t(()=>`[${T("data")}]`);d("data",(t,{expression:e},{cleanup:r})=>{if(fo(t))return;e=e===""?"{}":e;let n={};U(n,t);let i={};sn(i,n);let o=N(t,e,{scope:i});(o===void 0||o===!0)&&(o={}),U(o,t);let s=M(o);ot(s);let a=P(t,s);s.init&&N(t,s.init),r(()=>{s.destroy&&N(t,s.destroy),a()})});q((t,e)=>{t._x_dataStack&&(e._x_dataStack=t._x_dataStack,e.setAttribute("data-has-alpine-state",!0))});function fo(t){return F?Bt?!0:t.hasAttribute("data-has-alpine-state"):!1}d("show",(t,{modifiers:e,expression:r},{effect:n})=>{let i=x(t,r);t._x_doHide||(t._x_doHide=()=>{h(()=>{t.style.setProperty("display","none",e.includes("important")?"important":void 0)})}),t._x_doShow||(t._x_doShow=()=>{h(()=>{t.style.length===1&&t.style.display==="none"?t.removeAttribute("style"):t.style.removeProperty("display")})});let o=()=>{t._x_doHide(),t._x_isShown=!1},s=()=>{t._x_doShow(),t._x_isShown=!0},a=()=>setTimeout(s),c=yt(p=>p?s():o(),p=>{typeof t._x_toggleAndCascadeWithTransitions=="function"?t._x_toggleAndCascadeWithTransitions(t,p,s,o):p?a():o()}),l,u=!0;n(()=>i(p=>{!u&&p===l||(e.includes("immediate")&&(p?a():o()),c(p),l=p,u=!1)}))});d("for",(t,{expression:e},{effect:r,cleanup:n})=>{let i=mo(e),o=x(t,i.items),s=x(t,t._x_keyExpression||"index");t._x_prevKeys=[],t._x_lookup={},r(()=>po(t,i,o,s)),n(()=>{Object.values(t._x_lookup).forEach(a=>h(()=>{j(a),a.remove()})),delete t._x_prevKeys,delete t._x_lookup})});function po(t,e,r,n){let i=s=>typeof s=="object"&&!Array.isArray(s),o=t;r(s=>{ho(s)&&s>=0&&(s=Array.from(Array(s).keys(),f=>f+1)),s===void 0&&(s=[]);let a=t._x_lookup,c=t._x_prevKeys,l=[],u=[];if(i(s))s=Object.entries(s).map(([f,m])=>{let b=In(e,m,f,s);n(E=>{u.includes(E)&&w("Duplicate key on x-for",t),u.push(E)},{scope:{index:f,...b}}),l.push(b)});else for(let f=0;f<s.length;f++){let m=In(e,s[f],f,s);n(b=>{u.includes(b)&&w("Duplicate key on x-for",t),u.push(b)},{scope:{index:f,...m}}),l.push(m)}let p=[],v=[],O=[],R=[];for(let f=0;f<c.length;f++){let m=c[f];u.indexOf(m)===-1&&O.push(m)}c=c.filter(f=>!O.includes(f));let _="template";for(let f=0;f<u.length;f++){let m=u[f],b=c.indexOf(m);if(b===-1)c.splice(f,0,m),p.push([_,f]);else if(b!==f){let E=c.splice(f,1)[0],C=c.splice(b-1,1)[0];c.splice(f,0,C),c.splice(b,0,E),v.push([E,C])}else R.push(m);_=m}for(let f=0;f<O.length;f++){let m=O[f];m in a&&(h(()=>{j(a[m]),a[m].remove()}),delete a[m])}for(let f=0;f<v.length;f++){let[m,b]=v[f],E=a[m],C=a[b],nt=document.createElement("div");h(()=>{C||w('x-for ":key" is undefined or invalid',o,b,a),C.after(nt),E.after(C),C._x_currentIfEl&&C.after(C._x_currentIfEl),nt.before(E),E._x_currentIfEl&&E.after(E._x_currentIfEl),nt.remove()}),C._x_refreshXForScope(l[u.indexOf(b)])}for(let f=0;f<p.length;f++){let[m,b]=p[f],E=m==="template"?o:a[m];E._x_currentIfEl&&(E=E._x_currentIfEl);let C=l[b],nt=u[b],dt=document.importNode(o.content,!0).firstElementChild,qe=M(C);P(dt,qe,o),dt._x_refreshXForScope=Ln=>{Object.entries(Ln).forEach(([jn,Fn])=>{qe[jn]=Fn})},h(()=>{E.after(dt),A(()=>S(dt))()}),typeof nt=="object"&&w("x-for key cannot be an object, it must be a string or an integer",o),a[nt]=dt}for(let f=0;f<R.length;f++)a[R[f]]._x_refreshXForScope(l[u.indexOf(R[f])]);o._x_prevKeys=u})}function mo(t){let e=/,([^,\}\]]*)(?:,([^,\}\]]*))?$/,r=/^\s*\(|\)\s*$/g,n=/([\s\S]*?)\s+(?:in|of)\s+([\s\S]*)/,i=t.match(n);if(!i)return;let o={};o.items=i[2].trim();let s=i[1].replace(r,"").trim(),a=s.match(e);return a?(o.item=s.replace(e,"").trim(),o.index=a[1].trim(),a[2]&&(o.collection=a[2].trim())):o.item=s,o}function In(t,e,r,n){let i={};return/^\[.*\]$/.test(t.item)&&Array.isArray(e)?t.item.replace("[","").replace("]","").split(",").map(s=>s.trim()).forEach((s,a)=>{i[s]=e[a]}):/^\{.*\}$/.test(t.item)&&!Array.isArray(e)&&typeof e=="object"?t.item.replace("{","").replace("}","").split(",").map(s=>s.trim()).forEach(s=>{i[s]=e[s]}):i[t.item]=e,t.index&&(i[t.index]=r),t.collection&&(i[t.collection]=n),i}function ho(t){return!Array.isArray(t)&&!isNaN(t)}function $n(){}$n.inline=(t,{expression:e},{cleanup:r})=>{let n=Q(t);n._x_refs||(n._x_refs={}),n._x_refs[e]=t,r(()=>delete n._x_refs[e])};d("ref",$n);d("if",(t,{expression:e},{effect:r,cleanup:n})=>{t.tagName.toLowerCase()!=="template"&&w("x-if can only be used on a <template> tag",t);let i=x(t,e),o=()=>{if(t._x_currentIfEl)return t._x_currentIfEl;let a=t.content.cloneNode(!0).firstElementChild;return P(a,{},t),h(()=>{t.after(a),A(()=>S(a))()}),t._x_currentIfEl=a,t._x_undoIf=()=>{h(()=>{j(a),a.remove()}),delete t._x_currentIfEl},a},s=()=>{t._x_undoIf&&(t._x_undoIf(),delete t._x_undoIf)};r(()=>i(a=>{a?o():s()})),n(()=>t._x_undoIf&&t._x_undoIf())});d("id",(t,{expression:e},{evaluate:r})=>{r(e).forEach(i=>Cn(t,i))});q((t,e)=>{t._x_ids&&(e._x_ids=t._x_ids)});ct(Pt("@",It(T("on:"))));d("on",A((t,{value:e,modifiers:r,expression:n},{cleanup:i})=>{let o=n?x(t,n):()=>{};t.tagName.toLowerCase()==="template"&&(t._x_forwardEvents||(t._x_forwardEvents=[]),t._x_forwardEvents.includes(e)||t._x_forwardEvents.push(e));let s=V(t,e,r,a=>{o(()=>{},{scope:{$event:a},params:[a]})});i(()=>s())}));ne("Collapse","collapse","collapse");ne("Intersect","intersect","intersect");ne("Focus","trap","focus");ne("Mask","mask","mask");function ne(t,e,r){d(e,n=>w(`You can't use [x-${e}] without first installing the "${t}" plugin here: https://alpinejs.dev/plugins/${r}`,n))}K.setEvaluator(be);K.setRawEvaluator(xr);K.setReactivityEngine({reactive:te,effect:mn,release:hn,raw:g});var Ue=K;window.Alpine=Ue;queueMicrotask(()=>{Ue.start()});})();
+</script></body>
 </html>
