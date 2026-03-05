@@ -1,3 +1,4 @@
+https://mbstudio.cn/figma_pixso_mcp/
 https://mbstudio.cn/ai_agent/
 https://mbstudio.cn/think_about_ai/
 https://mbstudio.cn/webrtc_qa/
@@ -46,3 +47,5 @@ https://mbstudio.cn/tags/%E6%B5%81%E5%AA%92%E4%BD%93%E6%8A%80%E6%9C%AF/
 https://mbstudio.cn/tags/Docker/
 https://mbstudio.cn/tags/Linux/
 https://mbstudio.cn/tags/AI/
+https://mbstudio.cn/tags/Agent/
+https://mbstudio.cn/tags/MCP/
