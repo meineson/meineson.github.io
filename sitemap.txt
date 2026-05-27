@@ -1,3 +1,4 @@
+https://mbstudio.cn/ai_model_landscape_2026/
 https://mbstudio.cn/figma_pixso_mcp/
 https://mbstudio.cn/ai_agent/
 https://mbstudio.cn/think_about_ai/
@@ -49,3 +50,6 @@ https://mbstudio.cn/tags/Linux/
 https://mbstudio.cn/tags/AI/
 https://mbstudio.cn/tags/Agent/
 https://mbstudio.cn/tags/MCP/
+https://mbstudio.cn/tags/Deepseek/
+https://mbstudio.cn/tags/%E5%9B%BD%E4%BA%A7%E5%A4%A7%E6%A8%A1%E5%9E%8B/
+https://mbstudio.cn/tags/Opencode/
