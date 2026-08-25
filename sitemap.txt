@@ -1,3 +1,4 @@
+https://mbstudio.cn/mbstudioai/
 https://mbstudio.cn/webrtc_qa/
 https://mbstudio.cn/figma_pixso_mcp/
 https://mbstudio.cn/ai_agent/
