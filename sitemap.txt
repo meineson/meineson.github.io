@@ -1,3 +1,5 @@
+https://mbstudio.cn/about/index.html
+https://mbstudio.cn/links/index.html
 https://mbstudio.cn/aigcagent/
 https://mbstudio.cn/aigc_aicoding/
 https://mbstudio.cn/mbstudioai/
@@ -14,7 +16,6 @@ https://mbstudio.cn/webrtc_sip_phone/
 https://mbstudio.cn/wertc_no_id/
 https://mbstudio.cn/sipphone/
 https://mbstudio.cn/osip/
-https://mbstudio.cn/about/index.html
 https://mbstudio.cn/smartwatch/
 https://mbstudio.cn/iotThind/
 https://mbstudio.cn/cmcc/
@@ -32,7 +33,6 @@ https://mbstudio.cn/kernelCrack/
 https://mbstudio.cn/duilib/
 https://mbstudio.cn/ddKernelPanic/
 https://mbstudio.cn/cf_proxy_github_pages/
-https://mbstudio.cn/links/index.html
 https://mbstudio.cn/index/
 https://mbstudio.cn/
 https://mbstudio.cn/tags/%E8%9E%8D%E5%90%88%E9%80%9A%E4%BF%A1/
