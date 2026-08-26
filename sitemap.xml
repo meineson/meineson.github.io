@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://mbstudio.cn/about/index.html</loc>
+    <loc>https://mbstudio.cn/aigcagent/</loc>
     
     <lastmod>2026-08-26</lastmod>
     
@@ -20,9 +20,9 @@
   </url>
   
   <url>
-    <loc>https://mbstudio.cn/aigcagent/</loc>
+    <loc>https://mbstudio.cn/about/index.html</loc>
     
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-08-26</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

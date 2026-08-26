@@ -1,6 +1,6 @@
-https://mbstudio.cn/about/index.html
-https://mbstudio.cn/links/index.html
 https://mbstudio.cn/aigcagent/
+https://mbstudio.cn/links/index.html
+https://mbstudio.cn/about/index.html
 https://mbstudio.cn/aigc_aicoding/
 https://mbstudio.cn/mbstudioai/
 https://mbstudio.cn/webrtc_qa/

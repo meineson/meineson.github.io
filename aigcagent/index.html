@@ -8,20 +8,20 @@
 <blockquote>
 <p>当然，还有其它的流派：Workflow，以及拆分并保持AI剧制作的每个步骤的工具独立性和专业性。</p>
 </blockquote>
-<h1 id="软件开发Agent的实现逻辑"><a href="#软件开发Agent的实现逻辑" class="headerlink" title="软件开发Agent的实现逻辑"></a>软件开发Agent的实现逻辑</h1><p>通过理解LLM大模型的原理，知道它的能力边界，就能明白为什么是AI Coding Agent才能够越来越完美地自动化完成软件系统的开发。</p>
-<h2 id="软件开发从来不是上手就写代码"><a href="#软件开发从来不是上手就写代码" class="headerlink" title="软件开发从来不是上手就写代码"></a>软件开发从来不是上手就写代码</h2><p>软件开发是一项现代工程，它有着完整的标准化工业流程，无论具体方法论如何变化，关键的需求分析，设计，编码，测试，发布，部署和维护步骤是一直存在的，可以被简化、被暂时跳过，但重新自创一套新体系，就需要你有开宗立派的能力，而绝大部分人是没有的。</p>
+<h2 id="软件开发Agent的实现逻辑"><a href="#软件开发Agent的实现逻辑" class="headerlink" title="软件开发Agent的实现逻辑"></a>软件开发Agent的实现逻辑</h2><p>通过理解LLM大模型的原理，知道它的能力边界，就能明白为什么是AI Coding Agent才能够越来越完美地自动化完成软件系统的开发。</p>
+<h4 id="软件开发从来不是上手就写代码"><a href="#软件开发从来不是上手就写代码" class="headerlink" title="软件开发从来不是上手就写代码"></a>软件开发从来不是上手就写代码</h4><p>软件开发是一项现代工程，它有着完整的标准化工业流程，无论具体方法论如何变化，关键的需求分析，设计，编码，测试，发布，部署和维护步骤是一直存在的，可以被简化、被暂时跳过，但重新自创一套新体系，就需要你有开宗立派的能力，而绝大部分人是没有的。</p>
 <p>所以现在的AI Coding Agent编程软件，大多设计越来越趋同，需要你输入需求文档或反复与AI进行技术或功能点讨论，形成开发计划、拆解系统架构、分析功能模块，并且AI也会建议你添加技术规范约束，编写测试用例，过程中还会调用各种Skills技能辅助你完成上述工作，最后才是边测试边开发给你输出代码。</p>
 <blockquote>
 <p>AI编程能够成功非常重要的一点就是，能够自我验证。</p>
 </blockquote>
-<h2 id="模型能力的差异"><a href="#模型能力的差异" class="headerlink" title="模型能力的差异"></a>模型能力的差异</h2><p>就如同不同程序员能力有高低，模型的能力也有差异，但我不认为到了2026年能上线提供API服务大模型还有哪家编程能力是不及格的。</p>
+<h4 id="模型能力的差异"><a href="#模型能力的差异" class="headerlink" title="模型能力的差异"></a>模型能力的差异</h4><p>就如同不同程序员能力有高低，模型的能力也有差异，但我不认为到了2026年能上线提供API服务大模型还有哪家编程能力是不及格的。</p>
 <p>好的Coding Agent能够把不同模型的表现能力拉到差不多水平，这是工程的力量，背后是大量内置Skills，利用工程的方法在补全你遗漏的细节。</p>
 <blockquote>
 <p>只要是能力及格的程序员，在软件公司里都是能完成编码任务的（因为有资深skill的工程师指导）；许多古法编程软件开发项目的失败，更多是系统架构和设计阶段的锅，AI Coding也一样，并且你就是那个架构和设计的人。</p>
 </blockquote>
 <p>网上最近也在争论一点：AI时代，写代码是不是一件很简单的事——这引发了大量经过数年学习和工作的资深程序员的批斗，认为AI抹杀了人的学习价值。</p>
 <p>我们这里不作评判，但软件肯定不只是写代码，AIGC也肯定不只是只有生成一张图&#x2F;一段视频。</p>
-<h1 id="AIGC-Agent的设计思想"><a href="#AIGC-Agent的设计思想" class="headerlink" title="AIGC Agent的设计思想"></a>AIGC Agent的设计思想</h1><p>我把AIGC Agent和AI Coding Agent放在一起，本质上就是因为 AI生成 与 AI编程 几乎经历了相同的发展阶段。</p>
+<h2 id="AIGC-Agent的设计思想"><a href="#AIGC-Agent的设计思想" class="headerlink" title="AIGC Agent的设计思想"></a>AIGC Agent的设计思想</h2><p>我把AIGC Agent和AI Coding Agent放在一起，本质上就是因为 AI生成 与 AI编程 几乎经历了相同的发展阶段。</p>
 <ul>
 <li>第一阶段，一句话生成一个软件，一句话生成一张图&#x2F;视频。</li>
 </ul>
@@ -35,14 +35,14 @@
 </ul>
 <p>有了大量的Skill大量技能封装，相当于AI有了模板，许多擅长找资源的人，立马领先一步，程序员可以用AI生成完整的网页设计图了，可以出一份完整的数据库定义了；也可以用技能直接生成广告片了，生成周星星搞笑片段了。</p>
 <p>但到了这个阶段，并且想继续下去的人，才会理解“工程”的枷锁有多重。我们的设计思想讨论重点在这里展开。</p>
-<h2 id="工程的完整性"><a href="#工程的完整性" class="headerlink" title="工程的完整性"></a>工程的完整性</h2><p>软件系统从来都不是碎片化的一个界面和一个功能模块，是一个整体，一个环节的失败都可能导致整个项目崩盘。</p>
+<h4 id="工程的完整性"><a href="#工程的完整性" class="headerlink" title="工程的完整性"></a>工程的完整性</h4><p>软件系统从来都不是碎片化的一个界面和一个功能模块，是一个整体，一个环节的失败都可能导致整个项目崩盘。</p>
 <p>AIGC也是一样，最终目标是为了生成一部小说，一套图片，一部剧集（下文以最复杂的AI剧集为例）。</p>
 <p>AIGC Agent要有剧集的全局目标设定，世界观：故事背景、世界规则、故事主线和关键节点，有画面风格、镜头语言和叙事方法（和软件开发要写PRD和设计文档、有常用的技术框架和编码风格一样），并且贯穿全局。</p>
 <p>并对整个剧集进行季-分集-叙事单元-场次-分镜的组织管理（相当于软件中的逻辑结构设计和功能模块分拆、定义），所有单元的制作都要遵守全局设定，高度统一和确保一致性。</p>
-<h2 id="工程的可管理性"><a href="#工程的可管理性" class="headerlink" title="工程的可管理性"></a>工程的可管理性</h2><p>软件工程领域有各类工具负责文档管理，界面设计，代码仓库，自动化测试等等，而AIGC目前还没有工业标准化，没有哪个行业会像现在这样，有人用Workflow，有人用Excel表格&#x2F;Word文档，有人用Canvas无限画布……各类资产（剧本，角色设定图，配音文件，视频片段）散落一地，生成图片、视频时甚至还在靠”抽卡“的方式赌运气，中间过程没有历史、存档，更没有版本管理。</p>
+<h4 id="工程的可管理性"><a href="#工程的可管理性" class="headerlink" title="工程的可管理性"></a>工程的可管理性</h4><p>软件工程领域有各类工具负责文档管理，界面设计，代码仓库，自动化测试等等，而AIGC目前还没有工业标准化，没有哪个行业会像现在这样，有人用Workflow，有人用Excel表格&#x2F;Word文档，有人用Canvas无限画布……各类资产（剧本，角色设定图，配音文件，视频片段）散落一地，生成图片、视频时甚至还在靠”抽卡“的方式赌运气，中间过程没有历史、存档，更没有版本管理。</p>
 <p>AIGC Agent需要统筹全剧资产，按需调用，而不是全凭人的记忆手工搬运，极易出错和遗漏，也根本无法协作。</p>
 <p>以一个分镜视频生成为例，就需要关联世界观，角色、场景、道具资产，剧本剧情，分镜脚本，故事板，摄像运镜，甚至配音音效等资源，这全凭人工管理，是非常繁重的脑力和体力活。</p>
-<h2 id="工程的可批量复制性"><a href="#工程的可批量复制性" class="headerlink" title="工程的可批量复制性"></a>工程的可批量复制性</h2><p>许多高手手搓AI剧非常熟练，但他的经验和能力无法被复制，即使是开课培训，因为不同人的知识背景不同，许多被忽略的细节，往往会决定有人怎么也不开窍，学不会。</p>
+<h4 id="工程的可批量复制性"><a href="#工程的可批量复制性" class="headerlink" title="工程的可批量复制性"></a>工程的可批量复制性</h4><p>许多高手手搓AI剧非常熟练，但他的经验和能力无法被复制，即使是开课培训，因为不同人的知识背景不同，许多被忽略的细节，往往会决定有人怎么也不开窍，学不会。</p>
 <p>AIGC Agent当然要将AI剧制作过程中，碎片化的工作流程进行标准化形成SOP流程，无论是角色和场景的设定，还是分镜脚本的编制，统一了不同水平的人执行SOP时的差异，满足工业标准可批量可复制的刚性要求。</p>
 </div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2026-06-15</span><i class="fa fa-tag"></i><a class="tag" href="/tags/技术分析/" title="技术分析">技术分析 </a><a class="tag" href="/tags/AI/" title="AI">AI </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" target="_blank" rel="noopener" href="http://twitter.com/home?status=,https://mbstudio.cn/aigcagent/,MBSTUDIO,AIGC 图片 视频 漫剧类 Agent设计思想（更新中）,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/aigc_aicoding/" title="从大厂下场看AI行业发展热点">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/mbstudioai/" title="MB Studio AI剧集制作工作台">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="/js/av-min.js"></script><script src="/js/Valine.min.js"></script><script>var valine = new Valine({
   el:'#vcomments',
