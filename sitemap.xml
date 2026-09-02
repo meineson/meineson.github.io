@@ -11,6 +11,15 @@
   </url>
   
   <url>
+    <loc>https://mbstudio.cn/links/index.html</loc>
+    
+    <lastmod>2026-09-02</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://mbstudio.cn/aigcagent/</loc>
     
     <lastmod>2026-08-27</lastmod>
@@ -23,15 +32,6 @@
     <loc>https://mbstudio.cn/aigc_aicoding/</loc>
     
     <lastmod>2026-08-27</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://mbstudio.cn/links/index.html</loc>
-    
-    <lastmod>2026-08-26</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

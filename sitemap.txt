@@ -1,7 +1,7 @@
 https://mbstudio.cn/mbstudioai/
+https://mbstudio.cn/links/index.html
 https://mbstudio.cn/aigcagent/
 https://mbstudio.cn/aigc_aicoding/
-https://mbstudio.cn/links/index.html
 https://mbstudio.cn/about/index.html
 https://mbstudio.cn/webrtc_qa/
 https://mbstudio.cn/figma_pixso_mcp/
