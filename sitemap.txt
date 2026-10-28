@@ -1,5 +1,9 @@
-https://mbstudio.cn/aigc_workflow_5m/
+https://mbstudio.cn/mbtv_feature1/
+https://mbstudio.cn/mbtv_demo/
+https://mbstudio.cn/mbtv_m_ui/
 https://mbstudio.cn/mbstudioai/
+https://mbstudio.cn/mbtv_dev1/
+https://mbstudio.cn/aigc_workflow_5m/
 https://mbstudio.cn/links/index.html
 https://mbstudio.cn/aigcagent/
 https://mbstudio.cn/aigc_aicoding/
@@ -57,3 +61,4 @@ https://mbstudio.cn/tags/AI%E6%BC%AB%E5%89%A7/
 https://mbstudio.cn/tags/AIGC/
 https://mbstudio.cn/tags/AGENT/
 https://mbstudio.cn/tags/MBTV/
+https://mbstudio.cn/tags/%E6%BC%AB%E5%B8%83%E5%88%B6%E7%89%87/
