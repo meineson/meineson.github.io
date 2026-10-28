@@ -1,26 +1,639 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="MEINESON,meineson@gmail.com"><title>MBSTUDIO</title><meta name="description" content="MBSTUDIO SINCE 2001 /AI VoIP OS IOT/"><meta name="keywords" content="mbstudio,AI,Agent,AIGC,SIP,RTC,RCS,Deep Learning"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 7.3.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">MBStudio Blog</a></h3><div class="description"><p>SINCE 2001 /AI VoIP OS IOT/</p></div></div></div><ul class="social-links"><li><a href="mailto:meineson@gmail.com"><i class="fa fa-envelope">         </i></a></li><li><a target="_blank" rel="noopener" href="https://weibo.com/meineson"><i class="fa fa-weibo"></i></a></li><li><a target="_blank" rel="noopener" href="http://github.com/meineson"><i class="fa fa-github"></i></a></li></ul><div class="footer"></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a class="current" href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)" style="display:none;"> </a></li></div><div class="avatar"><img src="/images/me.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/wertc_no_id/">WebRTC 设备枚举ID为空异常</a></h3></div><div class="post-content"><p>最近在给MBWebPhone增加音视频设备配置功能界面时，发现在浏览器中正常但NWJS封装的APP中异常的bug——呼叫正常，但设备枚举为空白。一开始以为是nwjs的bug，但翻遍他们的社区，报告同样问题的解决方案是给出了–use-fake-ui-for-media-stream方式启动，这样能正常显示出设备列表...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2025-07-09</span><i class="fa fa-tag"></i><a class="tag" href="/tags/融合通信/" title="融合通信">融合通信 </a><a class="tag" href="/tags/技术分析/" title="技术分析">技术分析 </a><a class="tag" href="/tags/程序开发/" title="程序开发">程序开发 </a><a class="tag" href="/tags/webrtc/" title="webrtc">webrtc </a></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/webrtc_sip_phone/">从0开发网页webrtc sip软电话(支持自建sip服务器freeswitch)</a></h3></div><div class="post-content"><p>最近在调试基于web的sip开发库（有sip.js和jssip两家），原理都差不多，都是通过SIP RFC的websocket扩展（SIP over WebSocket RFC 7118，标准情况下是UDP、TCP或TLS传输方式），通过ws消息传递标准sip消息（目前主流VoIP平台，例如：Asterisk,F...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2025-06-30</span><i class="fa fa-tag"></i><a class="tag" href="/tags/融合通信/" title="融合通信">融合通信 </a><a class="tag" href="/tags/程序开发/" title="程序开发">程序开发 </a><a class="tag" href="/tags/sip/" title="sip">sip </a><a class="tag" href="/tags/webrtc/" title="webrtc">webrtc </a></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/cf_proxy_github_pages/">GITHUB Pages使用CF加速的坑</a></h3></div><div class="post-content"><p>最近Github的白嫖Pages是越发的访问不稳定了，想使用CF的CDN加速一下，先正常托管DNS域名mbstudio.cn到CF上，解析mbstudio.cn和www到CNAME值meineson.github.io（只是启用了DNS解析，没打开Proxy代理加速开关，一切正常）。github pages使用的...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2025-06-24</span><i class="fa fa-tag"></i><a class="tag" href="/tags/云计算/" title="云计算">云计算 </a><a class="tag" href="/tags/技术分析/" title="技术分析">技术分析 </a></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/ROLinux/">Linux根分区改只读系统，防止系统损坏或硬盘损坏无法开机</a></h3></div><div class="post-content"><p>问题来源有些电脑在安装完操作系统和应用软件后，功能正常很稳定，很长时间是不需要作改动的，也不关心上面产生的日志之类的无用数据。
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>Page 3 | MBSTUDIO</title>
+  <meta name="author" content="meineson">
+  
+  <meta name="description" content="MBSTUDIO SINCE 2001 /AI VoIP OS IOT/">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="MBSTUDIO"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+    <link rel="alternative" href="/atom.xml" title="MBSTUDIO" type="application/atom+xml">
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/prism.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
 
 
-但有时就是手贱一不小心删了、改了东西，重启一下，机器启动不了了
-电脑频繁被直接断电开关机，时间不长就再也启动不了，甚至硬盘损坏了
 
 
-如果直接把根分区”&#x2F;“在&#x2F;e...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2025-06-16</span><i class="fa fa-tag"></i><a class="tag" href="/tags/技术分析/" title="技术分析">技术分析 </a><a class="tag" href="/tags/操作系统/" title="操作系统">操作系统 </a></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/teashop3/">1天源码级搭建免费微信小程序商店卖茶（3）</a></h3></div><div class="post-content"><p>
-前期准备
+<meta name="generator" content="Hexo 7.3.0"></head>
 
-前两篇文章，分别架设好了小程序商站的后台服务端（提供小程序的数据接口，存储商品和交易信息等等），编译并且在手机上成功打开了测试版小程序，成功拉取到了服务器上的测试数据。
-本篇开始，为“真实”运营进行下一步动作。要运营，肯定不能光看那些测试数据，要发布真实的商品和真实的支付订单以及快递流转，所以需要一...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2024-06-28</span><i class="fa fa-tag"></i><a class="tag" href="/tags/技术分析/" title="技术分析">技术分析 </a><a class="tag" href="/tags/程序开发/" title="程序开发">程序开发 </a></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/teashop2/">1天源码级搭建免费微信小程序商店卖茶（2）</a></h3></div><div class="post-content"><p>
-接上回，服务器搭建好后，我们开始调试小程序端，前提是你有一个已经可以正常工作的开发环境，这里不“0基础”培训了。
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">MBSTUDIO</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class=""></i>全部文章
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class=""></i>标签
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class=""></i>关于
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 <div class="page-header logo">
+  <div class="logo-inner">
+    <img src="/favicon.png" alt="logo" class="logo-img" />
+    <h1>MBStudio Blog<span class="blink-fast">|</span></h1>
+  </div>
+</div>
+
+<div class="row page">
+
+	
+	<div class="col-md-9">
+	
+
+		<div class="slogan">
 
 
-下载代码
+		<i class="fa fa-heart blink-slow"></i>
 
-直接zip打包下载海风小店微信小程序源码：https://github.com/iamdarcy/hioshop-miniprogram ，解压到开发文件夹。
+		Mind it, Build it. 
 
-微信小程序开发
+</div>    
 
-导...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2024-05-31</span><i class="fa fa-tag"></i><a class="tag" href="/tags/技术分析/" title="技术分析">技术分析 </a><a class="tag" href="/tags/程序开发/" title="程序开发">程序开发 </a></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/teashop1/">1天源码级搭建免费微信小程序商店卖茶（1）</a></h3></div><div class="post-content"><p>多说一句，阅读提醒！
+		<div id="top_search"></div>
+		<div class="mypage">
+		
+		<!-- title and entry -->
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
+			<a href="/wertc_no_id/" >WebRTC 设备枚举ID为空异常</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2025-07-09  </div>
+		</div>
+	</div>
+	
 
-有点标题党了，但不夸张。实现“1天搭建”的前提是有Linux服务器命令行操作基础能力、git指令，懂Docker，有基础的微信小程序开发hello world水平；“免费”的定义是不为这个小程序商店额外付几百几千甚至上万的年费、软件服务费，开店所需要的服务器、域名、微信小程序认证费、微信支...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2024-04-28</span><i class="fa fa-tag"></i><a class="tag" href="/tags/技术分析/" title="技术分析">技术分析 </a><a class="tag" href="/tags/程序开发/" title="程序开发">程序开发 </a></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/winMemLeak/">Windows下C/C++程序随机memleak内存崩溃问题的处理</a></h3></div><div class="post-content"><p>近日跟踪分析一个程序，其特征为，在运行过程中，可以毫无征兆的随心所欲的崩溃，而且无论是debug跟踪还是dump分析，出错的地方的代码都是完全没问题。
-经过排除了所有可能的外部链接的各种lib库带入的问题的原因后，问题重新回归到应用程序代码上来，经过反复定位，由于程序最终出错都是发生在另外一个稳定可靠的lib库在...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2015-09-11</span><i class="fa fa-tag"></i><a class="tag" href="/tags/技术分析/" title="技术分析">技术分析 </a><a class="tag" href="/tags/操作系统/" title="操作系统">操作系统 </a><a class="tag" href="/tags/程序开发/" title="程序开发">程序开发 </a></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/cmcc/">中国移动的融合通信真的能够撼动微信吗？不能。</a></h3></div><div class="post-content"><p>新闻链接：http://www.cnii.com.cn/telecom/2014-11/06/content_1473626.htm
-看了一下，移动还是抛不开自身利益，现在公开的信息看，即使它上线规模化应用后，差异点还是仅仅与普通手机间短信免费（移动网内，但易信已经和其它运营商免费短信了好吧……），而图文类信息正...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2014-11-06</span><i class="fa fa-tag"></i><a class="tag" href="/tags/融合通信/" title="融合通信">融合通信 </a><a class="tag" href="/tags/行业评论/" title="行业评论">行业评论 </a></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/smartwatch/">对智能可穿戴设备的一些吐槽和产品概念分析（智能手表、智能手环）</a></h3></div><div class="post-content"><p>最近脑子抽风，想起来骑自行车锻炼身体，搞了辆山地车然后为了配码表到监测运动量，先后装了十几款运动监测软件（Nike+ runing，Runtastic，Runkeeper，咕咚等等），入了一个智能手环，一个智能手表，一条蓝牙心率带，以及期间还顺便了解了一下可穿戴设备的原型——GPS手表，运动手表等等，特别是昨天刚...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2013-10-15</span><i class="fa fa-tag"></i><a class="tag" href="/tags/行业评论/" title="行业评论">行业评论 </a><a class="tag" href="/tags/智能穿戴/" title="智能穿戴">智能穿戴 </a></div></div></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/page/2/">上一页</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/page/4/">下一页</a></li></ul></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/baidu.js"> </script></body></html>
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>最近在给MBWebPhone增加音视频设备配置功能界面时，发现在浏览器中正常但NWJS封装的APP中异常的bug——呼叫正常，但设备枚举为空白。<br>一开始以为是nwjs的bug，但翻遍他们的社区，报告同样问题的解决方案是给出了<code>–use-fake-ui-for-media-stream</code>方式启动，这样能正常显示出设备列表了，但视频通话打开摄像头、桌面共享全部报错。<br>正常的：<br><img src="/images/2025-07-09-16-10-22.png" alt="image"></p>
+<p>异常的：<br><img src="/images/2025-07-09-16-10-47.png" alt="image"></p>
+<p>仔细看这段代码并没有特殊：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">navigator.mediaDevices?.enumerateDevices()</span><br><span class="line">    .then(devices =&gt; &#123;</span><br><span class="line">      devices.forEach(device =&gt; &#123;</span><br><span class="line">        console.log(`$&#123;device.kind&#125;: $&#123;device.label&#125; (ID: $&#123;device.deviceId&#125;)`);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>但打印出来就是 ：</p>
+	
+	</div>
+  <a type="button" href="/wertc_no_id/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
+			<a href="/webrtc_sip_phone/" >从0开发网页webrtc sip软电话(支持自建sip服务器freeswitch)</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2025-06-30  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>最近在调试基于web的sip开发库（有sip.js和jssip两家），原理都差不多，都是通过SIP RFC的websocket扩展（SIP over WebSocket RFC 7118，标准情况下是UDP、TCP或TLS传输方式），通过ws消息传递标准sip消息（目前主流VoIP平台，例如：Asterisk,Freeswitch,Kamillo等均有支持），然后通过浏览器webrtc进行音视频编解码和rtp通信。<br>需求的来源也很简单，目前类似<a target="_blank" rel="noopener" href="https://www.pjsip.org/">PJSIP</a>的C&#x2F;C++的sip开发库虽然已经非常成熟，但native开发始终是个门槛，尤其是界面开发（之前曾经开发定制过一款单exe的mbphone sip软电话，可以说80%工作量都花在界面上了，还是在使用了duilib库的前提下），现在想找齐Windows、Linux、Mac三平台都简洁好用的SIP软电话都非常困难，更不用说开发集成了，尤其是现在WEB应用和移动应用普及的时代，开发全平台的软件成本太高。</p>
+<p>webrtc的开源平台和客户端sdk开发解决方案似乎很多，github一拉都齐活，但仔细试下来，由于webrtc的开放性并没有定义应用层通信协议，所以许多开发者大多是另起炉灶采用私有应用层通信协议，甚至ws+http混用，与标准程控交换机IPPBX、呼叫中心、视频会议等现有设施并不兼容（一般是通过这些Webrtc平台额外提供的sip网关进行转接，商用的zoom、腾讯会议也是类似解决方案）。</p>
+<p>如果需要开发标准的SIP软电话，就需要开发5个原生的客户端（例如采用PJSIP，支持windows、Android、iOS、Linux、MacOS全平台），对于中小公司和个人开发者几乎不现实，所以视线还是回到跨平台特别是web解决方案上来。</p>
+<p>早几年，各家开源sip通信平台对于websocket的支持还不太成熟，例如freeswitch当时实现的webrtc软电话方案，是通过verto方案折中实现verto就是一个私有的应用层协议，它并不与sip协议兼容，而且文档也不完备，除了直接使用它提供的verto软电话，并不具备太多个性化定制能力。<br>好在freeswitch最新1.10版本上，sip的websocket支持已经可用了，而基于javscript的sip协议栈例如<a target="_blank" rel="noopener" href="https://sipjs.com/">sip.js</a>和<a target="_blank" rel="noopener" href="https://jssip.net/">Jssip</a>也非常成熟了，所以通过WEB实现标准的sip通信成为可能。</p>
+<hr>
+	
+	</div>
+  <a type="button" href="/webrtc_sip_phone/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
+			<a href="/cf_proxy_github_pages/" >GITHUB Pages使用CF加速的坑</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2025-06-24  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>最近Github的白嫖Pages是越发的访问不稳定了，想使用CF的CDN加速一下，先正常托管DNS域名mbstudio.cn到CF上，解析mbstudio.cn和www到CNAME值meineson.github.io（只是启用了DNS解析，没打开Proxy代理加速开关，一切正常）。<br>github pages使用的是HEXO搭建，已经手工修改掉源码里的CDN缓存js文件，但还是慢的发指，git pages仓库的setting里已经启用了自定义域名（会在meineson.github.io的git仓库的根目录下自动创建一个CNAME文件，里面值就是自定义域名mbstudio.cn）。<br>回到CF上启用proxy，以为万事大吉，结果301无限死循环来了。<br>甚至直接输入原始的meineson.github.io也会立即被跳转到mbstudio.cn然后301死循环（另外的www也一样）。<br>尝试去git仓库后台删除自定义域名，即仓库里的CNAME文件被删掉，可通过原始meineson.github.io访问了，但再次通过mbstudio.cn自定义域名访问时，就提示404了。</p>
+<p>简单分析了下原理：<br>因为无论是通过IP地址还是CNAME记录跳转到github pages的服务器（大概是4个ip地址，给所有用户共用），它都要检测被访问域名，如果git仓库没有设置自定义域名时，它只认meineson.github.io这个原始二级域名，而如果设置了自定义域名，访问目标是二级域名meineson.github.io时，会被强制301重定向到自定义域名mbstudio.cn（因为CF没启用代理，还是回到github服务器上）再获取网站内容。<br><img src="/images/pages301.png" alt="查看访问截图"></p>
+<p>所以当CF开启CDN加速后，理论上是用户输入自定义域名mbstudio.cn访问时，CF会返回它的随机CDN服务器地址给用户而隐藏实际地址，用户实际访问的是应当是CF服务器上缓存的HTML文件，会非常快速。</p>
+<p>但问题出在CF的CDN服务器转发了用户的请求到达github服务器时，github服务器并没有识别到被访问域名是mbstudio.cn，并没有直接返回网站内容HTML数据，而是返回301让以自定义域名重新访问github服务器，CDN服务器也直接转发了该301回复，用户浏览器收到301再次访问301目标mbstudio.cn时，再次到达CDN服务器重复上述逻辑，造成死循环……</p>
+<p>由于截至目前仍未找到有效的解决办法，取消CDN可以恢复github pages的访问但还是速度感人，暂时通过CF的Workers &amp; Pages功能，新建一个Pages发布，直接连接github仓库，自动克隆github的hexo源码仓库，build命令使用：</p>
+	
+	</div>
+  <a type="button" href="/cf_proxy_github_pages/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
+			<a href="/ROLinux/" >Linux根分区改只读系统，防止系统损坏或硬盘损坏无法开机</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2025-06-16  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h4 id="问题来源"><a href="#问题来源" class="headerlink" title="问题来源"></a>问题来源</h4><p>有些电脑在安装完操作系统和应用软件后，功能正常很稳定，很长时间是不需要作改动的，也不关心上面产生的日志之类的无用数据。</p>
+<blockquote>
+<ul>
+<li>但有时就是手贱一不小心删了、改了东西，重启一下，机器启动不了了</li>
+<li>电脑频繁被直接断电开关机，时间不长就再也启动不了，甚至硬盘损坏了</li>
+</ul>
+</blockquote>
+<p>如果直接把根分区”&#x2F;“在&#x2F;etc&#x2F;fstab里给干成ro了，那么大概率各种问题就出现了，甚至无法启动（有虚拟机的可以做个快照，来修改试验一下报告一下更新进来），所以才有了下面这些方法。</p>
+<h4 id="极简懒人版方法1："><a href="#极简懒人版方法1：" class="headerlink" title="极简懒人版方法1："></a>极简懒人版方法1：</h4>
+	
+	</div>
+  <a type="button" href="/ROLinux/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
+			<a href="/teashop3/" >1天源码级搭建免费微信小程序商店卖茶（3）</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2024-06-28  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<ul>
+<li>前期准备</li>
+</ul>
+<p>前两篇文章，分别架设好了小程序商站的后台服务端（提供小程序的数据接口，存储商品和交易信息等等），编译并且在手机上成功打开了测试版小程序，成功拉取到了服务器上的测试数据。</p>
+<p>本篇开始，为“真实”运营进行下一步动作。要运营，肯定不能光看那些测试数据，要发布真实的商品和真实的支付订单以及快递流转，所以需要一个后台管理界面，我们选用的海风小店提供了两种数据管理方式（其实是3种，你是大神的话可以手写sql直接管理数据库），其中一种是部署在本地电脑上，直接在电脑浏览器里打开管理界面（相当于用mysql数据库管理软件的可视化版本），优点是方便和安全（真安全啊，没其它动数据库数据的手段），缺点是只能一台电脑上管理，所以综合大多数人的需求，我们在之前那台作小程序服务端的服务器上部署（也可以是一台全新的服务器，做到管理界面和数据分离，读者可以举一反三，我们现在只讲最简单、通用的）。</p>
+<ul>
+<li>代码获取</li>
+</ul>
+<p>上文提到，本地管理使用的是hioshop-admin源码，我们需要架设在服务器上通过web访问管理，需要用到hioshop-admin-web（<br><a target="_blank" rel="noopener" href="https://github.com/iamdarcy/hioshop-admin-web%EF%BC%89%E3%80%82">https://github.com/iamdarcy/hioshop-admin-web）。</a></p>
+	
+	</div>
+  <a type="button" href="/teashop3/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
+			<a href="/teashop2/" >1天源码级搭建免费微信小程序商店卖茶（2）</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2024-05-31  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<blockquote>
+<p>接上回，服务器搭建好后，我们开始调试小程序端，前提是你有一个已经可以正常工作的开发环境，这里不“0基础”培训了。</p>
+</blockquote>
+<ul>
+<li>下载代码</li>
+</ul>
+<p>直接zip打包下载海风小店微信小程序源码：<a target="_blank" rel="noopener" href="https://github.com/iamdarcy/hioshop-miniprogram">https://github.com/iamdarcy/hioshop-miniprogram</a> ，解压到开发文件夹。</p>
+<ul>
+<li>微信小程序开发</li>
+</ul>
+<p>导入代码，修改config&#x2F;api.js中的ApiRoot为你的服务器地址，即上篇文章中提到的最后打开的那个网址,例如 <a target="_blank" rel="noopener" href="http://meiwutea.com/">http://meiwutea.com</a> 。<br>先CTRL+SHIFT+P方式编译代码，在本地电脑上预览一下，确保代码正常。<br><img src="/images/2025-06-25-11-30-47.png" alt="image"></p>
+	
+	</div>
+  <a type="button" href="/teashop2/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
+			<a href="/teashop1/" >1天源码级搭建免费微信小程序商店卖茶（1）</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2024-04-28  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p><strong>多说一句，阅读提醒！</strong></p>
+<blockquote>
+<p>有点标题党了，但不夸张。实现“1天搭建”的前提是有Linux服务器命令行操作基础能力、git指令，懂Docker，有基础的微信小程序开发hello world水平；“免费”的定义是不为这个小程序商店额外付几百几千甚至上万的年费、软件服务费，开店所需要的服务器、域名、微信小程序认证费、微信支付的开通等等费用还是要的，如果这段话大部分内容你看不懂，那么大概率你没办法“1天”和“免费”搭建出来一个卖茶的小程序，该花的钱还是得花，找专业的小程序服务商吧。</p>
+</blockquote>
+<ul>
+<li>前言</li>
+</ul>
+<p>众所周知（笑），作为程序猿，最近卖茶了，除了淘宝店顺利开张了，其它都多多少少有各种门槛（说人话就是要钱），包括但不限于企业营业执照，食品经营许可证以及各种保证金、服务费……</p>
+<p>一怒（笑）之下，打算翻出老本行还是自己搞吧，综合考虑了下，选择在微信小程序上开店（虽然微信官方也有企业公众号开店、视频号开店和已经停滞的微信小商店等好几种模式，但腾讯搞电商总差点意思……综合考虑了下，还是小程序最具备推广前景，也能兼顾后面自己搞独立APP）。</p>
+	
+	</div>
+  <a type="button" href="/teashop1/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
+			<a href="/winMemLeak/" >Windows下C/C++程序随机memleak内存崩溃问题的处理</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2015-09-11  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>近日跟踪分析一个程序，其特征为，在运行过程中，可以毫无征兆的随心所欲的崩溃，而且无论是debug跟踪还是dump分析，出错的地方的代码都是完全没问题。</p>
+<p>经过排除了所有可能的外部链接的各种lib库带入的问题的原因后，问题重新回归到应用程序代码上来，经过反复定位，由于程序最终出错都是发生在另外一个稳定可靠的lib库在执行某代码功能时分配内存时报“HEAP: Free Heap block 44734b8 modified at 4473580 after it was freed​”这类错误，字面上就是说，有一段heap堆内存被错误的在已经释放后又被操作了，即俗称的C&#x2F;C++万年老大难“野指针”问题。</p>
+<p>这种问题一般发生在内存被重复释放（释放后指向这块内存的指针又被使用，然后在另一个地方又被释放），或者哪块内存被“越界”操作了（数组只有10，却写了11的位置）等等情况下，但操作系统的机制决定了代码在执行这些操作时​，它不报错，直到这块内存又被人使用时，好了，它bi的一下崩掉了，但这时候通过回溯函数调用堆栈stack只能看到正常执行内存分配的场景，也就是你通过正常的调试跟踪和抓dump根本没用，原先想用之前在linux下分配内存泄漏的memleak函数库来分析处理（它的原理就是替换系统所有malloc, free等函数，在执行这些操作时记录一下分配和释放并定时或手工打印出来，这样程序跑一段时间，如果有哪个分配的内存应该释放的但还能在打印日志里看到，这块内存就是泄漏了），但考虑到一来这是linux下的库要移植，另外这个windows程序大量调用了外部lib库，全部替换成memleak进行内存分配处理工作量太大，寻找现有方案。</p>
+<p>好在这个问题不是我一家遇到，微软MSDN上已经有相应工具提供（不过网上的大量日志已经过时，下载不到），类似工具有Gflags（包含在Debugging Tools for Windows里）及其它类似工具，可以通过下载windows SDK安装时选择安装这个工具就可以找到，然后这个工具是一个命令行，通过gflags.exe &#x2F;p &#x2F;enable xxxx.exe &#x2F;full打开（当然还有一些额外参数，这次调试工作里没用到），通过gflags.exe &#x2F;p &#x2F;disable xxxx.exe关闭，其实它没做什么复杂工作，只是修改一个注册表项，修改了操作系统的Heap堆内存的分配机制。</p>
+<p>其核心原理简单分析了一下就是，原先malloc只是在heap堆里分配一块内存，然后free后还给系统，但gflags操作后，这个程序再申请内存时，除了原有一块内存，还会紧接它又分配一块额外的内存但标识为noaccess不允许访问的，而且free后也同样给这块内存打上noaccess标识，这样，再重复上面我们描述的问题，如果出现内存已经释放后又来用它（写它），立即就会触发异常崩溃，同样，如果想越界访问超出已分配内存大小的区域，也会立即触发崩溃，这样，这方便我们立即定位到真正的问题点，而不是等到内存再次被申请时才发现内存异常了，一般能够让你立即发现问题了——本次调试的程序最终发现问题点出在一个动态分配的数据结构在通过windows消息发送到接收端时，错误地将整个消息大小当成某一个字符串大小而进行了尾部设置为0的内存写操作，最终导致了libcurl这个内存大户在频繁分配内存执行curl_easy_perform时频繁导致程序崩溃，一直错怪了libcurl以为它不稳定，最终还是跟它毫不相关的另一个位置的代码的一个小小的p[n] &#x3D; ‘\0’配值操作导致了整个程序的不稳定。</p>
+	
+	</div>
+  <a type="button" href="/winMemLeak/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
+			<a href="/cmcc/" >中国移动的融合通信真的能够撼动微信吗？不能。</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2014-11-06  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>新闻链接：<br><a target="_blank" rel="noopener" href="http://www.cnii.com.cn/telecom/2014-11/06/content_1473626.htm">http://www.cnii.com.cn/telecom/2014-11/06/content_1473626.htm</a></p>
+<p>看了一下，移动还是抛不开自身利益，现在公开的信息看，即使它上线规模化应用后，差异点还是仅仅与普通手机间短信免费（移动网内，但易信已经和其它运营商免费短信了好吧……），而图文类信息正好是微信的强势，反而是实时语音以及与普通电话互相直接通话这块微信做不好也做不到，移动还是下不了决心做（易信现在也有类似问题，用给电话机留言的奇葩方式实现，有点象手机以前给固定电话发短信，固定电话能接到电话听到机器读的短信内容），移动甚至连想法都没有（但腾讯可以用语音对讲等替代功能，潜移默化改变用户的习惯，等网络进一步提速后，用户会象习惯了用微信替代短信一样，用QQ、微信的VoIP语音代替普通电话时，移动到时想免费都没人用了）。</p>
+<p>做平台，特别是面向普通消费者的平台，移动一直以来都没那个本事，飞信最火爆的时候，那么多海量的学生用户，它都没能建立起一个社交圈子，只是用免费短信的功能做了一个工具的角色，但这个工具也没做好，软件做的非常差，第三方开发的精简版的只用飞信发短信的工具其实更流行，所以飞信被抛弃的时候非常快，很快就无声无息没人用了。</p>
+<p>当然，只做工具也没什么不好，只要这个工具好用，即使在all in one概念流行的国外，imessage（苹果官方的内嵌在ios上的图文和视频、语音）和whatsapp（只用来发图文消息，而且还是收费软件）这两个只做工具，也一样有大量用户，而在国内，许多人其实并不喜欢qq微信的大而全，如果作为移动运营商推出的一款免费（或收费合理）的工具，包含常用的文本、图片、语音（实时）、视频并且使用可靠，也还是能占领一块市场的——只不过以移动的风格，短期内肯定不会放开和普通手机、电话的通讯，再加上人为的决策大量模仿微信，变的太象微信了，就吸引不了用户了——还是比如易信，现在已经模仿不下去了，已经开始参考网上文章的建议的去转型做游戏分发平台了（又或者那些文章就是易信自己发出来探探大家口风的，一家“这么大”的企业，不可能照着网上文章的建议做事吧，哈哈，结果大家都没反应也没人讨论说好还是不好，因为没人关注它，好囧，更囧的是阿里的来往吧…………）。</p>
+<p>个人意见：</p>
+	
+	</div>
+  <a type="button" href="/cmcc/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
+			<a href="/smartwatch/" >对智能可穿戴设备的一些吐槽和产品概念分析（智能手表、智能手环）</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2013-10-15  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>最近脑子抽风，想起来骑自行车锻炼身体，搞了辆山地车然后为了配码表到监测运动量，先后装了十几款运动监测软件（Nike+ runing，Runtastic，Runkeeper，咕咚等等），入了一个智能手环，一个智能手表，一条蓝牙心率带，以及期间还顺便了解了一下可穿戴设备的原型——GPS手表，运动手表等等，特别是昨天刚到手的智器手表ZWatch，更是激发了偶的无限吐槽能量值…………对智能可穿戴设备的一些吐槽和产品概念分析（智能手表、智能手环）</p>
+<p>本篇是讲可穿戴设备，所以对于其它一些运动监测软件一笔带过，无非是基于GPS轨迹，使用MET算法粗略估算出运动的卡路里消耗量，但却不得不说，因为智能手表这类可穿戴设备还真没发掘出什么有价值的功能，所以运动监测在现阶段是一个重要的卖点，包括三星Galaxy Gear也不能免俗。</p>
+<p>关于心率带吧，这其实还是比较专业的，传统的如迪卡侬的199块的心率手表其实也够用了，套用这些产品的宣传语来说，国内许多跑步骑车健身的人从来不看心率，不知道适合自己的运动强度是多大，有了心率监测才比较科学，不至于要么运动过量了要么运动完全没效果；</p>
+<p>话说回来，其实早好多年前已经有例如十几块钱的计步器、百来块钱的心率监测手表以及上千的专业测气压测心率的GPS手表等等，但就象物联网的新概念一样，为了适应Online的节奏，这些东西需要进化，需要连网，所以才产生了全新的运动手环（Jawbone UP，fitbit，Nike fuelband, misfit shine以及copy大王——国内一众厂家的xx手环xx健康助手等等），无非是利用非常成熟和低价的智能手机上已经普及了的三轴重力感应器，加上软件算法来监测计步和睡眠监测（其实就是你手工切换手环到睡眠模式后，手环看你睡着了之后动一下就是浅睡了、动两下就是醒了哈）；<br>而智能手机上的运动监测软件现在也基本能代替GPS手表的功能了（运动路线轨迹、实时的心率的记录和在线的专业教练的分析等等，并且还能直接通过手机的网络上传同步，不再需要传统GPS手表需要USB连接电脑上传这一步；传统心率手表是通过ANT+协议传输到手表上直接显示，而蓝牙心率带就是通过蓝牙把心率数据传递到手机软件上分析显示再进一步同步到云端网络上——为了省电，均采用蓝牙4.0，目前只有iPhone 4S以上手机以及三星的少数几款高端手机支持——Android 4.3后将普及）；</p>
+<p>从手机上的运动软件代替GPS手表（唯一缺陷是手机不如GPS手表轻便）其实可以看出来技术的发展趋势，就是手机逐步代替电脑成为个人数据的处理中心以及与互联网沟通的渠道，同样的，智能手表作为可穿戴设备的典型产品之一，它的定位也应该是代替手机（如同手机不能完全代替电脑，这里的代替也只是部分场合下的代替）部分功能，而其它如手环（以及以后将发明的以其它形态出现的可穿戴设备），则是分工完成一些数据的采集并通过智能手机（或智能手表）汇总分析后接入互联网，但目前的产品形态却是：</p>
+	
+	</div>
+  <a type="button" href="/smartwatch/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+
+		</div>
+
+		<!-- pagination -->
+		<div>
+  		<center>
+		<div class="pagination">
+
+   
+    
+     <a href="/page/2/" type="button" class="btn btn-default"><i class="fa fa-arrow-circle-o-left"></i> Prev</a>
+      
+
+        <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+ 
+       <a href="/page/4/" type="button" class="btn btn-default ">Next<i class="fa fa-arrow-circle-o-right"></i></a>     
+        
+
+  
+</div>
+
+  		</center>
+		</div>
+
+		
+		
+	</div> <!-- col-md-9 -->
+
+	
+		<div class="col-md-3">
+	<div id="sidebar">
+	
+			
+  <div id="site_search">
+   <div class="form-group">
+    <input type="text" id="local-search-input" name="q" results="0" placeholder="Search" class="st-search-input st-default-search-input form-control"/>
+   </div>  
+  <div id="local-search-result"></div>
+  </div>
+
+
+		
+			
+		
+			
+	<div class="widget">
+		<h4>Tag Cloud</h4>
+		<ul class="tag_box inline list-unstyled">		
+		
+			<li><a href="/tags/MBTV/">MBTV<span>9</span></a></li>
+		
+			<li><a href="/tags/MCP/">MCP<span>1</span></a></li>
+		
+			<li><a href="/tags/Linux/">Linux<span>1</span></a></li>
+		
+			<li><a href="/tags/Windows开发/">Windows开发<span>1</span></a></li>
+		
+			<li><a href="/tags/AI漫剧/">AI漫剧<span>11</span></a></li>
+		
+			<li><a href="/tags/行业评论/">行业评论<span>9</span></a></li>
+		
+			<li><a href="/tags/云计算/">云计算<span>2</span></a></li>
+		
+			<li><a href="/tags/AGENT/">AGENT<span>11</span></a></li>
+		
+			<li><a href="/tags/技术分析/">技术分析<span>25</span></a></li>
+		
+			<li><a href="/tags/sip/">sip<span>3</span></a></li>
+		
+			<li><a href="/tags/Agent/">Agent<span>1</span></a></li>
+		
+			<li><a href="/tags/程序开发/">程序开发<span>18</span></a></li>
+		
+			<li><a href="/tags/webrtc/">webrtc<span>2</span></a></li>
+		
+			<li><a href="/tags/操作系统/">操作系统<span>4</span></a></li>
+		
+			<li><a href="/tags/AIGC/">AIGC<span>11</span></a></li>
+		
+			<li><a href="/tags/智能穿戴/">智能穿戴<span>1</span></a></li>
+		
+			<li><a href="/tags/AI/">AI<span>14</span></a></li>
+		
+			<li><a href="/tags/融合通信/">融合通信<span>9</span></a></li>
+		
+			<li><a href="/tags/Docker/">Docker<span>1</span></a></li>
+		
+			<li><a href="/tags/流媒体技术/">流媒体技术<span>6</span></a></li>
+		
+		
+		   <li><a href="/tags">...<span>22</span></a></li>
+		 
+		</ul>
+	</div>
+
+
+		
+			
+<div class="widget">
+  <h4>Recent Posts</h4>
+  <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/mbtv_originals/" ><i class="fa fa-file-o"></i>MBTV 漫布制片 样片展示</a>
+      </li>
+    
+      <li>
+        <a href="/mbtv_demo/" ><i class="fa fa-file-o"></i>本地AI短剧制片平台 MBTV（漫布制片）开放公测</a>
+      </li>
+    
+      <li>
+        <a href="/mbtv_feature1/" ><i class="fa fa-file-o"></i>MBTV 功能亮点之：自动化流水线、无限画布微调、资产...</a>
+      </li>
+    
+      <li>
+        <a href="/mbtv_feature2/" ><i class="fa fa-file-o"></i>MBTV 功能亮点之：15万字100集AI短剧漫剧改编...</a>
+      </li>
+    
+      <li>
+        <a href="/mbtv_intro/" ><i class="fa fa-file-o"></i>MBTV 新手友好型AI短剧、漫剧制片平台</a>
+      </li>
+    
+  </ul>
+</div>
+
+		
+			
+<div class="widget">
+	<h4>Links</h4>
+	<ul class="blogroll list-unstyled">
+	
+		<li><i class="false"></i><a href="https://mbtv.me" title="AI短剧制片工作台，本地存储+自动工作流+无限画布。" target="_blank"]);">MBTV 漫布制片</a></li>
+	
+		<li><i class="false"></i><a href="https://mama.meiwutea.com" title="AI声音克隆儿童故事平台，上传宝妈一段录音，即可用妈妈的声音朗读有声童话故事和英文书。" target="_blank"]);">妈妈故事机</a></li>
+	
+		<li><i class="false"></i><a href="https://github.com/meineson" title="MBSTUDIO开源项目" target="_blank"]);">MBSTUDIO GITHUB 开源</a></li>
+	
+	</ul>
+</div>
+
+
+		
+	</div> <!-- sidebar -->
+</div> <!-- col-md-3 -->
+
+	
+	
+</div> <!-- row-fluid -->
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  
+  &copy; 2026 meineson's Blog
+  
+      powered by <a href="http://hexo.io/" target="_blank">Hexo</a>.Theme <a href="https://github.com/Ares-X/hexo-theme-freemind.bithack" target="_blank">freemind.bithack</a>  
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>
